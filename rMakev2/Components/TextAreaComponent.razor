@@ -1,0 +1,82 @@
+﻿@using Blazorise.RichTextEdit
+
+<RichTextEdit @ref="richTextEditRef"
+              Theme="RichTextEditTheme.Bubble"
+              ContentChanged="@OnContentChanged"
+              PlaceHolder="Start writting"
+              ReadOnly="@readOnly"
+              SubmitOnEnter="false"
+       
+              ToolbarPosition="Blazorise.Placement.Top">
+    <Toolbar>
+        <RichTextEditToolbarGroup>
+            <RichTextEditToolbarButton Action="RichTextEditAction.Bold" />
+            <RichTextEditToolbarButton Action="RichTextEditAction.Italic" />
+            <RichTextEditToolbarButton Action="RichTextEditAction.Strike" />
+            <RichTextEditToolbarButton Action="RichTextEditAction.Underline" />
+            <RichTextEditToolbarButton Action="RichTextEditAction.Image" />
+            <RichTextEditToolbarButton Action="RichTextEditAction.CodeBlock" />
+            
+
+             <RichTextEditToolbarSelect Action="RichTextEditAction.Align">
+                <RichTextEditToolbarSelectItem Value="center" />
+                <RichTextEditToolbarSelectItem Value="right" />
+                <RichTextEditToolbarSelectItem Value="justify" />
+                <RichTextEditToolbarSelectItem Selected />
+                
+              
+            </RichTextEditToolbarSelect>
+
+            <RichTextEditToolbarSelect Action="RichTextEditAction.Size">
+                <RichTextEditToolbarSelectItem Value="small" />
+                <RichTextEditToolbarSelectItem Selected />
+                <RichTextEditToolbarSelectItem Value="large" />
+                <RichTextEditToolbarSelectItem Value="huge">Very Big</RichTextEditToolbarSelectItem>
+            </RichTextEditToolbarSelect>
+            <RichTextEditToolbarButton Action="RichTextEditAction.List" Value="ordered" />
+            <RichTextEditToolbarButton Action="RichTextEditAction.List" Value="bullet" />
+        </RichTextEditToolbarGroup>
+        <!-- Custom toolbar content -->
+        <RichTextEditToolbarGroup Float="Blazorise.Float.End">
+        </RichTextEditToolbarGroup>
+    </Toolbar>
+</RichTextEdit>
+
+@code {
+
+    protected RichTextEdit? richTextEditRef;
+    protected bool readOnly = false;
+    protected string? contentAsHtml;
+
+    public async Task OnContentChanged()
+    {
+        contentAsHtml = await richTextEditRef.GetHtmlAsync();
+        _value = contentAsHtml;
+        await BindingValueChanged.InvokeAsync(contentAsHtml);
+    }
+
+
+    private string _value;
+    [Parameter]
+    public string BindingValue
+    {
+        get => _value;
+        set
+        {            
+            if (_value == value ) return;
+
+            _value = value;
+            if (richTextEditRef != null)
+                richTextEditRef.SetHtmlAsync(_value);
+        }
+    }
+
+    [Parameter]
+    public EventCallback<string> BindingValueChanged {get; set; }
+
+    //private string xxx;
+
+    //el xxx es una solución rara a un problema mas raro. si estas leyendo esto no lo toques, porque si no estoy yo, solo Fernando, Martin y dios lo saben, si no esta fer o martin solo dios lo sabrá, habla con el.
+    //No hable con dios (ya no me contesta) pero encontre una solución un poco más elegante - Z3Lt1K09!
+    
+}

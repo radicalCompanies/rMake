@@ -1,0 +1,71 @@
+﻿@page "/"
+@using rMakev2.ViewModel;
+<PageTitle>rMake</PageTitle>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-10">
+             <input @bind="@vm.Ui.SelectedProject.Name" @bind:event="oninput" id="PageName" autofocus="true" class=" form-control-plaintext small" style="border-bottom:1px solid #ccc;" />
+
+            <select @onchange="vm.EventSelectProject" class="form-select ">
+                @foreach (var item in vm.App.Data.Projects)
+                {
+                    if (item == vm.Ui.SelectedProject)
+                    {
+                        <option value="@item.Id" selected="selected">@item.Name </option>
+                    }
+                    else
+                    {
+                        <option value="@item.Id">@item.Name</option>
+                    }
+                }
+            </select>
+            <button @onclick="vm.NewProject" class="btn btn-danger">New Project</button>
+            <button @onclick="vm.DeleteProject" class="btn btn-danger">Delete</button>
+            <br />
+            <input @bind="@vm.Ui.SelectedDocument.Name" @bind:event="oninput" id="PageName" autofocus="true" class=" form-control-plaintext small" style="border-bottom:1px solid #ccc;" />
+            <select @onchange="vm.EventSelectDocument" class="form-select ">
+                @foreach (var item in vm.Ui.SelectedProject.Documents)
+                {
+                    if (item == vm.Ui.SelectedDocument)
+                    {
+                        <option value="@item.Id" selected="selected">@item.Name @item.Order</option>
+                    }
+                    else
+                    {
+                        <option value="@item.Id">@item.Name @item.Order</option>
+                    }
+                }
+            </select>
+            <button @onclick="vm.NewDocument" class="btn btn-danger">New Document</button>
+            <button @onclick="vm.DeleteDocument" class="btn btn-danger">Delete</button>
+            
+            <hr />
+             @foreach(var item in vm.Ui.SelectedDocument.Elements){
+
+                <rMakev2.Components.TextAreaComponent @bind-BindingValue="@item.Content" />
+                 
+                 
+                 
+                 <button @onclick="()=>vm.DeleteElement(item.Id)" class="btn btn-danger">Delete</button>
+             }
+             <button @onclick="vm.NewElement" class="btn btn-light">New Element</button>
+        </div>
+    
+        <div class="col-2">
+            <textarea cols="100" style="background-color:#000; color:#0f0; font-size:9px; height:100vh;">
+             
+            @vm.Ui.Json;
+           </textarea>           
+           
+        </div>
+    </div>
+</div>
+
+@code
+{
+    RmakeViewModel vm = new RmakeViewModel();
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+    }
+}
