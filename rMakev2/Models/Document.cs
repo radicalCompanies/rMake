@@ -9,7 +9,7 @@ namespace rMakev2.Models
         {
             Project = project ?? throw new Exceptions("Project is null");
             Id = Guid.NewGuid().ToString();
-            Name = "New Document";
+            Name = "";
             CreationDate = DateTime.Now;
             Order = Project.Documents.Count() + 1;
             Elements = new List<Element>();

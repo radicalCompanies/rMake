@@ -11,10 +11,10 @@
             if (dataToken == null)
                 dataToken = Guid.NewGuid().ToString();
             else
-                dataToken = dataToken;
+                DataToken = dataToken;
         }
         public string Id { get; set; }
-        public string dataToken;
+        public string DataToken;
         public Data Data { get; set; }        
         public Ui Ui { get; set; }   
     }     

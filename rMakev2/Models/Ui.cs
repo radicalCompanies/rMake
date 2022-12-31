@@ -41,11 +41,13 @@ namespace rMakev2.Models
         public void SelectProject(Project project)
         {
             SelectedProject = project;
+            SelectedDocument = project.Documents.First();
         }
         public void SelectDocument(Document document)
         {
             SelectedDocument = document;
         }
+        
         public string JsonFn()
         {
             var options = new JsonSerializerOptions

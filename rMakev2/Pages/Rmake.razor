@@ -1,0 +1,169 @@
+﻿@page "/App"
+@using rMakev2.ViewModel;
+@inject RmakeViewModel vm;
+
+
+<PageTitle>rMake</PageTitle>
+<div class="container">
+    <div class="row mt-1" style="height:50px;">
+        <div class="col-lg-3 col-md-5 col-sm-12">
+            <h1>rMake!</h1>
+            <p style="font-size:9px">V 2</p>
+        </div>
+        <div class="col-lg-5 col-md-2 col-sm-12">
+        </div>
+        <div class="col-lg-4 col-md-2 col-sm-12">
+
+            <select class="form-select " style="border:none; text-align:right; color:hotpink">
+
+                <option value="1" selected="selected" style="color:#000">Data: @vm.App.DataToken</option>
+                <option value="1" style="color:#000">---</option>
+
+                <option value="2" style="color:crimson;">Cerrar</option>
+
+            </select>
+
+
+
+
+
+        </div>
+
+    </div>
+
+    <div class="row mt-4 mb-4">
+        <div class="col-lg-2 col-md-5 col-sm-12">
+        </div>
+        <div class="col-lg-4 col-md-2 col-sm-12">
+        </div>
+        <div class="col-lg-3 col-md-5 col-sm-12">
+            <div style="float:left; width:70%">
+                <select @onchange="vm.EventSelectProject" class="form-select " style="border:none;">
+                    @foreach (var item in vm.App.Data.Projects)
+                    {
+                        if (item == vm.Ui.SelectedProject)
+                        {
+                            <option value="@item.Id" selected="selected">@item.Name </option>
+                        }
+                        else
+                        {
+                            <option value="@item.Id">@item.Name</option>
+                        }
+                    }
+                </select>
+
+            </div>
+            <div style="float:left; width:15%">
+
+                <button class="btn btn-light rounded-circle"><Icon Name="IconName.Edit" /> </button>
+
+            </div>
+             <div style="float:left; width:15%">
+
+                <button @onclick="vm.NewProject" class="btn btn-light rounded-circle"><Icon Name="IconName.Add" /> </button>
+
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-2 col-sm-12">
+            <div style="float:left; width:70%">
+            <select @onchange="vm.EventSelectDocument" class="form-select" style="border:none;">
+                @foreach (var item in vm.Ui.SelectedProject.Documents)
+                {
+                    if (item == vm.Ui.SelectedDocument)
+                    {
+                        if (item.Name == "")
+                        {
+                            <option value="@item.Id" selected="selected">Title (@item.Order)</option>
+                        }
+                        else
+                        {
+
+                            <option value="@item.Id" selected="selected">@item.Name</option>
+                        }
+                    }
+                    else
+                    {
+                        if (item.Name == "")
+                        {
+                            <option value="@item.Id" >Title (@item.Order)</option>
+                        }
+                        else
+                        {
+
+                            <option value="@item.Id" >@item.Name</option>
+                        }
+                    }
+                }
+                <option value="">Add new document</option>
+            </select>
+                 </div>
+    
+             <div style="float:left; width:30%">
+
+                <button @onclick="vm.NewDocument" class="btn btn-light rounded-circle"><Icon Name="IconName.Add" /> </button>
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row mt-4">
+        <div class="col-lg-8 col-md-2 col-sm-12">
+            <input @bind="@vm.Ui.SelectedDocument.Name" @bind:event="oninput" id="PageName" autofocus="true" class="form-control-plaintext small" style=" font-size:28px; " placeholder="Title" />
+            @foreach (var item in vm.Ui.SelectedDocument.Elements)
+            {
+                
+                <rMakev2.Components.TextAreaComponent @bind-BindingValue="@item.Content" />
+                <button @onclick="()=>vm.DeleteElement(item.Id)" class="btn btn-light btn-sm">Delete</button>
+            }
+            <br />
+            <button @onclick="vm.NewElement" class="btn btn-light btn-sm mt-3">New Element</button>
+        </div>
+        <div class="col-lg-2 col-md-5 col-sm-12">
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-12">
+        </div>
+
+    </div>
+</div>
+
+
+
+@*        <div class="col-4">
+
+
+        </div>
+
+        <div class="col-4 colspan-1">
+            <button @onclick="vm.NewProject" class="btn btn-danger">New Project</button>
+            <button @onclick="vm.DeleteProject" class="btn btn-danger">Delete</button>
+            <br />
+
+            <button  class="btn btn-danger">New Document</button>
+            <button @onclick="vm.DeleteDocument" class="btn btn-danger">Delete</button>
+
+            <hr />
+
+
+                
+                ;
+
+
+
+        </div>
+
+        <div class="col-2">
+
+                @vm.Ui.Json;
+           </textarea>
+
+        </div>*@
+
+@code
+{
+    //RmakeViewModel vm = new RmakeViewModel();
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+    }
+}

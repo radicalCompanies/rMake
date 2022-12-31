@@ -8,12 +8,12 @@ namespace rMakev2.Models
         {
             Document = document ?? throw new Exceptions("Document is null");
             Id = Guid.NewGuid().ToString();
-            Content = "Si hay";
+            Content = "";
             Order = Document.Elements.Count() + 1;
-            document.Elements.Add(this);
-            
-
-         }
+            DocumentId = document.Id;
+            Document = document;
+            Document.Elements.Add(this);
+        }
         public string Id { get; set; }
         public string Content { get; set; }
         public int Order { get; set; }

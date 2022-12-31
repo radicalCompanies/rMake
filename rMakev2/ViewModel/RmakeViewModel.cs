@@ -1,13 +1,22 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using Blazored.Toast.Services;
+using Microsoft.AspNetCore.Components;
 using rMakev2.Models;
 using System.ComponentModel;
 using System.Reflection.Metadata;
 using Document = rMakev2.Models.Document;
 
+
 namespace rMakev2.ViewModel
 {
     public class RmakeViewModel : INotifyPropertyChanged
     {
+        private ToastService _toastService;
+        public RmakeViewModel(IToastService toast)
+        {
+            this._toastService = toast as Blazored.Toast.Services.ToastService;
+            InitializeData();
+        }        
+
         public RmakeViewModel()
         {
 
@@ -33,9 +42,10 @@ namespace rMakev2.ViewModel
                 OnPropertyChanged();
             }
         }        
+        
         public void InitializeData()
         {
-            App = new Models.App("Rebel", "Rebel");
+            App = new Models.App("Rebel", "codename-rebel-creator");
             Ui = new Models.Ui(App);
             App.Data.Projects.Add(new Project(App.Data));
             var ProjectZero = App.Data.Projects.First();
@@ -48,6 +58,7 @@ namespace rMakev2.ViewModel
             string projectId = e.Value.ToString();
             Project project= Ui.SelectedProject = App.Data.Projects.Where(w => w.Id == projectId).SingleOrDefault();
             Ui.SelectProject(project);
+            this._toastService.ShowInfo("You have changed the project to " + project.Name);
         }
         public void EventSelectDocument(ChangeEventArgs e)
         {
@@ -55,34 +66,39 @@ namespace rMakev2.ViewModel
             Document document= Ui.SelectedProject.Documents.Where(w => w.Id == documentId).SingleOrDefault();
             Ui.SelectDocument(document);
         }
-        public void SelectDocument(Document document)
-        {
-            Ui.SelectDocument(document);
-        }
         public void SelectProject(Project project)
         {
             Ui.SelectProject(project);
         }
+        public void SelectDocument(Document document)
+        {
+            Ui.SelectDocument(document);
+        }
         public void NewProject()
         {
             SelectProject(App.Data.AddProject());
+            this._toastService.ShowSuccess("New project created");
         }
         public void DeleteProject()
         {
+            
             if (App.Data.Projects.Count() >= 1)
             {
                 App.Data.RemoveProject(Ui.SelectedProject);
                 SelectProject(App.Data.Projects.First());
+                this._toastService.ShowSuccess("Project eliminated");
             }
             else
             {
                 App.Data.RemoveProject(Ui.SelectedProject);
+                this._toastService.ShowSuccess("Project eliminated");
                 NewProject();
             }
         }
         public void NewDocument()
         {
             SelectDocument(Ui.SelectedProject.AddDocument(Ui.SelectedProject));
+            this._toastService.ShowSuccess("New document created");
         }
         public void DeleteDocument()
         {
@@ -117,9 +133,7 @@ namespace rMakev2.ViewModel
                 Ui.SelectedDocument.RemoveElement(ElementToDelete);
                 NewElement();
             }
-        }         
-      
-
+        }           
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged()
         {            
