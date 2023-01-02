@@ -78,6 +78,7 @@ namespace rMakev2.ViewModel
         {
             SelectProject(App.Data.AddProject());
             this._toastService.ShowSuccess("New project created");
+            
         }
         public void DeleteProject()
         {

@@ -58,7 +58,7 @@
                 <button class="btn btn-light rounded-circle"><Icon Name="IconName.Edit" /> </button>
 
             </div>
-             <div style="float:left; width:15%">
+            <div style="float:left; width:15%">
 
                 <button @onclick="vm.NewProject" class="btn btn-light rounded-circle"><Icon Name="IconName.Add" /> </button>
 
@@ -66,39 +66,39 @@
         </div>
         <div class="col-lg-3 col-md-2 col-sm-12">
             <div style="float:left; width:70%">
-            <select @onchange="vm.EventSelectDocument" class="form-select" style="border:none;">
-                @foreach (var item in vm.Ui.SelectedProject.Documents)
-                {
-                    if (item == vm.Ui.SelectedDocument)
+                <select @onchange="vm.EventSelectDocument" class="form-select" style="border:none;">
+                    @foreach (var item in vm.Ui.SelectedProject.Documents)
                     {
-                        if (item.Name == "")
+                        if (item == vm.Ui.SelectedDocument)
                         {
-                            <option value="@item.Id" selected="selected">Title (@item.Order)</option>
+                            if (item.Name == "")
+                            {
+                                <option value="@item.Id" selected="selected">Title (@item.Order)</option>
+                            }
+                            else
+                            {
+
+                                <option value="@item.Id" selected="selected">@item.Name</option>
+                            }
                         }
                         else
                         {
+                            if (item.Name == "")
+                            {
+                                <option value="@item.Id">Title (@item.Order)</option>
+                            }
+                            else
+                            {
 
-                            <option value="@item.Id" selected="selected">@item.Name</option>
+                                <option value="@item.Id">@item.Name</option>
+                            }
                         }
                     }
-                    else
-                    {
-                        if (item.Name == "")
-                        {
-                            <option value="@item.Id" >Title (@item.Order)</option>
-                        }
-                        else
-                        {
+                    <option value="">Add new document</option>
+                </select>
+            </div>
 
-                            <option value="@item.Id" >@item.Name</option>
-                        }
-                    }
-                }
-                <option value="">Add new document</option>
-            </select>
-                 </div>
-    
-             <div style="float:left; width:30%">
+            <div style="float:left; width:30%">
 
                 <button @onclick="vm.NewDocument" class="btn btn-light rounded-circle"><Icon Name="IconName.Add" /> </button>
 
@@ -108,22 +108,29 @@
 
 
     <div class="row mt-4">
-        <div class="col-lg-8 col-md-2 col-sm-12">
+        <div class="col-lg-12 col-md-2 col-sm-12">
             <input @bind="@vm.Ui.SelectedDocument.Name" @bind:event="oninput" id="PageName" autofocus="true" class="form-control-plaintext small" style=" font-size:28px; " placeholder="Title" />
             @foreach (var item in vm.Ui.SelectedDocument.Elements)
             {
-                
-                <rMakev2.Components.TextAreaComponent @bind-BindingValue="@item.Content" />
-                <button @onclick="()=>vm.DeleteElement(item.Id)" class="btn btn-light btn-sm">Delete</button>
+                <div style="float:left; width:80%">
+
+                    <rMakev2.Components.TextAreaComponent @bind-BindingValue="@item.Content" />
+                </div>
+                <div style="float:left; width:20%">
+                    <button @onclick="()=>vm.DeleteElement(item.Id)" class="btn btn-light btn-sm"><Icon Name="IconName.Delete" /></button>
+                    <button class="btn btn-light btn-sm"><Icon Name="IconName.ArrowUp" /></button>
+                    <button class="btn btn-light btn-sm"><Icon Name="IconName.ArrowDown" /></button>
+                </div>
+
             }
             <br />
+        </div>
+    
+
+        <div class="col-lg-8 col-md-2 col-sm-12">
+
             <button @onclick="vm.NewElement" class="btn btn-light btn-sm mt-3">New Element</button>
         </div>
-        <div class="col-lg-2 col-md-5 col-sm-12">
-        </div>
-        <div class="col-lg-2 col-md-2 col-sm-12">
-        </div>
-
     </div>
 </div>
 
@@ -132,32 +139,32 @@
 @*        <div class="col-4">
 
 
-        </div>
+    </div>
 
-        <div class="col-4 colspan-1">
-            <button @onclick="vm.NewProject" class="btn btn-danger">New Project</button>
-            <button @onclick="vm.DeleteProject" class="btn btn-danger">Delete</button>
-            <br />
+    <div class="col-4 colspan-1">
+    <button @onclick="vm.NewProject" class="btn btn-danger">New Project</button>
+    <button @onclick="vm.DeleteProject" class="btn btn-danger">Delete</button>
+    <br />
 
-            <button  class="btn btn-danger">New Document</button>
-            <button @onclick="vm.DeleteDocument" class="btn btn-danger">Delete</button>
+    <button  class="btn btn-danger">New Document</button>
+    <button @onclick="vm.DeleteDocument" class="btn btn-danger">Delete</button>
 
-            <hr />
-
-
-                
-                ;
+    <hr />
 
 
 
-        </div>
+    ;
 
-        <div class="col-2">
 
-                @vm.Ui.Json;
-           </textarea>
 
-        </div>*@
+    </div>
+
+    <div class="col-2">
+
+    @vm.Ui.Json;
+    </textarea>
+
+    </div>*@
 
 @code
 {

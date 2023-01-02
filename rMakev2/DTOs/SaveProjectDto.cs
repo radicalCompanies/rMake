@@ -2,6 +2,6 @@
 {
     public class SaveProjectDto
     {
-
+        App App { get; set; }
     }
 }

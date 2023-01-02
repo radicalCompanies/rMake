@@ -1,7 +1,6 @@
 ﻿namespace rMakev2.DTOs
 {
-    public class PublishProjectDto
+    public class OpenProjectDto
     {
-
     }
 }
