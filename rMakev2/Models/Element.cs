@@ -18,9 +18,14 @@ namespace rMakev2.Models
         public string Id { get; set; }
         public string Content { get; set; }
         public int Order { get; set; }
-        public bool Edit { get; set; }
+        public string Ideary { get; set; }
         public string DocumentId { get; set; }
         public Document Document { get; set; }       
+
+        public void AddIdea(string Idea)
+        {
+            Ideary = Idea;
+        }
 
     }
 }
