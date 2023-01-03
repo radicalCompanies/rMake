@@ -110,16 +110,18 @@
     <div class="row mt-4">
         <div class="col-lg-12 col-md-2 col-sm-12">
             <input @bind="@vm.Ui.SelectedDocument.Name" @bind:event="oninput" id="PageName" autofocus="true" class="form-control-plaintext small" style=" font-size:28px; " placeholder="Title" />
-            @foreach (var item in vm.Ui.SelectedDocument.Elements)
+            @foreach (var item in vm.Ui.SelectedDocument.Elements.OrderBy(w=>w.Order))
             {
                 <div style="float:left; width:80%">
 
-                    <rMakev2.Components.TextAreaComponent @bind-BindingValue="@item.Content" />
+                    @item.Id
+                    
+                    <rMakev2.Components.TextAreaComponent @bind-BindingValue=item.Content />
                 </div>
                 <div style="float:left; width:20%">
-                    <button @onclick="()=>vm.DeleteElement(item.Id)" class="btn btn-light btn-sm"><Icon Name="IconName.Delete" /></button>
-                    <button class="btn btn-light btn-sm"><Icon Name="IconName.ArrowUp" /></button>
-                    <button class="btn btn-light btn-sm"><Icon Name="IconName.ArrowDown" /></button>
+                    <button @onclick="()=>vm.DeleteElement(item)" class="btn btn-light btn-sm"><Icon Name="IconName.Delete" /></button>
+                    <button @onclick="()=>vm.MoveUp(item)" class="btn btn-light btn-sm"><Icon Name="IconName.ArrowUp" /></button>
+                    <button @onclick="()=>vm.MoveDown(item)" class="btn btn-light btn-sm"><Icon Name="IconName.ArrowDown" /></button>
                 </div>
 
             }

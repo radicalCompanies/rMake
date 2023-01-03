@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Diagnostics.Eventing.Reader;
 
 namespace rMakev2.Models
 {
@@ -17,6 +18,7 @@ namespace rMakev2.Models
         public string Id { get; set; }
         public string Content { get; set; }
         public int Order { get; set; }
+        public bool Edit { get; set; }
         public string DocumentId { get; set; }
         public Document Document { get; set; }       
 

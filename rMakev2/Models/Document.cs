@@ -36,5 +36,14 @@ namespace rMakev2.Models
             Elements.Remove(element);
             return element;
         }
+
+        public void ChangeOrder(Element element, int order)
+        {
+            Element current = Elements.Where(w => w.Id == element.Id).SingleOrDefault();
+            current.Order = order;
+            current.Content = order.ToString();
+
+        }
+      
     }
 }
