@@ -1,9 +1,7 @@
 ﻿namespace rMakev2.Services
 {
-    public class ICommunicationService
-    {
-
-
-        
+    public interface ICommunicationService
+    {        
+        void Load();   
     }
 }

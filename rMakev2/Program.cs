@@ -20,9 +20,9 @@ builder.Services
     .AddBootstrapProviders()
     .AddFontAwesomeIcons();
 
+builder.Services.AddScoped<ICommunicationService, CommunicationService>();
 builder.Services
     .AddBlazoriseRichTextEdit(options => { options.UseBubbleTheme = true; });
-
 
 var app = builder.Build();
 

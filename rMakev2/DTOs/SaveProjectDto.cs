@@ -2,6 +2,8 @@
 {
     public class SaveProjectDto
     {
-        App App { get; set; }
+        //app excepto los objetos UI, DATA, Project, Document, 
+        //Mandar solo sus datos y las listas.
+
     }
 }
