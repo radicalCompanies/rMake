@@ -35,6 +35,16 @@
         <div class="col-lg-2 col-md-5 col-sm-12">
         </div>
         <div class="col-lg-4 col-md-2 col-sm-12">
+            @if (@vm.Ui.EditName == false)
+            {
+                <input type="hidden" @bind="@vm.Ui.SelectedProject.Name" @bind:event="oninput" id="ProjectName" autofocus="true" class="form-control-plaintext small" style=" font-size:24px; " placeholder="Project Name" />
+                
+            }
+            else
+            {
+                <input @bind="@vm.Ui.SelectedProject.Name" @bind:event="oninput" id="ProjectName" autofocus="true" class="form-control-plaintext small" style=" font-size:24px; " placeholder="Project Name" />
+               
+            }
         </div>
         <div class="col-lg-3 col-md-5 col-sm-12">
             <div style="float:left; width:70%">
@@ -43,11 +53,27 @@
                     {
                         if (item == vm.Ui.SelectedProject)
                         {
-                            <option value="@item.Id" selected="selected">@item.Name </option>
+                            if (item.Name == "")
+                            {
+                                <option value="@item.Id" selected="selected">Project (@item.Id)</option>
+                            }
+                            else
+                            {
+
+                                <option value="@item.Id" selected="selected">@item.Name</option>
+                            }
                         }
                         else
                         {
-                            <option value="@item.Id">@item.Name</option>
+                            if (item.Name == "")
+                            {
+                                <option value="@item.Id">Project (@item.Id)</option>
+                            }
+                            else
+                            {
+
+                                <option value="@item.Id">@item.Name</option>
+                            }
                         }
                     }
                 </select>
@@ -55,12 +81,14 @@
             </div>
             <div style="float:left; width:15%">
 
-                <button class="btn btn-light rounded-circle"><Icon Name="IconName.Edit" /> </button>
+                <button @onclick="vm.Ui.SwitchEditName" class="btn btn-light rounded-circle"><Icon Name="IconName.Edit" /> </button>
+                
 
             </div>
             <div style="float:left; width:15%">
 
                 <button @onclick="vm.NewProject" class="btn btn-light rounded-circle"><Icon Name="IconName.Add" /> </button>
+                
 
             </div>
         </div>
@@ -118,7 +146,7 @@
                     
                     <rMakev2.Components.TextAreaComponent @bind-BindingValue=item.Content />
                 </div>
-                <div style="float:left; width:20%">
+                <div style="float:left; width:20%">-----------------------------------
                     <button @onclick="()=>vm.DeleteElement(item)" class="btn btn-light btn-sm"><Icon Name="IconName.Delete" /></button>
                     <button @onclick="()=>vm.MoveUp(item)" class="btn btn-light btn-sm"><Icon Name="IconName.ArrowUp" /></button>
                     <button @onclick="()=>vm.MoveDown(item)" class="btn btn-light btn-sm"><Icon Name="IconName.ArrowDown" /></button>
