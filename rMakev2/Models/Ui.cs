@@ -56,7 +56,6 @@ namespace rMakev2.Models
             if (EditName == true)
             {
                 EditName = false;
-
             }
             else
             {
