@@ -136,7 +136,6 @@ namespace rMakev2.ViewModel
                 NewElement();
             }
         }
-
         public void MoveUp(Element element)
         {
             var current = Ui.SelectedDocument.Elements.Where(w => w.Order == element.Order).SingleOrDefault();
