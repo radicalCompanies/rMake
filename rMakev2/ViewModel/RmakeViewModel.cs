@@ -1,6 +1,7 @@
 ﻿using Blazored.Toast.Services;
 using Microsoft.AspNetCore.Components;
 using rMakev2.DTOs;
+using Microsoft.AspNetCore.Components.Web;
 using rMakev2.Models;
 using System.ComponentModel;
 using System.Reflection.Metadata;
@@ -18,6 +19,7 @@ namespace rMakev2.ViewModel
         public RmakeViewModel(IToastService toast)
         {
             this._toastService = toast as Blazored.Toast.Services.ToastService;
+           
             InitializeData();
         }
 
@@ -232,7 +234,19 @@ namespace rMakev2.ViewModel
 
         }
 
-
+            
+        public void SwitchProjectName()
+        {
+            Ui.SwitchEditName();          
+        }
+        public void Enter(KeyboardEventArgs e)
+        {
+            if (e.Code == "Enter" || e.Code == "NumpadEnter")
+            {
+                SwitchProjectName();
+            }
+            
+        }
 
 
         public event PropertyChangedEventHandler PropertyChanged;

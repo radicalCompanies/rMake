@@ -37,6 +37,8 @@ namespace rMakev2.Models
         }
         public string Json { get; set; } 
         public string AppId { get; set; }
+
+        public bool EditName { get; set; }
         public App App { get; set; } 
         public void SelectProject(Project project)
         {
@@ -47,7 +49,21 @@ namespace rMakev2.Models
         {
             SelectedDocument = document;
         }
-        
+
+        public void SwitchEditName()
+        {
+
+            if (EditName == true)
+            {
+                EditName = false;
+            }
+            else
+            {
+                EditName = true;
+
+            }
+        }
+
         public string JsonFn()
         {
             var options = new JsonSerializerOptions
