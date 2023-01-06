@@ -12,8 +12,16 @@ namespace rMakev2.DTOs
         public string Id { get; set; }
         public string DataToken;
         public List<ProjectDTO> Projects { get; set; }
+        public UIDto Ui { get; set; }
 
     }
+
+    public class UIDto
+    {
+        public string IdSelectedProject { get; set; }
+        public string IdSelectedDocument { get; set; }
+    }
+
     public class ProjectDTO
     {
         [JsonProperty(PropertyName = "id")]

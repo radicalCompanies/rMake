@@ -11,19 +11,20 @@ using System.Xml.Linq;
 using Document = rMakev2.Models.Document;
 using RestSharp;
 using Microsoft.JSInterop;
+using rMakev2.Services;
 
 namespace rMakev2.ViewModel
 {
     public class RmakeViewModel : INotifyPropertyChanged
     {
         private ToastService _toastService;
-      
+        private ICommunicationService _communicationService;
 
         
-        public RmakeViewModel(IToastService toast)
+        public RmakeViewModel(IToastService toast, ICommunicationService communicationService )
         {
             this._toastService = toast as Blazored.Toast.Services.ToastService;
-          
+            this._communicationService = communicationService;
 
 
             InitializeData();
@@ -182,63 +183,8 @@ namespace rMakev2.ViewModel
 
         public async Task SaveContentAsync()
         {
-            var save = new SaveProjectDto();
-            save.Id = App.Id;
-            save.DataToken = App.DataToken;
-            save.Projects = new List<ProjectDTO>();
 
-            foreach (var item in App.Data.Projects)
-            {
-                ProjectDTO project = new ProjectDTO();
-                project.Id = item.Id;
-                project.Name = item.Name;
-                project.CreationDate = item.CreationDate;
-                project.Documents = new List<DocumentDTO>();
-                save.Projects.Add(project);
-
-                foreach (var itemDoc in item.Documents)
-                {
-                    DocumentDTO document = new DocumentDTO();
-                    document.Id = itemDoc.Id;
-                    document.Name = itemDoc.Name;
-                    document.CreationDate = itemDoc.CreationDate;
-                    document.Order = itemDoc.Order;
-                    document.ProjectId = itemDoc.ProjectId;
-                    document.Name = itemDoc.Name;
-                    document.Elements = new List<ElementDTO>();
-                    save.Projects.Where(x=>x.Id == itemDoc.ProjectId).First().Documents.Add(document);
-
-                    foreach (var itemElement in itemDoc.Elements)
-                    {
-                        ElementDTO element = new ElementDTO();
-                        element.Id = itemElement.Id;
-                        element.Content = itemElement.Content;
-                        element.Order = itemElement.Order;
-                        element.Ideary = itemElement.Ideary;
-                        element.DocumentId= itemElement.DocumentId;
-                        var pro = save.Projects.Where(x => x.Id == itemDoc.ProjectId).First();
-                        pro.Documents.Where(x=>x.Id == itemDoc.Id).First().Elements.Add(element);
-                    }
-
-                }
-
-
-            }
-
-            var client = new RestClient("https://localhost:7267/");
-            var request = new RestRequest("api/item", Method.Post);
-            request.AddHeader("Content-Type", "application/json");
-            var options = new JsonSerializerOptions()
-            {
-                MaxDepth = 0,
-                IgnoreReadOnlyProperties = true,
-                ReferenceHandler = ReferenceHandler.IgnoreCycles,
-
-            };
-            var objstr = JsonSerializer.Serialize(save, options);
-            request.AddJsonBody(objstr);
-            var sendReq = await client.ExecuteAsync(request);
-
+            _communicationService.SaveAsync(App);
         }
 
             
