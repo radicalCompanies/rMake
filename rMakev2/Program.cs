@@ -14,6 +14,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddScoped<RmakeViewModel>();
+
 builder.Services.AddBlazoredToast();
 builder.Services
     .AddBlazorise()

@@ -10,16 +10,22 @@ using System.Text.Json;
 using System.Xml.Linq;
 using Document = rMakev2.Models.Document;
 using RestSharp;
+using Microsoft.JSInterop;
 
 namespace rMakev2.ViewModel
 {
     public class RmakeViewModel : INotifyPropertyChanged
     {
         private ToastService _toastService;
+      
+
+        
         public RmakeViewModel(IToastService toast)
         {
             this._toastService = toast as Blazored.Toast.Services.ToastService;
-           
+          
+
+
             InitializeData();
         }
 
@@ -48,6 +54,8 @@ namespace rMakev2.ViewModel
                 OnPropertyChanged();
             }
         }
+
+
 
         public void InitializeData()
         {
@@ -175,7 +183,6 @@ namespace rMakev2.ViewModel
         public async Task SaveContentAsync()
         {
             var save = new SaveProjectDto();
-
             save.Id = App.Id;
             save.DataToken = App.DataToken;
             save.Projects = new List<ProjectDTO>();
@@ -237,7 +244,8 @@ namespace rMakev2.ViewModel
             
         public void SwitchProjectName()
         {
-            Ui.SwitchEditName();          
+            Ui.SwitchEditName();
+           
         }
         public void Enter(KeyboardEventArgs e)
         {
@@ -247,7 +255,7 @@ namespace rMakev2.ViewModel
             }
             
         }
-
+  
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged()

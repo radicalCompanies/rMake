@@ -1,8 +1,7 @@
 ﻿@page "/App"
 @using rMakev2.ViewModel;
 @inject RmakeViewModel vm;
-
-
+@inject IJSRuntime jsRuntime;
 <PageTitle>rMake</PageTitle>
 <div class="container">
     <div class="row mt-1" style="height:50px;">
@@ -73,7 +72,7 @@
                 }
                 else
                 {
-                    <input @bind="@vm.Ui.SelectedProject.Name" @onblur="vm.SwitchProjectName" @onkeydown="@vm.Enter" @bind:event="oninput" id="ProjectName" autofocus="true" class="form-control-plaintext small" style=" font-size:24px; " placeholder="Project Name" />
+                    <input Id="input-id" @bind="@vm.Ui.SelectedProject.Name" @onblur="vm.SwitchProjectName" @onkeydown="@vm.Enter" @bind:event="oninput" class="form-control-plaintext small" style=" font-size:24px; " placeholder="Project Name" autofocus @onload="Focus"/>
 
                 }
 
@@ -82,7 +81,7 @@
             </div>
             <div style="float:left; width:15%">
 
-                <button @onclick="vm.SwitchProjectName" class="btn btn-light rounded-circle"><Icon Name="IconName.Edit" /> </button>
+                <button  class="btn btn-light rounded-circle"><Icon Name="IconName.Edit" /> </button>
 
 
             </div>
@@ -148,7 +147,7 @@
                     <rMakev2.Components.TextAreaComponent @bind-BindingValue=item.Content />
                 </div>
                 <div style="float:left; width:20%">
-                   
+
                     <button @onclick="()=>vm.DeleteElement(item)" class="btn btn-light btn-sm"><Icon Name="IconName.Delete" /></button>
                     <button @onclick="()=>vm.MoveUp(item)" class="btn btn-light btn-sm"><Icon Name="IconName.ArrowUp" /></button>
                     <button @onclick="()=>vm.MoveDown(item)" class="btn btn-light btn-sm"><Icon Name="IconName.ArrowDown" /></button>
@@ -165,49 +164,127 @@
         </div>
     </div>
     <br />
-    <button @onclick="vm.SaveContentAsync" class="btn btn-success"><Icon Name="IconName.Lightbulb" /> Save</button>
+    <button @onclick=" ShowSaveModal" class="btn btn-success"><Icon Name="IconName.Lightbulb" /> Save</button>
+    <button @onclick=" ShowPublishModal" class="btn btn-success"><Icon Name="IconName.Lightbulb" /> Publish</button>
 
 
 </div>
 
 
+<Modal @ref="saveModal" class="half-modal fade">
+    <ModalContent Centered="true">
+        <ModalBody>
+            <div class="close-button" @onclick="HideSaveModal">
+                <Icon Name="IconName.Times"></Icon>
+            </div>
+            <div class="h-100 p-4">
+                <div class="w-100 h-50">
+                    <h2>Choose your server</h2>
+                    <p>rMake is a decentralized solution for creators.</p>
+                    <div class="form-check p-3">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            rMake@Rebel-server
+                        </label>
+                    </div>
+                    <div class="form-check p-3">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+                        <label class="form-check-label" for="flexCheckChecked">
+                            rmake@Radical-server
+                        </label>
+                    </div>
+                    <div class="form-check p-3">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+                        <label class="form-check-label" for="flexCheckChecked">
+                            rmake@Other-server
+                        </label>
+                    </div>
+                    <button @onclick=" vm.SaveContentAsync" class="btn btn-success"><Icon Name="IconName.Lightbulb" /> Save</button>
+
+                </div>
+            </div>
+        </ModalBody>
+    </ModalContent>
+</Modal>
 
 
-@*        <div class="col-4">
+<Modal @ref="publishModal" class="half-modal fade">
+    <ModalContent Centered="true">
+        <ModalBody>
+            <div class="close-button" @onclick="HideSaveModal">
+                <Icon Name="IconName.Times"></Icon>
+            </div>
+            <div class="h-100 p-4">
+                <div class="w-100 h-50">
+                    <h2>Where do you want to publish your content</h2>
+                    <p>rMake is a decentralized solution for creators.</p>
+                    <div class="form-check p-3">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked>
+                        <label class="form-check-label" for="flexCheckDefault">
+                            www.xipegroup.com
+                        </label>
+                    </div>
+                    <div class="form-check p-3">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" >
+                        <label class="form-check-label" for="flexCheckChecked">
+                            www.radicalcompanies.org
+                        </label>
+                    </div>
+                    <div class="form-check p-3">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" >
+                        <label class="form-check-label" for="flexCheckChecked">
+                            www.radicalpurpose.org
+                        </label>
+                    </div>
+                    <div class="form-check p-3">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" >
+                        <label class="form-check-label" for="flexCheckChecked">
+                            www.anotherwebsite.org
+                        </label>
+                    </div>
+                    <button @onclick=" vm.SaveContentAsync" class="btn btn-success"><Icon Name="IconName.Lightbulb" /> Save</button>
 
-
-    </div>
-
-    <div class="col-4 colspan-1">
-    <button @onclick="vm.NewProject" class="btn btn-danger">New Project</button>
-    <button @onclick="vm.DeleteProject" class="btn btn-danger">Delete</button>
-    <br />
-
-    <button  class="btn btn-danger">New Document</button>
-    <button @onclick="vm.DeleteDocument" class="btn btn-danger">Delete</button>
-
-    <hr />
-
-
-
-    ;
-
-
-
-    </div>
-
-    <div class="col-2">
-
-    @vm.Ui.Json;
-    </textarea>
-
-    </div>*@
+                </div>
+            </div>
+        </ModalBody>
+    </ModalContent>
+</Modal>
 
 @code
 {
-    //RmakeViewModel vm = new RmakeViewModel();
-    protected override async Task OnInitializedAsync()
+
+    private Modal saveModal;
+    private Modal publishModal;
+
+
+
+
+
+    private void HideSaveModal()
     {
-        await base.OnInitializedAsync();
+        saveModal.Hide();
     }
+
+    private void ShowSaveModal()
+    {
+        saveModal.Show();
+    }
+
+
+    private void HidePublishModal()
+    {
+        publishModal.Hide();
+    }
+
+    private void ShowPublishModal()
+    {
+        publishModal.Show();
+    }
+
+    public async Task Focus()
+    {
+        vm.SwitchProjectName();
+        await jsRuntime.InvokeVoidAsync("focusInput");
+    }
+
 }
