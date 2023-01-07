@@ -1,4 +1,6 @@
 ﻿@using Blazorise.RichTextEdit
+@using rMakev2.ViewModel
+@inject RmakeViewModel vm;
 
 <RichTextEdit @ref="richTextEditRef"
               Theme="RichTextEditTheme.Bubble"
@@ -6,11 +8,11 @@
               PlaceHolder="Start writting"
               ReadOnly="@readOnly"
               SubmitOnEnter="false"
-       
+              @onkeydown="KeyPress"
               ToolbarPosition="Blazorise.Placement.Top">
-              <Editor>
-                  @BindingValue
-              </Editor>
+    <Editor>
+        @BindingValue
+    </Editor>
     <Toolbar>
         <RichTextEditToolbarGroup>
             <RichTextEditToolbarButton Action="RichTextEditAction.Bold" />
@@ -19,15 +21,11 @@
             <RichTextEditToolbarButton Action="RichTextEditAction.Underline" />
             <RichTextEditToolbarButton Action="RichTextEditAction.Image" />
             <RichTextEditToolbarButton Action="RichTextEditAction.CodeBlock" />
-            
-
-             <RichTextEditToolbarSelect Action="RichTextEditAction.Align">
+            <RichTextEditToolbarSelect Action="RichTextEditAction.Align">
                 <RichTextEditToolbarSelectItem Value="center" />
                 <RichTextEditToolbarSelectItem Value="right" />
                 <RichTextEditToolbarSelectItem Value="justify" />
                 <RichTextEditToolbarSelectItem Selected />
-                
-              
             </RichTextEditToolbarSelect>
 
             <RichTextEditToolbarSelect Action="RichTextEditAction.Size">
@@ -47,6 +45,29 @@
 
 @code {
 
+    private List<string> Keys { get; set; } = new List<string>();
+    public void KeyPress(KeyboardEventArgs e)
+    {
+        if (e.Code == "Enter" || e.Code == "NumpadEnter")
+        {
+            
+            if (Keys.Any())
+            {
+                string last = Keys.Last();
+                if (last == "Enter")
+                {
+                    vm.NewElement();
+                    Keys.Clear();
+                }
+            }
+            else
+            {
+                Keys.Clear();
+            }
+            Keys.Add("Enter");
+        }
+
+    }
     protected RichTextEdit? richTextEditRef;
     protected bool readOnly = false;
     protected string? contentAsHtml;
@@ -65,8 +86,8 @@
     {
         get => _value;
         set
-        {            
-            if (_value == value ) return;
+        {
+            if (_value == value) return;
 
             _value = value;
             if (richTextEditRef != null)
@@ -74,12 +95,14 @@
         }
     }
 
+
+
     [Parameter]
-    public EventCallback<string> BindingValueChanged {get; set; }
+    public EventCallback<string> BindingValueChanged { get; set; }
 
     //private string xxx;
 
     //el xxx es una solución rara a un problema mas raro. si estas leyendo esto no lo toques, porque si no estoy yo, solo Fernando, Martin y dios lo saben, si no esta fer o martin solo dios lo sabrá, habla con el.
     //No hable con dios (ya no me contesta) pero encontre una solución un poco más elegante - Z3Lt1K09!
-    
+
 }
