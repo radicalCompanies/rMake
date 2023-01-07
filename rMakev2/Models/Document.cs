@@ -26,6 +26,7 @@ namespace rMakev2.Models
        
         public Project Project { get; set; }
         public string ProjectId { get; set; }
+        public string ParentDocumentId { get; set; }
         
         public Element AddElement(Document document)
         {

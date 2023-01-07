@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Text.Json.Serialization;
 using System.Text.Json;
+using Blazorise;
 
 namespace rMakev2.Models
 {
@@ -37,9 +38,15 @@ namespace rMakev2.Models
         }
         public string Json { get; set; } 
         public string AppId { get; set; }
-
         public bool EditName { get; set; }
+
+        public Modal SaveModal { get; set; }
+        public Modal PublishModal { get; set; }
+        public Modal MergeModal { get; set; }
         public App App { get; set; } 
+
+
+
         public void SelectProject(Project project)
         {
             SelectedProject = project;
@@ -48,8 +55,7 @@ namespace rMakev2.Models
         public void SelectDocument(Document document)
         {
             SelectedDocument = document;
-        }
-
+        }        
         public void SwitchEditName()
         {
 
@@ -63,7 +69,6 @@ namespace rMakev2.Models
 
             }
         }
-
         public string JsonFn()
         {
             var options = new JsonSerializerOptions

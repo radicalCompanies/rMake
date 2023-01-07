@@ -1,4 +1,4 @@
-﻿namespace rMakev2.Models
+﻿    namespace rMakev2.Models
 {
     public class Project
     {
@@ -22,7 +22,9 @@
         public List<Document> Documents { get; set; }
         public Data Data { get; set; }
         public string DataId { get; set; }
-        
+        public string ParentProjectId { get; set; }
+
+                
         public Document AddDocument(Project project)
         {
             {
@@ -36,6 +38,14 @@
         {
             Documents.Remove(document);
             return document;
+        }
+
+        internal Document CloneDocument(Document document)
+        {
+            Document newDocument = new Document(document.Project);
+            newDocument.Name = document.Name + "(Cloned)";
+            newDocument.ParentDocumentId = document.Id;
+            return newDocument;
         }
     }
 }

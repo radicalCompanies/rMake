@@ -68,6 +68,22 @@ namespace rMakev2.ViewModel
             Ui.SelectedDocument = ProjectZero.Documents.First();
             //Creo las entidades por defecto.
         }
+        public void HideSaveModal()
+        {
+            App.Ui.SaveModal.Hide();
+        }
+        public void ShowSaveModal()
+        {
+            App.Ui.SaveModal.Show();
+        }
+        public void HidePublishModal()
+        {
+            App.Ui.PublishModal.Hide();
+        }
+        public void ShowPublishModal()
+        {
+            App.Ui.PublishModal.Show();
+        }
         public void EventSelectProject(ChangeEventArgs e)
         {
             string projectId = e.Value.ToString();
@@ -110,6 +126,16 @@ namespace rMakev2.ViewModel
                 this._toastService.ShowSuccess("Project eliminated");
                 NewProject();
             }
+        }
+        public void ForkProject()
+        {            
+            SelectProject(App.Data.ForkProject(Ui.SelectedProject));
+            this._toastService.ShowSuccess("Project Forked");
+        }
+        public void CloneDocument()
+        {
+            this._toastService.ShowSuccess("Document cloned");
+            SelectDocument(Ui.SelectedProject.CloneDocument(Ui.SelectedDocument));
         }
         public void NewDocument()
         {
@@ -179,15 +205,12 @@ namespace rMakev2.ViewModel
 
             }
         }
-
-
         public async Task SaveContentAsync()
         {
-
-            _communicationService.SaveAsync(App);
-        }
-
-            
+            HashMyContent();
+           // _communicationService.SaveAsync(App);
+            this._toastService.ShowSuccess("Project Saved");
+        }            
         public void SwitchProjectName()
         {
             Ui.SwitchEditName();
@@ -201,7 +224,48 @@ namespace rMakev2.ViewModel
             }
             
         }
-  
+        public void MergeDocumentsIntoNewOne(Document First, Document Second) 
+        {
+
+        }
+        public void HashMyContent() {
+
+            foreach (var project in App.Data.Projects )
+            {
+                foreach(var document in project.Documents)
+                {
+                    foreach(var element in document.Elements )
+                    {
+                        element.Hash = HashString(element.Content, element.Id);
+                    }
+                }
+            }        
+        }
+        public string HashString(string text, string salt)
+        {
+            if (String.IsNullOrEmpty(text))
+            {
+                return String.Empty;
+            }
+            if (salt == String.Empty)
+            {
+                salt = "rebelsalt";
+            }
+            // Uses SHA256 to create the hash
+            using (var sha = new System.Security.Cryptography.SHA256Managed())
+            {
+                // Convert the string to a byte array first, to be processed
+                byte[] textBytes = System.Text.Encoding.UTF8.GetBytes(text + salt);
+                byte[] hashBytes = sha.ComputeHash(textBytes);
+
+                // Convert back to a string, removing the '-' that BitConverter adds
+                string hash = BitConverter
+                    .ToString(hashBytes)
+                    .Replace("-", String.Empty);
+
+                return hash;
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged()

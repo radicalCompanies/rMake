@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿
+using System.Text.Json.Serialization;
 namespace rMakev2.Models
 {
     public class Data
@@ -23,6 +24,15 @@ namespace rMakev2.Models
             Project newProject = new Project(this);
             Projects.Add(newProject);
             return newProject;
+        }
+
+        public Project ForkProject(Project project)
+        {
+            Project createdProject= new Project(this);
+            createdProject.ParentProjectId = project.Id;
+            createdProject.Name = project.Name + "(Forked)";
+            Projects.Add(createdProject);
+            return createdProject;
         }
         public void RemoveProject(Project project)
         {

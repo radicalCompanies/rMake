@@ -12,20 +12,11 @@
         <div class="col-lg-5 col-md-2 col-sm-12">
         </div>
         <div class="col-lg-4 col-md-2 col-sm-12">
-
             <select class="form-select " style="border:none; text-align:right; color:hotpink">
-
                 <option value="1" selected="selected" style="color:#000">Data: @vm.App.DataToken</option>
                 <option value="1" style="color:#000">---</option>
-
                 <option value="2" style="color:crimson;">Cerrar</option>
-
             </select>
-
-
-
-
-
         </div>
 
     </div>
@@ -69,10 +60,19 @@
                             }
                         }
                     </select>
+                    @if (vm.Ui.SelectedProject.ParentProjectId == null)
+                    {
+                        <div class="badge bg-secondary">Root project</div>
+                    }
+                    else
+                    {
+                        <div class="badge bg-secondary">@vm.Ui.SelectedProject.ParentProjectId</div>
+
+                    }
                 }
                 else
                 {
-                    <input Id="input-id" @bind="@vm.Ui.SelectedProject.Name" @onblur="vm.SwitchProjectName" @onkeydown="@vm.Enter" @bind:event="oninput" class="form-control-plaintext small" style=" font-size:24px; " placeholder="Project Name" autofocus @onload="Focus"/>
+                    <input Id="input-id" @bind="@vm.Ui.SelectedProject.Name" @onblur="vm.SwitchProjectName" @onkeydown="@vm.Enter" @bind:event="oninput" class="form-control-plaintext small" style=" font-size:24px; " placeholder="Project Name" autofocus @onload="Focus" />
 
                 }
 
@@ -81,7 +81,7 @@
             </div>
             <div style="float:left; width:15%">
 
-                <button  class="btn btn-light rounded-circle"><Icon Name="IconName.Edit" /> </button>
+                <button @onclick="vm.SwitchProjectName" class="btn btn-light rounded-circle"><Icon Name="IconName.Edit" /> </button>
 
 
             </div>
@@ -138,43 +138,65 @@
     <div class="row mt-4">
         <div class="col-lg-12 col-md-2 col-sm-12">
             <input @bind="@vm.Ui.SelectedDocument.Name" @bind:event="oninput" id="PageName" autofocus="true" class="form-control-plaintext small" style=" font-size:28px; " placeholder="Title" />
-            @foreach (var item in vm.Ui.SelectedDocument.Elements.OrderBy(w => w.Order))
-            {
-                <div style="float:left; width:80%">
+            <div style="position:relative;">
+                @if (vm.Ui.SelectedDocument.ParentDocumentId == null)
+                {
+                    <div class="badge bg-success float-start">Root Document</div>
+                }
+                else
+                {
+                    <div class="badge bg-success">@vm.Ui.SelectedDocument.ParentDocumentId</div>
+                }
+            </div>
+            <div class="clearfix"></div>
 
-                    @item.Id
+            <div class="mt-2">
+                @foreach (var item in vm.Ui.SelectedDocument.Elements.OrderBy(w => w.Order))
+                {
+                    <div style="float:left; width:80%">
+                        <rMakev2.Components.TextAreaComponent @bind-BindingValue=item.Content />
+                        <span class="badge bg-primary small">
+                           Hash: @item.Hash
+                        </span>
+                    </div>
+                    <div style="float:left; width:20%">
+                        <button @onclick="()=>vm.DeleteElement(item)" class="btn btn-light btn-sm"><Icon Name="IconName.Delete" /></button>
+                        <button @onclick="()=>vm.MoveUp(item)" class="btn btn-light btn-sm"><Icon Name="IconName.ArrowUp" /></button>
+                        <button @onclick="()=>vm.MoveDown(item)" class="btn btn-light btn-sm"><Icon Name="IconName.ArrowDown" /></button>
+                    </div>
+                }
+                <br />
+            </div>
+            <div class="col-12 text-start">
 
-                    <rMakev2.Components.TextAreaComponent @bind-BindingValue=item.Content />
-                </div>
-                <div style="float:left; width:20%">
-
-                    <button @onclick="()=>vm.DeleteElement(item)" class="btn btn-light btn-sm"><Icon Name="IconName.Delete" /></button>
-                    <button @onclick="()=>vm.MoveUp(item)" class="btn btn-light btn-sm"><Icon Name="IconName.ArrowUp" /></button>
-                    <button @onclick="()=>vm.MoveDown(item)" class="btn btn-light btn-sm"><Icon Name="IconName.ArrowDown" /></button>
-                </div>
-
-            }
-            <br />
+                <button @onclick="vm.NewElement" class="btn btn-light btn-sm mt-3">New Element</button>
+            </div>
         </div>
+        <br />
 
-
-        <div class="col-lg-8 col-md-2 col-sm-12">
-
-            <button @onclick="vm.NewElement" class="btn btn-light btn-sm mt-3">New Element</button>
-        </div>
     </div>
-    <br />
-    <button @onclick=" ShowSaveModal" class="btn btn-success"><Icon Name="IconName.Lightbulb" /> Save</button>
-    <button @onclick=" ShowPublishModal" class="btn btn-success"><Icon Name="IconName.Lightbulb" /> Publish</button>
 
 
 </div>
 
+<div class=" fixed-bottom mb-1">
+    <div class=" container">
+        <div class=" row">
+            <div class=" col-12">
+                <button @onclick=" vm.ShowSaveModal" class="btn btn-success"><Icon Name="IconName.Lightbulb" /> Save</button>
+                <button @onclick=" vm.ShowPublishModal" class="btn btn-success"><Icon Name="IconName.Lightbulb" /> Publish</button>
+                <button @onclick=" vm.ForkProject" class="btn btn-success"><Icon Name="IconName.Archive" /> Fork Project</button>
+                <button @onclick=" vm.CloneDocument" class="btn btn-success"><Icon Name="IconName.Archive" /> Clone document</button>
 
-<Modal @ref="saveModal" class="half-modal fade">
+            </div>
+        </div>
+    </div>
+</div>
+
+<Modal @ref="vm.App.Ui.SaveModal" class="half-modal fade">
     <ModalContent Centered="true">
         <ModalBody>
-            <div class="close-button" @onclick="HideSaveModal">
+            <div class="close-button" @onclick="vm.HideSaveModal">
                 <Icon Name="IconName.Times"></Icon>
             </div>
             <div class="h-100 p-4">
@@ -206,12 +228,10 @@
         </ModalBody>
     </ModalContent>
 </Modal>
-
-
-<Modal @ref="publishModal" class="half-modal fade">
+<Modal @ref="vm.App.Ui.PublishModal" class="half-modal fade">
     <ModalContent Centered="true">
         <ModalBody>
-            <div class="close-button" @onclick="HideSaveModal">
+            <div class="close-button" @onclick="vm.HideSaveModal">
                 <Icon Name="IconName.Times"></Icon>
             </div>
             <div class="h-100 p-4">
@@ -225,19 +245,19 @@
                         </label>
                     </div>
                     <div class="form-check p-3">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" >
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
                         <label class="form-check-label" for="flexCheckChecked">
                             www.radicalcompanies.org
                         </label>
                     </div>
                     <div class="form-check p-3">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" >
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
                         <label class="form-check-label" for="flexCheckChecked">
                             www.radicalpurpose.org
                         </label>
                     </div>
                     <div class="form-check p-3">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" >
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
                         <label class="form-check-label" for="flexCheckChecked">
                             www.anotherwebsite.org
                         </label>
@@ -249,42 +269,29 @@
         </ModalBody>
     </ModalContent>
 </Modal>
+<Modal @ref="vm.App.Ui.MergeModal" class="half-modal fade">
+    <ModalContent Centered="true">
+        <ModalBody>
+            <div class="close-button" @onclick="vm.HideSaveModal">
+                <Icon Name="IconName.Times"></Icon>
+            </div>
+            <div class="h-100 p-4">
+                <div class="w-100 h-50">
+                    <h2>Choose Documents to Merge</h2>
+                    <p>How it works...</p>
 
+
+                </div>
+            </div>
+        </ModalBody>
+    </ModalContent>
+</Modal>
 @code
 {
-
-    private Modal saveModal;
-    private Modal publishModal;
-
-
-
-
-
-    private void HideSaveModal()
-    {
-        saveModal.Hide();
-    }
-
-    private void ShowSaveModal()
-    {
-        saveModal.Show();
-    }
-
-
-    private void HidePublishModal()
-    {
-        publishModal.Hide();
-    }
-
-    private void ShowPublishModal()
-    {
-        publishModal.Show();
-    }
 
     public async Task Focus()
     {
         vm.SwitchProjectName();
         await jsRuntime.InvokeVoidAsync("focusInput");
     }
-
 }

@@ -20,12 +20,15 @@ namespace rMakev2.Models
         public int Order { get; set; }
         public string Ideary { get; set; }
         public string DocumentId { get; set; }
-        public Document Document { get; set; }       
+        public Document Document { get; set; } 
+        public string Hash { get; set; }
+        public bool IsValid { get; set; }
+        public string ParentElementId { get; set; }
 
         public void AddIdea(string Idea)
         {
             Ideary = Idea;
-        }
+        }      
 
     }
 }
