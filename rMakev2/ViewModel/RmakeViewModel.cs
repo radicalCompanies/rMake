@@ -21,7 +21,7 @@ namespace rMakev2.ViewModel
         private ICommunicationService _communicationService;
 
         
-        public RmakeViewModel(IToastService toast, ICommunicationService communicationService )
+        public RmakeViewModel(IToastService toast, ICommunicationService communicationService)
         {
             this._toastService = toast as Blazored.Toast.Services.ToastService;
             this._communicationService = communicationService;
@@ -128,7 +128,7 @@ namespace rMakev2.ViewModel
             }
         }
         public void ForkProject()
-        {            
+        {
             SelectProject(App.Data.ForkProject(Ui.SelectedProject));
             this._toastService.ShowSuccess("Project Forked");
         }
@@ -161,6 +161,7 @@ namespace rMakev2.ViewModel
         public void NewElement()
         {
             Ui.SelectedDocument.AddElement(Ui.SelectedDocument);
+            Ui.NewElement = true;
         }
         public void DeleteElement(Element element)
         {
@@ -208,13 +209,13 @@ namespace rMakev2.ViewModel
         public async Task SaveContentAsync()
         {
             HashMyContent();
-           // _communicationService.SaveAsync(App);
+            // _communicationService.SaveAsync(App);
             this._toastService.ShowSuccess("Project Saved");
-        }            
+        }
         public void SwitchProjectName()
         {
             Ui.SwitchEditName();
-           
+
         }
         public void Enter(KeyboardEventArgs e)
         {
@@ -222,25 +223,30 @@ namespace rMakev2.ViewModel
             {
                 SwitchProjectName();
             }
-            
+
         }
-        public void MergeDocumentsIntoNewOne(Document First, Document Second) 
+        public void MergeDocumentsIntoNewOne(Document First, Document Second)
         {
 
         }
-        public void HashMyContent() {
+        public void HashMyContent()
+        {
 
-            foreach (var project in App.Data.Projects )
+            foreach (var project in App.Data.Projects)
             {
-                foreach(var document in project.Documents)
+                foreach (var document in project.Documents)
                 {
-                    foreach(var element in document.Elements )
+                    foreach (var element in document.Elements)
                     {
                         element.Hash = HashString(element.Content, element.Id);
                     }
                 }
-            }        
+            }
         }
+
+
+   
+
         public string HashString(string text, string salt)
         {
             if (String.IsNullOrEmpty(text))

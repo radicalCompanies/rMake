@@ -29,7 +29,7 @@
         <div class="col-lg-3 col-md-5 col-sm-12">
             <div style="float:left; width:70%">
 
-                @if (@vm.Ui.EditName == false)
+                @if (@vm.Ui.EditProjectName == false)
                 {
                     <select @onchange="vm.EventSelectProject" class="form-select " style="border:none;">
                         @foreach (var item in vm.App.Data.Projects)
@@ -72,7 +72,7 @@
                 }
                 else
                 {
-                    <input Id="input-id" @bind="@vm.Ui.SelectedProject.Name" @onblur="vm.SwitchProjectName" @onkeydown="@vm.Enter" @bind:event="oninput" class="form-control-plaintext small" style=" font-size:24px; " placeholder="Project Name" autofocus @onload="Focus" />
+                    <input Id="ProjectName" @bind="@vm.Ui.SelectedProject.Name" @onblur="Focus" @onkeydown="@vm.Enter" @bind:event="oninput" class="form-control-plaintext small" style=" font-size:24px; " placeholder="Project Name" autofocus @onload="Focus" />
 
                 }
 
@@ -154,9 +154,9 @@
                 @foreach (var item in vm.Ui.SelectedDocument.Elements.OrderBy(w => w.Order))
                 {
                     <div style="float:left; width:80%">
-                        <rMakev2.Components.TextAreaComponent @bind-BindingValue=item.Content />
+                        <rMakev2.Components.TextAreaComponent @bind-BindingValue=item.Content OrderId=item.Order />
                         <span class="badge bg-primary small">
-                           Hash: @item.Hash
+                            Hash: @item.Hash
                         </span>
                     </div>
                     <div style="float:left; width:20%">
@@ -167,15 +167,15 @@
                 }
                 <br />
             </div>
-          
+
         </div>
         <br />
 
     </div>
-      <div class="col-12 text-start">
+    <div class="col-12 text-start">
 
-                <button @onclick="vm.NewElement" class="btn btn-light btn-sm mt-3">New Element</button>
-            </div>
+        <button @onclick="vm.NewElement" class="btn btn-light btn-sm mt-3">New Element</button>
+    </div>
 
 </div>
 
@@ -187,6 +187,7 @@
                 <button @onclick=" vm.ShowPublishModal" class="btn btn-success"><Icon Name="IconName.Lightbulb" /> Publish</button>
                 <button @onclick=" vm.ForkProject" class="btn btn-success"><Icon Name="IconName.Archive" /> Fork Project</button>
                 <button @onclick=" vm.CloneDocument" class="btn btn-success"><Icon Name="IconName.Archive" /> Clone document</button>
+             
 
             </div>
         </div>
@@ -289,9 +290,30 @@
 @code
 {
 
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (vm.Ui.EditProjectName == true && vm.Ui.EditedProjectName == false)
+        {
+            await jsRuntime.InvokeVoidAsync("focusInput");
+            vm.Ui.EditedProjectName = true;
+        }
+        if (vm.Ui.NewElement == true)
+        {
+            string elementId = vm.Ui.SelectedDocument.Elements.OrderBy(w => w.Order).Last().Order.ToString();
+          //  await jsRuntime.InvokeVoidAsync("focusLastTextEditor", elementId);
+            vm.Ui.NewElement = false;
+        }
+
+    }
+    public async Task RtaFocus()
+    { 
+        string elementId = vm.Ui.SelectedDocument.Elements.OrderBy(w => w.Order).Last().Order.ToString();
+        await jsRuntime.InvokeVoidAsync("focusLastTextEditor", elementId);
+        vm.Ui.NewElement = false;
+    }
     public async Task Focus()
     {
         vm.SwitchProjectName();
-        await jsRuntime.InvokeVoidAsync("focusInput");
     }
 }

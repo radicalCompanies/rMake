@@ -38,7 +38,14 @@ namespace rMakev2.Models
         }
         public string Json { get; set; } 
         public string AppId { get; set; }
-        public bool EditName { get; set; }
+
+        public bool EditProjectName { get; set; }
+        public bool EditedProjectName { get; set; } = false;
+        public bool NewElement { get; set; } = false;
+
+
+
+
 
         public Modal SaveModal { get; set; }
         public Modal PublishModal { get; set; }
@@ -59,13 +66,13 @@ namespace rMakev2.Models
         public void SwitchEditName()
         {
 
-            if (EditName == true)
+            if (EditProjectName == true)
             {
-                EditName = false;
+                EditProjectName = false;
             }
             else
             {
-                EditName = true;
+                EditProjectName = true;
 
             }
         }
