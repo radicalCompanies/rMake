@@ -11,6 +11,7 @@
               ReadOnly="@readOnly"
               SubmitOnEnter="false"
               @onkeydown="KeyPress"
+             
             
              
               ToolbarPosition="Blazorise.Placement.Top">
@@ -122,13 +123,15 @@
     [Parameter]
     public EventCallback<string> BindingValueChanged { get; set; }
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    protected override Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
 
            
         }
-
+        string elementId = vm.Ui.SelectedDocument.Elements.OrderBy(w => w.Order).Last().Order.ToString();
+        jsr.InvokeVoidAsync("focusLastTextEditor", elementId);
+        return base.OnAfterRenderAsync(firstRender);
     }
 }

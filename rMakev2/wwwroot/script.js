@@ -5,32 +5,24 @@ function focusInput() {
 
 function focusLastTextEditor(id) {
     
-    document.getElementById("Area" + id);
+    document.getElementById("Area" + id-1);
 
-    findFirstChildByClass("Area" + id, "ql-editor").focus();
+    const parent = document.querySelector('#Area'+id);
+    console.log("1"+parent); 
 
+    const child1 = parent.querySelector('.rte-editor');
+    console.log("2" + child1); 
+
+    const child2 = child1.querySelectorAll('.ql-editor');
+    console.log(child2); 
+    
+
+    const child3 = child2.document.querySelectorAll("p");
+    console.log(child3); 
+    child3.focus();
 }
 
-function findFirstChildByClass(element, className) {
-    var foundElement = null, found;
-    function recurse(element, className, found) {
-        for (var i = 0; i < element.childNodes.length && !found; i++) {
-            var el = element.childNodes[i];
-            var classes = el.className != undefined ? el.className.split(" ") : [];
-            for (var j = 0, jl = classes.length; j < jl; j++) {
-                if (classes[j] == className) {
-                    found = true;
-                    foundElement = element.childNodes[i];
-                    break;
-                }
-            }
-            if (found)
-                break;
-            recurse(element.childNodes[i], className, found);
-        }
-    }
-    recurse(element, className, false);
-    return foundElement;
-}
 
-       
+
+
+//https://www.w3schools.com/js/js_htmldom_nodelist.asp

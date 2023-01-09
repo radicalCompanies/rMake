@@ -298,20 +298,15 @@
             await jsRuntime.InvokeVoidAsync("focusInput");
             vm.Ui.EditedProjectName = true;
         }
-        if (vm.Ui.NewElement == true)
-        {
-            string elementId = vm.Ui.SelectedDocument.Elements.OrderBy(w => w.Order).Last().Order.ToString();
-          //  await jsRuntime.InvokeVoidAsync("focusLastTextEditor", elementId);
-            vm.Ui.NewElement = false;
-        }
+        //if (vm.Ui.NewElement == true)
+        //{
+        //    string elementId = vm.Ui.SelectedDocument.Elements.OrderBy(w => w.Order).Last().Order.ToString();
+        //    await jsRuntime.InvokeVoidAsync("focusLastTextEditor", elementId);
+        //    vm.Ui.NewElement = false;
+        //}
 
     }
-    public async Task RtaFocus()
-    { 
-        string elementId = vm.Ui.SelectedDocument.Elements.OrderBy(w => w.Order).Last().Order.ToString();
-        await jsRuntime.InvokeVoidAsync("focusLastTextEditor", elementId);
-        vm.Ui.NewElement = false;
-    }
+    
     public async Task Focus()
     {
         vm.SwitchProjectName();
