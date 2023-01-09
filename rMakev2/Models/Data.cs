@@ -32,6 +32,17 @@ namespace rMakev2.Models
             createdProject.ParentProjectId = project.Id;
             createdProject.Name = project.Name + "(Forked)";
             Projects.Add(createdProject);
+
+            foreach(var item in project.Documents)
+            {
+                
+             
+                foreach (var element in item.Elements) {
+                
+                }
+            }
+
+
             return createdProject;
         }
         public void RemoveProject(Project project)

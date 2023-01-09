@@ -130,6 +130,7 @@ namespace rMakev2.ViewModel
         public void ForkProject()
         {
             SelectProject(App.Data.ForkProject(Ui.SelectedProject));
+
             this._toastService.ShowSuccess("Project Forked");
         }
         public void CloneDocument()
