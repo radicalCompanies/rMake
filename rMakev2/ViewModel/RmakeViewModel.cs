@@ -244,7 +244,17 @@ namespace rMakev2.ViewModel
                 }
             }
         }
-
+        public void BlockRTAFocus()
+        {
+            if (Ui.BlockRTAFocus==true)
+            {
+                Ui.BlockRTAFocus = false;
+            }
+            else
+            {
+                Ui.BlockRTAFocus = true;
+            }
+        }
 
    
 

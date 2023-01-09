@@ -75,7 +75,6 @@ namespace rMakev2.Models
             {
                 EditProjectName = true;
                 BlockRTAFocus = true;
-
             }
         }
         public string JsonFn()
