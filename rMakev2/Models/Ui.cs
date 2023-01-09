@@ -41,7 +41,7 @@ namespace rMakev2.Models
 
         public bool EditProjectName { get; set; }
         public bool EditedProjectName { get; set; } = false;
-        public bool NewElement { get; set; } = false;
+        public bool BlockRTAFocus { get; set; } = false;
 
 
 
@@ -69,10 +69,12 @@ namespace rMakev2.Models
             if (EditProjectName == true)
             {
                 EditProjectName = false;
+                BlockRTAFocus = false;
             }
             else
             {
                 EditProjectName = true;
+                BlockRTAFocus = true;
 
             }
         }

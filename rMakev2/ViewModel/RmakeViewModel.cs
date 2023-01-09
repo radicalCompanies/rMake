@@ -161,7 +161,7 @@ namespace rMakev2.ViewModel
         public void NewElement()
         {
             Ui.SelectedDocument.AddElement(Ui.SelectedDocument);
-            Ui.NewElement = true;
+            
         }
         public void DeleteElement(Element element)
         {
@@ -215,6 +215,7 @@ namespace rMakev2.ViewModel
         public void SwitchProjectName()
         {
             Ui.SwitchEditName();
+            
 
         }
         public void Enter(KeyboardEventArgs e)
