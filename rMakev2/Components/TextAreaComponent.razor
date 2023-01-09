@@ -11,9 +11,6 @@
               ReadOnly="@readOnly"
               SubmitOnEnter="false"
               @onkeydown="KeyPress"
-             
-            
-             
               ToolbarPosition="Blazorise.Placement.Top">
     <Editor>
         @BindingValue
@@ -60,12 +57,19 @@
                 string last = Keys.Last();
                 if (last == "Enter")
                 {
+
                     vm.NewElement();
                     Keys.Clear();
+
                 }
+             
             }
-            Keys.Clear();
-            Keys.Add("Enter");
+            else
+            {
+                Keys.Add("Enter");
+
+            }
+
         }
         else
         {
@@ -74,7 +78,7 @@
 
     }
 
-   
+
     protected RichTextEdit? richTextEditRef;
     protected bool readOnly = false;
     protected string? contentAsHtml;
@@ -103,7 +107,7 @@
         }
     }
 
-  
+
 
     private int orderId;
     [Parameter]
@@ -128,7 +132,7 @@
         if (firstRender)
         {
 
-           
+
         }
         string elementId = vm.Ui.SelectedDocument.Elements.OrderBy(w => w.Order).Last().Order.ToString();
         jsr.InvokeVoidAsync("focusLastTextEditor", elementId);

@@ -15,11 +15,11 @@ function focusLastTextEditor(id) {
 
     const child2 = child1.querySelectorAll('.ql-editor');
     console.log(child2); 
-    
+    console.log(child2[0]); 
 
-    const child3 = child2.document.querySelectorAll("p");
-    console.log(child3); 
-    child3.focus();
+    child2[0].focus();
+
+ 
 }
 
 
