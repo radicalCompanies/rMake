@@ -45,6 +45,15 @@
             Document newDocument = new Document(document.Project);
             newDocument.Name = document.Name + "(Cloned)";
             newDocument.ParentDocumentId = document.Id;
+            Documents.Add(newDocument);
+            
+
+            foreach (var item in document.Elements)
+            {
+                newDocument.Elements.Add(item);
+            }
+            //Quita el Primer Element sin texto
+            newDocument.Elements.RemoveAt(0);
             return newDocument;
         }
     }

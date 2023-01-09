@@ -38,7 +38,7 @@ namespace rMakev2.Models
                 createdProject.Documents.Add(item);
 
             }
-            //Quita el default
+            //Quita el Primer Document sin Texto
             createdProject.Documents.RemoveAt(0);
             return createdProject;
         }
