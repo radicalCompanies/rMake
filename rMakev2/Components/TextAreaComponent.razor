@@ -14,7 +14,7 @@
               ToolbarPosition="Blazorise.Placement.Top">
     <Editor>
         @BindingValue
-        
+
     </Editor>
     <Toolbar>
         <RichTextEditToolbarGroup>
@@ -51,20 +51,20 @@
     private List<string> Keys { get; set; } = new List<string>();
     public void KeyPress(KeyboardEventArgs e)
     {
+
         if (e.Code == "Enter" || e.Code == "NumpadEnter")
         {
+            vm.Ui.BlockRTAFocus = false;
+
+
             if (Keys.Any())
             {
                 string last = Keys.Last();
                 if (last == "Enter")
                 {
-
                     vm.NewElement();
-                    
                     Keys.Clear();
-
                 }
-
             }
             else
             {
@@ -75,6 +75,7 @@
         }
         else
         {
+            vm.Ui.BlockRTAFocus = true;
             Keys.Clear();
         }
 
