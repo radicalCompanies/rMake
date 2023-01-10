@@ -74,7 +74,7 @@
                 }
                 else
                 {
-                    <input Id="ProjectName" @bind="@vm.Ui.SelectedProject.Name" @onblur="Focus" @onkeydown="@vm.Enter" @bind:event="oninput" class="form-control-plaintext small" style=" font-size:24px; " placeholder="Project Name" autofocus @onload="Focus" />
+                    <input Id="ProjectName" @bind="@vm.Ui.SelectedProject.Name" @onblur="vm.UnBlockRTAFocus" @onkeydown="@vm.Enter" @bind:event="oninput" class="form-control-plaintext small" style=" font-size:24px; " placeholder="Project Name" autofocus @onclick="vm.BlockRTAFocus" />
 
                 }
 
@@ -139,7 +139,7 @@
 
     <div class="row mt-4">
         <div class="col-lg-12 col-md-2 col-sm-12">
-            <input @bind="@vm.Ui.SelectedDocument.Name" @bind:event="oninput" id="PageName" autofocus="true" @onblur="vm.BlockRTAFocus" @onclick="vm.BlockRTAFocus" class="form-control-plaintext small" style=" font-size:28px; " placeholder="Title" />
+            <input @bind="@vm.Ui.SelectedDocument.Name" @bind:event="oninput" id="PageName" autofocus="true" @onblur="vm.UnBlockRTAFocus" @onclick="vm.BlockRTAFocus" class="form-control-plaintext small" style=" font-size:28px; " placeholder="Title" />
             <div style="position:relative;">
                 @if (vm.Ui.SelectedDocument.ParentDocumentId == null)
                 {

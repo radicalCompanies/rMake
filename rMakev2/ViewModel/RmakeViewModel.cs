@@ -20,7 +20,7 @@ namespace rMakev2.ViewModel
         private ToastService _toastService;
         private ICommunicationService _communicationService;
 
-        
+
         public RmakeViewModel(IToastService toast, ICommunicationService communicationService)
         {
             this._toastService = toast as Blazored.Toast.Services.ToastService;
@@ -162,7 +162,7 @@ namespace rMakev2.ViewModel
         public void NewElement()
         {
             Ui.SelectedDocument.AddElement(Ui.SelectedDocument);
-            
+
         }
         public void DeleteElement(Element element)
         {
@@ -216,7 +216,7 @@ namespace rMakev2.ViewModel
         public void SwitchProjectName()
         {
             Ui.SwitchEditName();
-            
+
 
         }
         public void Enter(KeyboardEventArgs e)
@@ -247,17 +247,20 @@ namespace rMakev2.ViewModel
         }
         public void BlockRTAFocus()
         {
-            if (Ui.BlockRTAFocus==true)
-            {
-                Ui.BlockRTAFocus = false;
-            }
-            else
-            {
-                Ui.BlockRTAFocus = true;
-            }
+
+
+            Ui.BlockRTAFocus = true;
+
+
+        }
+        public void UnBlockRTAFocus()
+        {
+
+            Ui.BlockRTAFocus = false;
+
         }
 
-   
+
 
         public string HashString(string text, string salt)
         {
