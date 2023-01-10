@@ -8,6 +8,8 @@ using rMakev2.ViewModel;
 using rMakev2.Services;
 using Blazored.Toast;
 
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.

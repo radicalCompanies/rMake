@@ -35,14 +35,11 @@ namespace rMakev2.Models
 
             foreach(var item in project.Documents)
             {
-                
-             
-                foreach (var element in item.Elements) {
-                
-                }
+                createdProject.Documents.Add(item);
+
             }
-
-
+            //Quita el Primer Document sin Texto
+            createdProject.Documents.RemoveAt(0);
             return createdProject;
         }
         public void RemoveProject(Project project)
