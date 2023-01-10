@@ -2,6 +2,10 @@
 {
     public class Project
     {
+        public Project()
+        {
+            Documents = new List<Document>();
+        }
         public Project(Data data)
         {
             Data = data ?? throw new Exceptions("Data is null");

@@ -61,6 +61,7 @@ namespace rMakev2.ViewModel
         public void InitializeData()
         {
             App = new Models.App("Rebel", "codename-rebel-creator");
+            
             Ui = new Models.Ui(App);
             App.Data.Projects.Add(new Project(App.Data));
             var ProjectZero = App.Data.Projects.First();
@@ -210,7 +211,7 @@ namespace rMakev2.ViewModel
         public async Task SaveContentAsync()
         {
             HashMyContent();
-            // _communicationService.SaveAsync(App);
+            await _communicationService.SaveAsync(App);
             this._toastService.ShowSuccess("Project Saved");
         }
         public void SwitchProjectName()
@@ -284,6 +285,14 @@ namespace rMakev2.ViewModel
                 return hash;
             }
         }
+
+        public async Task LoadProyectAsync()
+        {
+           app =  await _communicationService.LoadAsync("prueba");
+            ui.SelectedProject = app.Ui.SelectedProject;
+            ui.SelectedDocument = app.Ui.SelectedDocument;        
+        }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged()

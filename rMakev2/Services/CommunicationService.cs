@@ -2,10 +2,12 @@
 using rMakev2.DTOs;
 using System.Text.Json.Serialization;
 using System.Text.Json;
+using Newtonsoft.Json;
+using rMakev2.Models;
 
 namespace rMakev2.Services
 {
-    public class CommunicationService:ICommunicationService
+    public class CommunicationService : ICommunicationService
     {
         public async Task SaveAsync(Models.App App)
         {
@@ -66,13 +68,87 @@ namespace rMakev2.Services
                 ReferenceHandler = ReferenceHandler.IgnoreCycles,
 
             };
-            var objstr = JsonSerializer.Serialize(save, options);
+            var objstr = System.Text.Json.JsonSerializer.Serialize(save, options);
             request.AddJsonBody(objstr);
             var sendReq = await client.ExecuteAsync(request);
 
         }
-        public void Load()
+        public async Task<Models.App> LoadAsync(string token)
         {
+            HttpClient hc = new HttpClient();
+            token = "db1f334e-431e-47bd-a826-887005652c86";
+            string url = "https://localhost:7267/api/item/" + token;
+            var response = await hc.GetAsync(url);
+            if (response.IsSuccessStatusCode)
+            {
+                var resultContent = response.Content.ReadAsStringAsync().Result;
+                var loadedSaveProject = JsonConvert.DeserializeObject<SaveProjectDto>(resultContent);
+
+                Models.App app = new Models.App(loadedSaveProject.Id, loadedSaveProject.DataToken);
+                Data dat = new Data(app);
+                app.Data = dat;
+
+
+                foreach (var proj in loadedSaveProject.Projects)
+                {
+                    Project p = new Project();
+                    p.Name = proj.Name;
+                    p.Id = proj.Id;
+                    p.CreationDate = proj.CreationDate;
+                    p.Data = app.Data;
+                    p.DataId = app.Data.Id;
+
+                    app.Data.Projects.Add(p);
+
+
+                    foreach (var doc in proj.Documents)
+                    {
+                        var Pro = app.Data.Projects.Where(x => x.Id == proj.Id).FirstOrDefault();
+
+                        Document d = new Document();
+                        d.Name = doc.Name;
+                        d.Id = doc.Id;
+                        d.CreationDate = doc.CreationDate;
+                        d.Order= doc.Order;
+                        d.Project = Pro;
+                        d.ProjectId = Pro.Id;
+
+                        Pro.Documents.Add(d);
+
+                        foreach (var ele in doc.Elements)
+                        {
+                            var Proj = app.Data.Projects.Where(x => x.Id == proj.Id).FirstOrDefault();
+                            var docum = Proj.Documents.Where(x => x.Id == doc.Id).FirstOrDefault();
+
+                            Element e = new Element();
+                            e.Id= ele.Id;
+                            e.Content= ele.Content;
+                            e.Order= ele.Order;
+                            e.Ideary = ele.Ideary;
+                            e.DocumentId= ele.DocumentId;
+                            e.Document = docum;
+
+                            docum.Elements.Add(e);
+
+                        }
+
+                    }
+
+
+                }
+
+                app.Ui.SelectedProject = app.Data.Projects.Where(x => x.Id == loadedSaveProject.Ui.IdSelectedProject).FirstOrDefault();
+                app.Ui.SelectedDocument = app.Ui.SelectedProject.Documents.Where(x => x.Id == loadedSaveProject.Ui.IdSelectedDocument).FirstOrDefault();
+
+
+                return app;
+            }
+
+
+
+
+            return null;
+            
             //Logica
             //recibe el json
             //carga entiedades directas
@@ -80,6 +156,6 @@ namespace rMakev2.Services
             //crea selected document
         }
 
-        
+
     }
 }

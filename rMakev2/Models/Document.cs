@@ -5,6 +5,10 @@ namespace rMakev2.Models
 {
     public class Document
     {
+        public Document()
+        {
+            Elements = new List<Element>();
+        }
         public Document(Project project)
         {
             Project = project ?? throw new Exceptions("Project is null");

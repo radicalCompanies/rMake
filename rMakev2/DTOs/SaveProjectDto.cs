@@ -10,7 +10,7 @@ namespace rMakev2.DTOs
     {
         [JsonProperty(PropertyName = "id")]
         public string Id { get; set; }
-        public string DataToken;
+        public string DataToken { get; set; }
         public List<ProjectDTO> Projects { get; set; }
         public UIDto Ui { get; set; }
 
