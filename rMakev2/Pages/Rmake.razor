@@ -143,11 +143,11 @@
             <div style="position:relative;">
                 @if (vm.Ui.SelectedDocument.ParentDocumentId == null)
                 {
-                    <div class="badge bg-success float-start">Root Document</div>
+                    <div class="badge bg-success float-start" style="float:left; width:10%">Root Document</div>
                 }
                 else
                 {
-                    <div class="badge bg-success">@vm.Ui.SelectedDocument.ParentDocumentId</div>
+                    <div class="badge bg-success" style="float:left; width:25%">@vm.Ui.SelectedDocument.ParentDocumentId</div>
                 }
             </div>
             <div class="clearfix"></div>
