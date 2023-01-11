@@ -13,7 +13,8 @@
               @onkeydown="KeyPress"
               ToolbarPosition="Blazorise.Placement.Top">
     <Editor>
-        @BindingValue
+     
+        @((MarkupString)BindingValue)
 
     </Editor>
     <Toolbar>
@@ -96,10 +97,11 @@
 
 
     private string _value;
+    private string getValOnInitialize;
     [Parameter]
     public string BindingValue
     {
-        get => _value;
+        get => getValOnInitialize;
         set
         {
             if (_value == value) return;
@@ -113,6 +115,7 @@
 
 
     private int orderId;
+
     [Parameter]
     public int OrderId
     {
@@ -126,6 +129,9 @@
 
         }
     }
+
+
+
 
     [Parameter]
     public EventCallback<string> BindingValueChanged { get; set; }
@@ -146,4 +152,13 @@
         }
         return base.OnAfterRenderAsync(firstRender);
     }
+
+    protected override Task OnInitializedAsync()
+    {
+        getValOnInitialize = BindingValue;
+        return base.OnInitializedAsync();
+    }
+//El hack de dios volvió
 }
+
+        

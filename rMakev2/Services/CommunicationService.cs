@@ -76,7 +76,8 @@ namespace rMakev2.Services
         public async Task<Models.App> LoadAsync(string token)
         {
             HttpClient hc = new HttpClient();
-            token = "db1f334e-431e-47bd-a826-887005652c86";
+            //token = "db1f334e-431e-47bd-a826-887005652c86";
+            
             string url = "https://localhost:7267/api/item/" + token;
             var response = await hc.GetAsync(url);
             if (response.IsSuccessStatusCode)

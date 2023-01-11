@@ -1,4 +1,5 @@
 ﻿@page "/App"
+@page "/App/{token}"
 @using rMakev2.ViewModel;
 @inject RmakeViewModel vm;
 @inject IJSRuntime jsRuntime;
@@ -8,14 +9,15 @@
         <div class="col-lg-3 col-md-5 col-sm-12">
             <h1>rMake!</h1>
             <p style="font-size:9px">V 2</p>
-           
+            <p style="font-size:9px">@vm.Ui.BlockRTAFocus</p>
+
 
         </div>
         <div class="col-lg-5 col-md-2 col-sm-12">
         </div>
         <div class="col-lg-4 col-md-2 col-sm-12">
             <select class="form-select " style="border:none; text-align:right; color:hotpink">
-                <option value="1" selected="selected" style="color:#000">Data: @vm.App.DataToken</option>
+                <option value="1" selected="selected" style="color:#000">Data: @vm.App.Id</option>
                 <option value="1" style="color:#000">---</option>
                 <option value="2" style="color:crimson;">Cerrar</option>
             </select>
@@ -124,7 +126,7 @@
                             }
                         }
                     }
-                    <option value="">Add new document</option>
+
                 </select>
             </div>
 
@@ -193,7 +195,7 @@
                 <button @onclick=" vm.ShowPublishModal" class="btn btn-success"><Icon Name="IconName.Lightbulb" /> Publish</button>
                 <button @onclick=" vm.ForkProject" class="btn btn-success"><Icon Name="IconName.Archive" /> Fork Project</button>
                 <button @onclick=" vm.CloneDocument" class="btn btn-success"><Icon Name="IconName.Archive" /> Clone document</button>
-                <button @onclick=" vm.LoadProyectAsync" class="btn btn-success"><Icon Name="IconName.Archive" /> Load</button>
+
 
 
             </div>
@@ -206,7 +208,7 @@
         <ModalBody>
             <div class="close-button" @onclick="vm.HideSaveModal">
                 <Icon Name="IconName.Times"></Icon>
-            </div>
+            </div>s
             <div class="h-100 p-4">
                 <div class="w-100 h-50">
                     <h2>Choose your server</h2>
@@ -236,6 +238,7 @@
         </ModalBody>
     </ModalContent>
 </Modal>
+
 <Modal @ref="vm.App.Ui.PublishModal" class="half-modal fade">
     <ModalContent Centered="true">
         <ModalBody>
@@ -277,6 +280,7 @@
         </ModalBody>
     </ModalContent>
 </Modal>
+
 <Modal @ref="vm.App.Ui.MergeModal" class="half-modal fade">
     <ModalContent Centered="true">
         <ModalBody>
@@ -297,9 +301,21 @@
 @code
 {
 
+    [Parameter]
+    public string token { get; set; }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        await vm.LoadProyectAsync(token);
+        
+    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
+        //await vm.LoadProyectAsync(token);
+
+
         if (vm.Ui.EditProjectName == true && vm.Ui.EditedProjectName == false)
         {
             await jsRuntime.InvokeVoidAsync("focusInput");

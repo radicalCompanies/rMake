@@ -289,9 +289,9 @@ namespace rMakev2.ViewModel
             }
         }
 
-        public async Task LoadProyectAsync()
+        public async Task LoadProyectAsync(string token)
         {
-           app =  await _communicationService.LoadAsync("prueba");
+           app =  await _communicationService.LoadAsync(token);
             ui.SelectedProject = app.Ui.SelectedProject;
             ui.SelectedDocument = app.Ui.SelectedDocument;        
         }

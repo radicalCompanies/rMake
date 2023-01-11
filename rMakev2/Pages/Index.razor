@@ -1,6 +1,7 @@
 ﻿@page "/"
 @using rMakev2.ViewModel;
 @using rMakev2.Services;
+@inject NavigationManager NavigationManager
 @inject IToastService toastService
 
 
@@ -9,10 +10,36 @@
         <div class="col-12 vh-100 p-5">
             <h1>Welcome to rMake</h1>
             <h3>By radical companies.</h3>
+
+            <p>If you want to create something new</p>
             <a href="App" class="btn btn-light btn-lg">Enter App</a>
 
 
+            <p>If you already have content use your token</p>
+            <input Id="token" @bind="tokenstring" class="form-control-plaintext small" style=" font-size:24px;" placeholder="Token" autofocus />
+            <Button Class="btn btn-sm btn-warning" @onclick="navigate">Load</Button>
         </div>
     </div>
 </div>
 
+@code{
+
+    string tokenstring;
+    string url;
+
+
+    protected override Task OnInitializedAsync()
+    {
+
+        tokenstring = "";
+        url = "/App/" + tokenstring;
+
+        return base.OnInitializedAsync();
+    }
+
+    void navigate(){
+        if (tokenstring!="")           
+            NavigationManager.NavigateTo("/App/" + tokenstring);
+        
+    }
+}
