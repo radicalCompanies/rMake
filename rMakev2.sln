@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "rMakev2", "rMakev2\rMakev2.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BackEnd", "BackEnd", "{80F51695-438E-4896-A462-91C51CB6F878}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "rContentMan", "rContentMan\rContentMan.csproj", "{77698DD7-4AB6-4AEA-8B97-6AF55945AE69}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "rContentMan", "rContentMan\rContentMan.csproj", "{77698DD7-4AB6-4AEA-8B97-6AF55945AE69}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "rTests", "rTests\rTests.csproj", "{D16D7335-52B5-41EF-B280-D0BC2F6D0288}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,6 +25,10 @@ Global
 		{77698DD7-4AB6-4AEA-8B97-6AF55945AE69}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{77698DD7-4AB6-4AEA-8B97-6AF55945AE69}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{77698DD7-4AB6-4AEA-8B97-6AF55945AE69}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D16D7335-52B5-41EF-B280-D0BC2F6D0288}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D16D7335-52B5-41EF-B280-D0BC2F6D0288}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D16D7335-52B5-41EF-B280-D0BC2F6D0288}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D16D7335-52B5-41EF-B280-D0BC2F6D0288}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
