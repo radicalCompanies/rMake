@@ -49,12 +49,17 @@
             Document newDocument = new Document(document.Project);
             newDocument.Name = document.Name + "(Cloned)";
             newDocument.ParentDocumentId = document.Id;
-            Documents.Add(newDocument);
-            
+            Documents.Add(newDocument);            
 
             foreach (var item in document.Elements)
             {
-                newDocument.Elements.Add(item);
+                Element newelement = new Element();
+                newelement.Content= item.Content;
+                newelement.DocumentId = newDocument.Id;
+                newelement.Document = newDocument;
+                newelement.ParentElementId = item.Id;
+
+                newDocument.Elements.Add(newelement);
             }
             //Quita el Primer Element sin texto
             newDocument.Elements.RemoveAt(0);

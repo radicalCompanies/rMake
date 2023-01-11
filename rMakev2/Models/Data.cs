@@ -31,11 +31,29 @@ namespace rMakev2.Models
             Project createdProject= new Project(this);
             createdProject.ParentProjectId = project.Id;
             createdProject.Name = project.Name + "(Forked)";
+            
             Projects.Add(createdProject);
 
             foreach(var item in project.Documents)
             {
-                createdProject.Documents.Add(item);
+                Document newdoc=new Document();
+                newdoc.Name = item.Name;
+                newdoc.Order = item.Order;
+                newdoc.ProjectId = createdProject.Id;
+                newdoc.Project = createdProject;
+                newdoc.ParentDocumentId = item.Id;
+                createdProject.Documents.Add(newdoc);
+                
+                foreach (var element in item.Elements)
+                {
+                    Element newelement = new Element();
+                    newelement.Content = element.Content;
+                    newelement.DocumentId = newdoc.Id;
+                    newelement.Document = newdoc;
+                    newelement.Order = element.Order;
+                    newelement.ParentElementId = item.Id;
+                    newdoc.Elements.Add(newelement);
+                }
 
             }
             //Quita el Primer Document sin Texto

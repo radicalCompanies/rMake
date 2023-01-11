@@ -8,8 +8,8 @@
         <div class="col-lg-3 col-md-5 col-sm-12">
             <h1>rMake!</h1>
             <p style="font-size:9px">V 2</p>
-            <p style="font-size:9px">@vm.Ui.BlockRTAFocus</p>
            
+
         </div>
         <div class="col-lg-5 col-md-2 col-sm-12">
         </div>
@@ -152,26 +152,30 @@
             </div>
             <div class="clearfix"></div>
 
-            <div class="mt-2">
-                @foreach (var item in vm.Ui.SelectedDocument.Elements.OrderBy(w => w.Order))
-                {
-                    <div style="float:left; width:80%">
-                        <rMakev2.Components.TextAreaComponent @bind-BindingValue=item.Content OrderId=item.Order />
-                        <span class="badge bg-primary small">
-                            Hash: @item.Hash
-                        </span>
-                    </div>
-                    <div style="float:left; width:20%">
-                        <button @onclick="()=>vm.DeleteElement(item)" class="btn btn-light btn-sm"><Icon Name="IconName.Delete" /></button>
-                        <button @onclick="()=>vm.MoveUp(item)" class="btn btn-light btn-sm"><Icon Name="IconName.ArrowUp" /></button>
-                        <button @onclick="()=>vm.MoveDown(item)" class="btn btn-light btn-sm"><Icon Name="IconName.ArrowDown" /></button>
-                    </div>
-                }
-                <br />
-            </div>
-
         </div>
-        <br />
+
+
+    </div>
+    <div class="row">
+
+
+
+        @foreach (var item in vm.Ui.SelectedDocument.Elements.OrderBy(w => w.Order))
+        {
+            <div class="col-lg-9 col-md-10 col-sm-12">
+                <rMakev2.Components.TextAreaComponent @bind-BindingValue=item.Content OrderId=item.Order />
+                <span class="badge bg-primary small">
+                    Hash: @item.Hash
+                </span>
+            </div>
+            <div class="col-lg-3 col-md-2 col-sm-12">
+                <button @onclick="()=>vm.DeleteElement(item)" class="btn btn-light btn-sm"><Icon Name="IconName.Delete" /></button>
+                <button @onclick="()=>vm.MoveUp(item)" class="btn btn-light btn-sm"><Icon Name="IconName.ArrowUp" /></button>
+                <button @onclick="()=>vm.MoveDown(item)" class="btn btn-light btn-sm"><Icon Name="IconName.ArrowDown" /></button>
+            </div>
+        }
+
+
 
     </div>
     <div class="col-12 text-start">
@@ -301,15 +305,10 @@
             await jsRuntime.InvokeVoidAsync("focusInput");
             vm.Ui.EditedProjectName = true;
         }
-        //if (vm.Ui.NewElement == true)
-        //{
-        //    string elementId = vm.Ui.SelectedDocument.Elements.OrderBy(w => w.Order).Last().Order.ToString();
-        //    await jsRuntime.InvokeVoidAsync("focusLastTextEditor", elementId);
-        //    vm.Ui.NewElement = false;
-        //}
+
 
     }
-    
+
     public async Task Focus()
     {
         vm.SwitchProjectName();
