@@ -3,7 +3,7 @@
     public interface ICommunicationService
     {
         public Task SaveAsync(Models.App app);
-        public Task<Models.App> LoadAsync(string token);
+        public Task<DTOs.SaveProjectDto> LoadAsync(string token);
         //Task  SaveContentAsync();   
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Reflection.Metadata;
+using System.Text.Json.Serialization;
 using System.Xml.Linq;
 
 namespace rMakev2.Models
@@ -27,7 +28,7 @@ namespace rMakev2.Models
         public DateTime CreationDate { get; set; }
         public int Order { get; set; }
         public List<Element> Elements { get; set; }
-       
+        [JsonIgnore]
         public Project Project { get; set; }
         public string ProjectId { get; set; }
         public string ParentDocumentId { get; set; }

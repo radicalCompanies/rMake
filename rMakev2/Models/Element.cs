@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Diagnostics.Eventing.Reader;
+using System.Text.Json.Serialization;
 
 namespace rMakev2.Models
 {
@@ -24,6 +25,7 @@ namespace rMakev2.Models
         public int Order { get; set; }
         public string Ideary { get; set; }
         public string DocumentId { get; set; }
+        [JsonIgnore]
         public Document Document { get; set; } 
         public string Hash { get; set; }
         public bool IsValid { get; set; }

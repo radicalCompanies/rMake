@@ -185,6 +185,15 @@
         <button @onclick="vm.NewElement" class="btn btn-light btn-sm mt-3">New Element</button>
     </div>
 
+        @*<div class="row">
+        <div class="col-12">
+            <textarea style="background-color:black; color:lawngreen; width:500px; height:900px;">
+                @vm.Ui.Json
+            </textarea>
+        </div>
+
+    </div>*@
+
 </div>
 
 <div class=" fixed-bottom mb-1">
@@ -203,34 +212,27 @@
     </div>
 </div>
 
+
+
 <Modal @ref="vm.App.Ui.SaveModal" class="half-modal fade">
     <ModalContent Centered="true">
         <ModalBody>
             <div class="close-button" @onclick="vm.HideSaveModal">
                 <Icon Name="IconName.Times"></Icon>
-            </div>s
+            </div>
             <div class="h-100 p-4">
                 <div class="w-100 h-50">
                     <h2>Choose your server</h2>
-                    <p>rMake is a decentralized solution for creators.</p>
+                    <p>Save your token to retrive your content</p>
+                    <h3> @vm.App.Data.Id</h3>
                     <div class="form-check p-3">
                         <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
                         <label class="form-check-label" for="flexCheckDefault">
                             rMake@Rebel-server
                         </label>
                     </div>
-                    <div class="form-check p-3">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-                        <label class="form-check-label" for="flexCheckChecked">
-                            rmake@Radical-server
-                        </label>
-                    </div>
-                    <div class="form-check p-3">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-                        <label class="form-check-label" for="flexCheckChecked">
-                            rmake@Other-server
-                        </label>
-                    </div>
+             
+                   
                     <button @onclick=" vm.SaveContentAsync" class="btn btn-success"><Icon Name="IconName.Lightbulb" /> Save</button>
 
                 </div>
@@ -298,6 +300,7 @@
         </ModalBody>
     </ModalContent>
 </Modal>
+
 @code
 {
 
@@ -307,14 +310,21 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await vm.LoadProyectAsync(token);
-        
+        try
+        {
+            if (token != "")
+                await vm.LoadProyectAsync(token);
+        }
+        catch
+        {
+
+        }
+
+
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        //await vm.LoadProyectAsync(token);
-
 
         if (vm.Ui.EditProjectName == true && vm.Ui.EditedProjectName == false)
         {

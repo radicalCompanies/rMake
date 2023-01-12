@@ -39,21 +39,26 @@ namespace rContentMan.Controllers
         public async Task PostAsync([FromBody] Item item)
         {
 
+
             if (item != null)
             {
-
-                try
+                
+                
+                var validate = await _cosmosDbService.GetItemAsync(item.Id);
+                if(validate != null)
                 {
+
+                    await _cosmosDbService.UpdateItemAsync(item.Id, item);
+
+                }
+                else
+                {
+
+                
                     item.Id = Guid.NewGuid().ToString();
-
                     await _cosmosDbService.AddItemAsync(item);
-                    Console.Write(item);
                 }
-                catch (Exception ex)
-                {
-
-                    throw;
-                }
+             
 
             }
 

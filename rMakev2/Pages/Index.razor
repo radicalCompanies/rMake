@@ -12,12 +12,14 @@
             <h3>By radical companies.</h3>
 
             <p>If you want to create something new</p>
-            <a href="App" class="btn btn-light btn-lg">Enter App</a>
+            <a href="App" class="btn btn-primary btn-lg">Start from scratch</a>
 
+            <hr />
 
             <p>If you already have content use your token</p>
-            <input Id="token" @bind="tokenstring" class="form-control-plaintext small" style=" font-size:24px;" placeholder="Token" autofocus />
-            <Button Class="btn btn-sm btn-warning" @onclick="navigate">Load</Button>
+            <input Id="token" @bind="tokenstring" class="form-control small" style=" font-size:24px;" placeholder="Token" autofocus />
+            <br/>
+            <Button Class="btn btn-lg btn-warning" @onclick="navigate">Load</Button>
         </div>
     </div>
 </div>

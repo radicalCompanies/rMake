@@ -291,9 +291,63 @@ namespace rMakev2.ViewModel
 
         public async Task LoadProyectAsync(string token)
         {
-           app =  await _communicationService.LoadAsync(token);
-            ui.SelectedProject = app.Ui.SelectedProject;
-            ui.SelectedDocument = app.Ui.SelectedDocument;        
+            SaveProjectDto savedContent =  await _communicationService.LoadAsync(token);
+
+             App.Data.Id = savedContent.Id;
+            
+
+
+            foreach (var proj in savedContent.Projects)
+            {
+                Project p = new Project();
+                p.Name = proj.Name;
+                p.Id = proj.Id;
+                p.CreationDate = proj.CreationDate;
+                p.Data = app.Data;
+                p.DataId = app.Data.Id;
+                this.App.Data.Projects.Add(p);
+
+
+                foreach (var doc in proj.Documents)
+                {
+                    var Pro = app.Data.Projects.Where(x => x.Id == proj.Id).FirstOrDefault();
+
+                    Document d = new Document();
+                    d.Name = doc.Name;
+                    d.Id = doc.Id;
+                    d.CreationDate = doc.CreationDate;
+                    d.Order = doc.Order;
+                    d.Project = Pro;
+                    d.ProjectId = Pro.Id;
+                    Pro.Documents.Add(d);
+
+                    foreach (var ele in doc.Elements)
+                    {
+                        var Proj = app.Data.Projects.Where(x => x.Id == proj.Id).FirstOrDefault();
+                        var docum = Proj.Documents.Where(x => x.Id == doc.Id).FirstOrDefault();
+
+                        Element e = new Element();
+                        e.Id = ele.Id;
+                        e.Content = ele.Content;
+                        e.Order = ele.Order;
+                        e.Ideary = ele.Ideary;
+                        e.DocumentId = ele.DocumentId;
+                        e.Document = docum;
+
+                        docum.Elements.Add(e);
+
+                    }
+
+                }
+
+
+            }
+            app.Ui.SaveModal = app.Ui.SaveModal;
+            app.Ui.SelectedProject = app.Data.Projects.Where(x => x.Id == savedContent.Ui.IdSelectedProject).FirstOrDefault();
+            app.Ui.SelectedDocument = app.Ui.SelectedProject.Documents.Where(x => x.Id == savedContent.Ui.IdSelectedDocument).FirstOrDefault();
+
+
+
         }
 
 

@@ -1,4 +1,6 @@
-﻿    namespace rMakev2.Models
+﻿using System.Text.Json.Serialization;
+
+namespace rMakev2.Models
 {
     public class Project
     {
@@ -24,6 +26,7 @@
         public string Name { get; set; }
         public DateTime CreationDate { get; set; }
         public List<Document> Documents { get; set; }
+        [JsonIgnore]
         public Data Data { get; set; }
         public string DataId { get; set; }
         public string ParentProjectId { get; set; }
