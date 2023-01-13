@@ -44,18 +44,18 @@ namespace rContentMan.Controllers
             {
                 
                 
-                var validate = await _cosmosDbService.GetItemAsync(item.Id);
+                var validate = await _cosmosDbService.GetItemAsync(item.id);
                 if(validate != null)
                 {
 
-                    await _cosmosDbService.UpdateItemAsync(item.Id, item);
+                    await _cosmosDbService.UpdateItemAsync(item.id, item);
 
                 }
                 else
                 {
 
                 
-                    item.Id = Guid.NewGuid().ToString();
+                    item.id = Guid.NewGuid().ToString();
                     await _cosmosDbService.AddItemAsync(item);
                 }
              

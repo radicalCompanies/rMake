@@ -1,6 +1,6 @@
 ﻿namespace rContentMan.Models
 {
-    public class Item : rMakev2.DTOs.SaveProjectDto
+    public class Item : Domain.DTOs.SaveProjectDto
     {
     }
 }

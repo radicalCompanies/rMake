@@ -18,7 +18,7 @@ namespace rContentMan.Services
 
         public async Task AddItemAsync(Item item)
         {
-            await this._container.CreateItemAsync<Item>(item, new PartitionKey(item.Id));
+            await this._container.CreateItemAsync<Item>(item, new PartitionKey(item.id));
         }
 
 

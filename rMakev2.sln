@@ -9,7 +9,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BackEnd", "BackEnd", "{80F5
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "rContentMan", "rContentMan\rContentMan.csproj", "{77698DD7-4AB6-4AEA-8B97-6AF55945AE69}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "rTests", "rTests\rTests.csproj", "{D16D7335-52B5-41EF-B280-D0BC2F6D0288}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "rTests", "rTests\rTests.csproj", "{D16D7335-52B5-41EF-B280-D0BC2F6D0288}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{E327B68C-715D-46D8-AF30-4161116145CD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,6 +31,10 @@ Global
 		{D16D7335-52B5-41EF-B280-D0BC2F6D0288}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D16D7335-52B5-41EF-B280-D0BC2F6D0288}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D16D7335-52B5-41EF-B280-D0BC2F6D0288}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E327B68C-715D-46D8-AF30-4161116145CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E327B68C-715D-46D8-AF30-4161116145CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E327B68C-715D-46D8-AF30-4161116145CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E327B68C-715D-46D8-AF30-4161116145CD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
