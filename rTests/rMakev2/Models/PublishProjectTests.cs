@@ -6,14 +6,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace rTests.rMakev2
+namespace rTests.rMakev2.Models
 {
     [TestClass]
     public class PublishProjectTests
     {
-        
+
         [TestMethod]
-        public void CreatePublishedProject_Ok() {
+        public void CreatePublishedProject_Ok()
+        {
             //Arrange
             App testApp = new App(Guid.NewGuid().ToString(), Guid.NewGuid().ToString());
             Data testData = new Data(testApp);
@@ -28,7 +29,8 @@ namespace rTests.rMakev2
         }
 
         [TestMethod]
-        public void AddPublishedDocument() {
+        public void AddPublishedDocument()
+        {
             //Arrange
             App testApp = new App(Guid.NewGuid().ToString(), Guid.NewGuid().ToString());
             Data testData = new Data(testApp);

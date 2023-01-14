@@ -19,4 +19,8 @@
     <ProjectReference Include="..\rMakev2\rMakev2.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="rLibrary\" />
+  </ItemGroup>
+
 </Project>

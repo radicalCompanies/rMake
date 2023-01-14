@@ -6,13 +6,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace rTests.rMakev2
+namespace rTests.rMakev2.Models
 {
     [TestClass]
     public class PublishedDocumentTests
     {
         [TestMethod]
-        public void Create_PublishedDocument_Ok() {
+        public void Create_PublishedDocument_Ok()
+        {
             //Arrange
             App app = new App(Guid.NewGuid().ToString(), Guid.NewGuid().ToString());
             Data data = new Data(app);
@@ -38,7 +39,8 @@ namespace rTests.rMakev2
         }
 
         [TestMethod]
-        public void Create_PublishedDocument_RespectOrder() {
+        public void Create_PublishedDocument_RespectOrder()
+        {
             //Arrange
             App app = new App(Guid.NewGuid().ToString(), Guid.NewGuid().ToString());
             Data data = new Data(app);
@@ -69,7 +71,8 @@ namespace rTests.rMakev2
         }
 
         [TestMethod]
-        public void Create_PublishedDocument_ElementIsEmpty() {
+        public void Create_PublishedDocument_ElementIsEmpty()
+        {
             //Arrange
             App app = new App(Guid.NewGuid().ToString(), Guid.NewGuid().ToString());
             Data data = new Data(app);
@@ -83,7 +86,7 @@ namespace rTests.rMakev2
             PublishDocument publishDocument = new PublishDocument(publishProject, document);
 
             //Assert
-            Assert.AreEqual(String.Empty, publishDocument.Content);
+            Assert.AreEqual(string.Empty, publishDocument.Content);
         }
 
 
