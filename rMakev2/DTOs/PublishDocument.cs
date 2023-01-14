@@ -4,35 +4,29 @@ namespace rMakev2.DTOs
 {
     public class PublishDocument
     {
-        public string Id { get; set; } // Tal vez será bueno diferenciar Ids publicados de Ids de creación
-        public string ProjectId { get; set; }
-        public string Name { get; set; }
-        public DateTime PublicationDate { get; set; }
-        public int Order { get; set; } // Esto puede cambiar! tomar en cuenta la fecha de publicación
-        public string Content { get; set; }
+        public string Id { get; } 
+        public string ProjectId { get; }
+        public string Name { get; }
+        public int Order { get; }
+        public string Content { get; } = string.Empty;
+        public string ContentType { get; }
 
-        public List<Person> Authors { get; set; } = new List<Person>();
-        public List<Person> Owners { get; set; } = new List<Person>(); // <- no me gusta tanto la idea...
 
+        private PublishDocument(){}
         
-        public PublishDocument(){}
-        
-        public PublishDocument(Document document)
+        public PublishDocument(PublishProject publishProject, Document document)
         {
+            Id = Guid.NewGuid().ToString();
+            ProjectId = publishProject.Id;
             Name = document.Name;
-            PublicationDate = DateTime.Now.Date;
-            ProjectId = document.ProjectId;
             Order = document.Order;
 
-            //Need to add support for authors and owners
-            Authors.Add(new Person { Id = Guid.Empty.ToString(), Name = "TBD" });
-            Owners.Add(new Person { Id = Guid.Empty.ToString(), Name = "TBD" });
+            ContentType = "html";
 
-            //The character that separates the elements should be dynamic in order to suport different formats (html, txt, etc...)
             foreach (Element element in document.Elements.OrderBy(x => x.Order)) {
-                Content += element.Content + "\n";
+                if(!String.IsNullOrWhiteSpace(element.Content))
+                    Content += "<section>" + element.Content + "</section>";
             }
-            Content = Content.Remove(Content.Length - 1);
         }
     }
 }

@@ -12,103 +12,80 @@ namespace rTests.rMakev2
     public class PublishedDocumentTests
     {
         [TestMethod]
-        public void Create_PublishedDocument_OK() { 
-            //Arrange 
-            Document document = new Document();
-            document.Id = Guid.NewGuid().ToString();
-            document.Name = "Test Doc";
-            document.Order = 1;
+        public void Create_PublishedDocument_Ok() {
+            //Arrange
+            App app = new App(Guid.NewGuid().ToString(), Guid.NewGuid().ToString());
+            Data data = new Data(app);
+            Project project = new Project(data);
 
-            document.ProjectId = Guid.NewGuid().ToString();
+            Document document = new Document(project);
+            document.Elements.First().Content = "This";
+            document.AddElement(document).Content = "Is a";
+            document.AddElement(document).Content = "Test";
 
-            Element element1 = new Element(document);
-            element1.Content = "This is";
-
-            Element element2 = new Element(document);
-            element2.Content = "a";
-
-            Element element3 = new Element(document);
-            element3.Content = "Test";
+            PublishProject publishProject = new PublishProject(project);
 
             //Act
-            PublishDocument publish = new PublishDocument(document);
+            PublishDocument publishDocument = new PublishDocument(publishProject, document);
 
             //Assert
-            Assert.AreEqual(document.Name, publish.Name);
-            Assert.AreEqual(document.ProjectId, publish.ProjectId);
-            Assert.AreEqual(DateTime.Now.Date, publish.PublicationDate);
-            Assert.AreEqual(1, publish.Order);
-            Assert.AreEqual("This is\na\nTest", publish.Content);
+            Assert.AreEqual(publishProject.Id, publishDocument.ProjectId);
+            Assert.AreEqual(document.Name, publishDocument.Name);
+            Assert.AreEqual(document.Order, publishDocument.Order);
+            Assert.AreEqual("html", publishDocument.ContentType);
 
-            Assert.IsTrue(publish.Authors.Count == 1 && publish.Owners.Count == 1);
-            Assert.IsTrue(publish.Authors.First().Name == "TBD");
-            Assert.IsTrue(publish.Owners.First().Name == "TBD");
+            Assert.AreEqual("<section>This</section><section>Is a</section><section>Test</section>", publishDocument.Content);
         }
 
         [TestMethod]
-        public void Create_PublishedDocument_RespectsElementOrder()
-        {
-            //Arrange 
-            Document document = new Document();
-            document.Id = Guid.NewGuid().ToString();
-            document.Name = "Test Doc";
-            document.Order = 1;
+        public void Create_PublishedDocument_RespectOrder() {
+            //Arrange
+            App app = new App(Guid.NewGuid().ToString(), Guid.NewGuid().ToString());
+            Data data = new Data(app);
+            Project project = new Project(data);
 
-            document.ProjectId = Guid.NewGuid().ToString();
+            PublishProject publishProject = new PublishProject(project);
 
-            Element element1 = new Element(document);
-            element1.Content = "This is";
-            element1.Order = 1;
+            Document document = new Document(project);
 
-            Element element2 = new Element(document);
-            element2.Content = "Test";
-            element2.Order = 3;
+            Element Element1 = document.Elements.First();
+            Element Element2 = document.AddElement(document);
+            Element Element3 = document.AddElement(document);
 
-            Element element3 = new Element(document);
-            element3.Content = "a";
-            element3.Order = 2;
+            Element1.Content = "Is a";
+            Element1.Order = 2;
+
+            Element2.Content = "This";
+            Element2.Order = 1;
+
+            Element3.Content = "Test";
+            Element3.Order = 3;
 
             //Act
-            PublishDocument publish = new PublishDocument(document);
+            PublishDocument publishDocument = new PublishDocument(publishProject, document);
 
             //Assert
-            Assert.AreEqual(document.Name, publish.Name);
-            Assert.AreEqual(document.ProjectId, publish.ProjectId);
-            Assert.AreEqual(DateTime.Now.Date, publish.PublicationDate);
-            Assert.AreEqual(1, publish.Order);
-            Assert.AreEqual("This is\na\nTest", publish.Content);
-
-            Assert.IsTrue(publish.Authors.Count == 1 && publish.Owners.Count == 1);
-            Assert.IsTrue(publish.Authors.First().Name == "TBD");
-            Assert.IsTrue(publish.Owners.First().Name == "TBD");
+            Assert.AreEqual("<section>This</section><section>Is a</section><section>Test</section>", publishDocument.Content);
         }
 
         [TestMethod]
-        public void Create_PublishedDocument_ContentIsNull() {
-            //Arrange 
-            Document document = new Document();
-            document.Id = Guid.NewGuid().ToString();
-            document.Name = "Test Doc";
-            document.Order = 1;
+        public void Create_PublishedDocument_ElementIsEmpty() {
+            //Arrange
+            App app = new App(Guid.NewGuid().ToString(), Guid.NewGuid().ToString());
+            Data data = new Data(app);
+            Project project = new Project(data);
 
-            document.ProjectId = Guid.NewGuid().ToString();
+            PublishProject publishProject = new PublishProject(project);
 
-            Element element = new Element(document);
-            element.Content = null;
+            Document document = new Document(project);
 
             //Act
-            PublishDocument publish = new PublishDocument(document);
+            PublishDocument publishDocument = new PublishDocument(publishProject, document);
 
             //Assert
-            Assert.AreEqual(document.Name, publish.Name);
-            Assert.AreEqual(document.ProjectId, publish.ProjectId);
-            Assert.AreEqual(DateTime.Now.Date, publish.PublicationDate);
-            Assert.AreEqual(1, publish.Order);
-            Assert.AreEqual(string.Empty, publish.Content);
-
-            Assert.IsTrue(publish.Authors.Count == 1 && publish.Owners.Count == 1);
-            Assert.IsTrue(publish.Authors.First().Name == "TBD");
-            Assert.IsTrue(publish.Owners.First().Name == "TBD");
+            Assert.AreEqual(String.Empty, publishDocument.Content);
         }
+
+
     }
 }
