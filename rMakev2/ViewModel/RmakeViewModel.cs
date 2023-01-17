@@ -301,6 +301,7 @@ namespace rMakev2.ViewModel
                 p.CreationDate = proj.CreationDate;
                 p.Data = app.Data;
                 p.DataId = app.Data.Id;
+                p.ParentProjectId = proj.ParentProjectId;
                 this.App.Data.Projects.Add(p);
 
 
@@ -314,6 +315,7 @@ namespace rMakev2.ViewModel
                     d.Order = doc.Order;
                     d.Project = Pro;
                     d.ProjectId = Pro.Id;
+                    d.ParentDocumentId = doc.ParentDocumentId;
                     Pro.Documents.Add(d);
                     foreach (var ele in doc.Elements)
                     {
@@ -326,6 +328,7 @@ namespace rMakev2.ViewModel
                         e.Ideary = ele.Ideary;
                         e.DocumentId = ele.DocumentId;
                         e.Document = docum;
+                        e.ParentElementId= ele.ParentElementId;
                         docum.Elements.Add(e);
 
                     }

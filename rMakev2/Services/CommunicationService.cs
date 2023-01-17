@@ -27,8 +27,9 @@ namespace rMakev2.Services
                 project.Name = item.Name;
                 project.CreationDate = item.CreationDate;
                 project.Documents = new List<DocumentDTO>();
+                project.ParentProjectId = item.ParentProjectId;
                 save.Projects.Add(project);
-
+                
                 foreach (var itemDoc in item.Documents)
                 {
                     DocumentDTO document = new DocumentDTO();
@@ -39,6 +40,7 @@ namespace rMakev2.Services
                     document.ProjectId = itemDoc.ProjectId;
                     document.Name = itemDoc.Name;
                     document.Elements = new List<ElementDTO>();
+                    document.ParentDocumentId = itemDoc.ParentDocumentId;   
                     save.Projects.Where(x => x.Id == itemDoc.ProjectId).First().Documents.Add(document);
 
                     foreach (var itemElement in itemDoc.Elements)
@@ -49,6 +51,7 @@ namespace rMakev2.Services
                         element.Order = itemElement.Order;
                         element.Ideary = itemElement.Ideary;
                         element.DocumentId = itemElement.DocumentId;
+                        element.ParentElementId= itemElement.ParentElementId;
                         var pro = save.Projects.Where(x => x.Id == itemDoc.ProjectId).First();
                         pro.Documents.Where(x => x.Id == itemDoc.Id).First().Elements.Add(element);
                     }
