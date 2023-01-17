@@ -291,8 +291,8 @@ namespace rMakev2.ViewModel
 
         public async Task LoadProyectAsync(string token)
         {
-            SaveProjectDto savedContent =  await _communicationService.LoadAsync(token);
-             App.Data.Id = savedContent.Id;  
+            SaveProjectDto savedContent = await _communicationService.LoadAsync(token);
+            App.Data.Id = savedContent.Id;  
             foreach (var proj in savedContent.Projects)
             {
                 Project p = new Project();

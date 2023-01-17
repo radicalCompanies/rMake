@@ -55,7 +55,7 @@ namespace rContentMan.Controllers
                 {
 
                 
-                    item.id = Guid.NewGuid().ToString();
+                    //item.id = Guid.NewGuid().ToString();
                     await _cosmosDbService.AddItemAsync(item);
                 }
              
