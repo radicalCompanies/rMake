@@ -61,14 +61,35 @@ namespace rMakev2.ViewModel
         public void InitializeData()
         {
             App = new Models.App("Rebel", "codename-rebel-creator");
-            
+
             Ui = new Models.Ui(App);
             App.Data.Projects.Add(new Project(App.Data));
             var ProjectZero = App.Data.Projects.First();
             Ui.SelectedProject = ProjectZero;
             Ui.SelectedDocument = ProjectZero.Documents.First();
+
+            Thread p1;
+            p1 = new Thread(new ThreadStart(Save));
+            p1.Start();
+
+
             //Creo las entidades por defecto.
         }
+
+
+        public void Save()
+        {
+            while (true)
+            {
+
+                Thread.Sleep(10000);
+                HashMyContent();
+                //_communicationService.SaveAsync(App).Wait();
+                this._toastService.ShowSuccess("Project Saved");
+            }
+        }
+
+
         public void HideSaveModal()
         {
             App.Ui.SaveModal.Hide();
@@ -292,7 +313,7 @@ namespace rMakev2.ViewModel
         public async Task LoadProyectAsync(string token)
         {
             SaveProjectDto savedContent = await _communicationService.LoadAsync(token);
-            App.Data.Id = savedContent.Id;  
+            App.Data.Id = savedContent.Id;
             foreach (var proj in savedContent.Projects)
             {
                 Project p = new Project();
