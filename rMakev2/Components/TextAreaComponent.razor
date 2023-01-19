@@ -5,7 +5,7 @@
 
 <RichTextEdit @ref="richTextEditRef"
               Theme="RichTextEditTheme.Bubble"
-              ContentChanged="@OnContentChanged"
+              @onchange="Save"
               PlaceHolder="Start writting"
               id="@AreaOrderId"
               ReadOnly="@readOnly"
@@ -50,9 +50,9 @@
 @code {
 
     private List<string> Keys { get; set; } = new List<string>();
-    public void KeyPress(KeyboardEventArgs e)
+    public async Task KeyPress(KeyboardEventArgs e)
     {
-
+        var test = vm.App.Ui.SelectedDocument.Elements.FirstOrDefault(x => x.Id == ElementId).Content = await richTextEditRef.GetHtmlAsync();
         if (e.Code == "Enter" || e.Code == "NumpadEnter")
         {
             vm.Ui.BlockRTAFocus = false;
@@ -88,30 +88,8 @@
     protected string? contentAsHtml;
     protected string AreaOrderId;
 
-    public async Task OnContentChanged()
-    {
-        contentAsHtml = await richTextEditRef.GetHtmlAsync();
-        _value = contentAsHtml;
-        await BindingValueChanged.InvokeAsync(contentAsHtml);
-    }
-
-
-    private string _value;
-    private string getValOnInitialize;
     [Parameter]
-    public string BindingValue
-    {
-        get => getValOnInitialize;
-        set
-        {
-            if (_value == value) return;
-
-            _value = value;
-            if (richTextEditRef != null)
-                richTextEditRef.SetHtmlAsync(_value);
-        }
-    }
-
+    public string BindingValue {get;set;}
 
 
     private int orderId;
@@ -130,17 +108,21 @@
         }
     }
 
+    public void Save(){
+        vm.App.Ui.SelectedDocument.Elements.FirstOrDefault(x => x.Id == ElementId).Content = BindingValue;
 
-
+    }
 
     [Parameter]
-    public EventCallback<string> BindingValueChanged { get; set; }
+    public string ElementId{ get; set; }
+
+  
 
     protected override Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
-
+            
 
         }
 
@@ -150,15 +132,16 @@
             jsr.InvokeVoidAsync("focusLastTextEditor", elementId);
             vm.Ui.BlockRTAFocus = false;
         }
+        
         return base.OnAfterRenderAsync(firstRender);
     }
 
     protected override Task OnInitializedAsync()
     {
-        getValOnInitialize = BindingValue;
+       
         return base.OnInitializedAsync();
     }
-//El hack de dios volvió
+//Le quité el two way binding, para hacerlo de una sola via y que en el on keyPres actualice el VIewModel y ya.
 }
 
         

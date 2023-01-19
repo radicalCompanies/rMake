@@ -61,8 +61,8 @@ namespace rMakev2.Services
 
             }
 
-            var client = new RestClient("https://localhost:7267/");
-            //var client = new RestClient("https://rcontentman.azurewebsites.net/");
+            //var client = new RestClient("https://localhost:7267/");
+            var client = new RestClient("https://rcontentman.azurewebsites.net/");
             var request = new RestRequest("api/item", Method.Post);
             request.AddHeader("Content-Type", "application/json");
             var options = new JsonSerializerOptions()
@@ -82,8 +82,8 @@ namespace rMakev2.Services
             HttpClient hc = new HttpClient();
             //token = "db1f334e-431e-47bd-a826-887005652c86";
             
-            string url = "https://localhost:7267/api/item/" + token;
-            //string url = "https://rcontentman.azurewebsites.net/api/item/" + token;
+            //string url = "https://localhost:7267/api/item/" + token;
+            string url = "https://rcontentman.azurewebsites.net/api/item/" + token;
             var response = await hc.GetAsync(url);
             if (response.IsSuccessStatusCode)
             {

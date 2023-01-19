@@ -165,7 +165,8 @@
         @foreach (var item in vm.Ui.SelectedDocument.Elements.OrderBy(w => w.Order))
         {
             <div class="col-lg-9 col-md-10 col-sm-12">
-                <rMakev2.Components.TextAreaComponent @bind-BindingValue=item.Content OrderId=item.Order />
+                <rMakev2.Components.TextAreaComponent BindingValue=@item.Content OrderId=@item.Order ElementId="@item.Id"/>
+
                 <span class="badge bg-primary small">
                     Hash: @item.Hash
                 </span>
@@ -185,12 +186,12 @@
         <button @onclick="vm.NewElement" class="btn btn-light btn-sm mt-3">New Element</button>
     </div>
 
-        @*<div class="row">
-        <div class="col-12">
-            <textarea style="background-color:black; color:lawngreen; width:500px; height:900px;">
-                @vm.Ui.Json
-            </textarea>
-        </div>
+    @*<div class="row">
+    <div class="col-12">
+    <textarea style="background-color:black; color:lawngreen; width:500px; height:900px;">
+    @vm.Ui.Json
+    </textarea>
+    </div>
 
     </div>*@
 
@@ -231,8 +232,8 @@
                             rMake@Rebel-server
                         </label>
                     </div>
-             
-                   
+
+
                     <button @onclick=" vm.SaveContentAsync" class="btn btn-success"><Icon Name="IconName.Lightbulb" /> Save</button>
 
                 </div>

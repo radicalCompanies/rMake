@@ -329,6 +329,7 @@ namespace rMakev2.ViewModel
                         e.DocumentId = ele.DocumentId;
                         e.Document = docum;
                         e.ParentElementId= ele.ParentElementId;
+                        e.Hash = ele.Hash;
                         docum.Elements.Add(e);
 
                     }

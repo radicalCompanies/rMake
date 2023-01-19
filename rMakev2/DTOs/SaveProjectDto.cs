@@ -54,6 +54,7 @@ namespace rMakev2.DTOs
         public string Ideary { get; set; }
         public string DocumentId { get; set; }
         public string ParentElementId { get; set; }
+        public string Hash { get; set; }
 
 
     }
