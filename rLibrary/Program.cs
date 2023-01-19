@@ -1,3 +1,6 @@
+using rLibrary.Interfaces;
+using rLibrary.Services;
+
 namespace rLibrary
 {
     public class Program
@@ -12,6 +15,8 @@ namespace rLibrary
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddSingleton<IDatabaseService, DatabaseService>();
 
             var app = builder.Build();
 
