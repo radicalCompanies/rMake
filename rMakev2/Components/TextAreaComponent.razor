@@ -3,6 +3,7 @@
 @inject RmakeViewModel vm;
 @inject IJSRuntime jsr;
 
+
 <RichTextEdit @ref="richTextEditRef"
               Theme="RichTextEditTheme.Bubble"
               @onchange="Save"
@@ -116,13 +117,13 @@
     [Parameter]
     public string ElementId{ get; set; }
 
-  
+
 
     protected override Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
-            
+
 
         }
 
@@ -131,6 +132,7 @@
             string elementId = vm.Ui.SelectedDocument.Elements.OrderBy(w => w.Order).Last().Order.ToString();
             jsr.InvokeVoidAsync("focusLastTextEditor", elementId);
             vm.Ui.BlockRTAFocus = false;
+            
         }
         
         return base.OnAfterRenderAsync(firstRender);
@@ -138,9 +140,10 @@
 
     protected override Task OnInitializedAsync()
     {
-       
+
         return base.OnInitializedAsync();
     }
+
 //Le quité el two way binding, para hacerlo de una sola via y que en el on keyPres actualice el VIewModel y ya.
 }
 
