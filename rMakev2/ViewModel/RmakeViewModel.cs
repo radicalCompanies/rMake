@@ -84,7 +84,7 @@ namespace rMakev2.ViewModel
 
                 Thread.Sleep(10000);
                 HashMyContent();
-                //_communicationService.SaveAsync(App).Wait();
+                _communicationService.SaveAsync(App).Wait();
                 this._toastService.ShowSuccess("Project Saved");
             }
         }
@@ -312,6 +312,7 @@ namespace rMakev2.ViewModel
 
         public async Task LoadProyectAsync(string token)
         {
+
             SaveProjectDto savedContent = await _communicationService.LoadAsync(token);
             App.Data.Id = savedContent.Id;
             foreach (var proj in savedContent.Projects)
@@ -349,7 +350,7 @@ namespace rMakev2.ViewModel
                         e.Ideary = ele.Ideary;
                         e.DocumentId = ele.DocumentId;
                         e.Document = docum;
-                        e.ParentElementId= ele.ParentElementId;
+                        e.ParentElementId = ele.ParentElementId;
                         e.Hash = ele.Hash;
                         docum.Elements.Add(e);
 
@@ -360,6 +361,9 @@ namespace rMakev2.ViewModel
 
             }
             app.Ui.SaveModal = app.Ui.SaveModal;
+
+            
+            App.Data.RemoveProject(app.Ui.SelectedProject);
             app.Ui.SelectedProject = app.Data.Projects.Where(x => x.Id == savedContent.Ui.IdSelectedProject).FirstOrDefault();
             app.Ui.SelectedDocument = app.Ui.SelectedProject.Documents.Where(x => x.Id == savedContent.Ui.IdSelectedDocument).FirstOrDefault();
 
