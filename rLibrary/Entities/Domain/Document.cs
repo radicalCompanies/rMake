@@ -1,4 +1,4 @@
-﻿namespace rLibrary.Entities
+﻿namespace rLibrary.Entities.Domain
 {
     public class Document
     {

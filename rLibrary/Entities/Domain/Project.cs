@@ -1,9 +1,8 @@
-﻿namespace rLibrary.Entities
+﻿namespace rLibrary.Entities.Domain
 {
     public class Project
     {
         public string Id { get; }
-        public string PublisherId { get; }
         public DateTime PublicationDate { get; }
         public Dictionary<int, string> Documents { get; } = new Dictionary<int, string>();
 
