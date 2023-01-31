@@ -1,4 +1,5 @@
 ﻿
+using System.Data;
 using System.Text.Json.Serialization;
 namespace rMakev2.Models
 {
@@ -37,16 +38,19 @@ namespace rMakev2.Models
             foreach(var item in project.Documents)
             {
                 Document newdoc=new Document();
+                newdoc.Id = Guid.NewGuid().ToString();
                 newdoc.Name = item.Name;
                 newdoc.Order = item.Order;
                 newdoc.ProjectId = createdProject.Id;
                 newdoc.Project = createdProject;
                 newdoc.ParentDocumentId = item.Id;
+                newdoc.CreationDate = DateTime.Now;
                 createdProject.Documents.Add(newdoc);
                 
                 foreach (var element in item.Elements)
                 {
                     Element newelement = new Element();
+                    newelement.Id = Guid.NewGuid().ToString();
                     newelement.Content = element.Content;
                     newelement.DocumentId = newdoc.Id;
                     newelement.Document = newdoc;

@@ -1,3 +1,6 @@
+using rLibrary.Interfaces;
+using rLibrary.Services;
+
 namespace rLibrary
 {
     public class Program
@@ -13,17 +16,16 @@ namespace rLibrary
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            builder.Services.AddSingleton<IDatabaseService, DatabaseService>();
+            builder.Services.AddScoped<IPublishService, PublishService>();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
+            app.UseSwagger();
+            app.UseSwaggerUI();
 
             app.UseHttpsRedirection();
-
             app.UseAuthorization();
 
 
