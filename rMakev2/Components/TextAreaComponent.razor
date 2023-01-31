@@ -5,7 +5,7 @@
 
 <RichTextEdit @ref="richTextEditRef"
               Theme="RichTextEditTheme.Bubble"
-              @onchange="Save"
+              
               PlaceHolder="Start writting"
               id="@AreaOrderId"
               ReadOnly="@readOnly"
@@ -72,12 +72,13 @@
                 Keys.Add("Enter");
 
             }
-
+            Save();
         }
         else
         {
             vm.Ui.BlockRTAFocus = true;
             Keys.Clear();
+            Save();
         }
 
     }
@@ -110,7 +111,6 @@
 
     public void Save(){
         vm.App.Ui.SelectedDocument.Elements.FirstOrDefault(x => x.Id == ElementId).Content = BindingValue;
-
     }
 
     [Parameter]

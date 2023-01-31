@@ -281,9 +281,6 @@ namespace rMakev2.ViewModel
             Ui.BlockRTAFocus = false;
 
         }
-
-
-
         public string HashString(string text, string salt)
         {
             if (String.IsNullOrEmpty(text))
