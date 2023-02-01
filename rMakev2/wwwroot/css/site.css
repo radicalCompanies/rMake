@@ -63,4 +63,33 @@ a, .btn-link {
         content: "An error has occurred."
     }
 
+.center-screen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 100vh;
+}
+
+h1 {
+    font-family: "open sauce one";
+    font-size: 65px;
+    font-weight: 400;
+    line-height: 65px;
+    font-style: normal;
+    text-align: left;
+    color: #000000;
+}
+
+h5 {
+    font-family: "open sauce one";
+    font-size: 30px;
+    font-weight: 400;
+    line-height: 35px;
+    font-style: normal;
+    text-align: left;
+    color: #000000;
+}
+
 
