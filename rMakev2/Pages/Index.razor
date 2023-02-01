@@ -7,22 +7,23 @@
 
 
 <div class="row">
-    <div class="col-xl-6 vh-100 p-5">
+    <div class="col-lg-6 vh-100 p-5">
         <h1>rMake!</h1>
         <h5>By radical companies.</h5>
-        <div class="text-center" >
-            <h3>Start creating something new</h3>
-            <a href="App" class="btn btn-primary btn-lg text-center">Start from scratch</a>
-        </div>
+
+        <h3>Start creating something new</h3>
+        <a href="App" class="btn btn-start btn-lg">Start from scratch</a>
+
     </div>
 
-    <div class="col-xl-6 vh-100 p-5" style="background-color:#DAE4F2">
-        <p>If you already have content, use your token</p>
-        <input Id="token" @bind="tokenstring" class="form-control small" style=" font-size:24px;" placeholder="Token" autofocus />
+    <div class="col-lg-6 vh-100 p-5" style="background-color:#DAE4F2">
+        <h4>If you already have content, use your token</h4>
+        <input Id="token" @bind="tokenstring" class="form-control-index small" style=" font-size:24px;" placeholder="example: 24256aG-A90n56D3-a722" autofocus />
         <br />
-        <Button Class="btn btn-lg btn-warning" @onclick="navigate">Load</Button>
+        <Button Class="btn btn-load btn-lg" @onclick="navigate">Load</Button>
     </div>
 </div>
+
 
 
 @code {
