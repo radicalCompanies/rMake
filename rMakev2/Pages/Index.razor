@@ -5,26 +5,30 @@
 @inject IToastService toastService
 
 
-<div class="container">
-    <div class="row">
-        <div class="col-12 vh-100 p-5">
-            <h1>Welcome to rMake</h1>
-            <h3>By radical companies.</h3>
 
-            <p>If you want to create something new</p>
-            <a href="App" class="btn btn-primary btn-lg">Start from scratch</a>
+<div class="row">
+    <div class="col-lg-6 vh-100 p-5">
+        <h1>rMake!</h1>
+        <h5>By radical companies.</h5>
 
-            <hr />
+        <h3 style="top: 30%">Start creating <strong><em>something new</em></strong></h3>
+        <a href="App" class="btn btn-start btn-lg" style="top: 30%;">Start from scratch</a>
 
-            <p>If you already have content use your token</p>
-            <input Id="token" @bind="tokenstring" class="form-control small" style=" font-size:24px;" placeholder="Token" autofocus />
-            <br/>
-            <Button Class="btn btn-lg btn-warning" @onclick="navigate">Load</Button>
+    </div>
+
+    <div class="col-xxl-6 vh-100 p-5" style="background-color:#DAE4F2">
+        <div class="right-side">
+            <h3 style="margin-left: 0px">If you already have content, <strong><em>use your token</em></strong></h3>
+            <input Id="token" @bind="tokenstring" class="form-control-index small" style=" font-size:20px; border-radius: 8px" placeholder="example: 24256aG-A90n56D3-a722" autofocus />
+            <br />
+            <Button Class="btn btn-load btn-lg" @onclick="navigate">Load</Button>
         </div>
     </div>
 </div>
 
-@code{
+
+
+@code {
 
     string tokenstring;
     string url;
@@ -39,9 +43,10 @@
         return base.OnInitializedAsync();
     }
 
-    void navigate(){
-        if (tokenstring!="")           
+    void navigate()
+    {
+        if (tokenstring != "")
             NavigationManager.NavigateTo("/App/" + tokenstring);
-        
+
     }
 }

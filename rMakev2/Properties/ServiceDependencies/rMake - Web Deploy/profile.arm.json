@@ -16,7 +16,8 @@
       "type": "string",
       "defaultValue": "centralus",
       "metadata": {
-        "description": "Location of the resource group. Resource groups could have different location than resources, however by default we use API versions from latest hybrid profile which support all locations for resource types we support."
+        "description": "Location of the resource group. Resource groups could have different location than resources, however by default we use API versions from la
+          hybrid profile which support all locations for resource types we support."
       }
     },
     "resourceName": {
