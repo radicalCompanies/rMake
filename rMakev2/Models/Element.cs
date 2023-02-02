@@ -20,9 +20,24 @@ namespace rMakev2.Models
             Document = document;
             Document.Elements.Add(this);
         }
+        public Element(Document document, int previousElement)
+        {
+            Document = document ?? throw new Exceptions("Document is null");
+            Id = Guid.NewGuid().ToString();
+            Content = "";
+            Order = previousElement + 1;
+            foreach (var item in Document.Elements.Where(w => w.Order > previousElement+1))
+            {
+                item.Order = item.Order + 1;
+            }
+            DocumentId = document.Id;
+            Document = document;
+            Document.Elements.Add(this);
+        }
         public string Id { get; set; }
         public string Content { get; set; }
         public int Order { get; set; }
+        public int AppearingOrder { get; set; }
         public string Ideary { get; set; }
         public string DocumentId { get; set; }
         [JsonIgnore]

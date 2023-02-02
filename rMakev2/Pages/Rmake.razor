@@ -177,8 +177,8 @@
         @foreach (var item in vm.Ui.SelectedDocument.Elements.OrderBy(w => w.Order))
         {
             <div class="col-lg-9 col-md-10 col-sm-12">
-                <rMakev2.Components.TextAreaComponent BindingValue=@item.Content OrderId=@item.Order ElementId="@item.Id"/>
-
+                
+                 <rMakev2.Components.TextAreaComponent @bind-BindingValue=@item.Content OrderId=@item.Order />
                 <span class="badge bg-primary small">
                     Hash: @item.Hash
                 </span>

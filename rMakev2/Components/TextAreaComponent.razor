@@ -3,10 +3,9 @@
 @inject RmakeViewModel vm;
 @inject IJSRuntime jsr;
 
-
 <RichTextEdit @ref="richTextEditRef"
               Theme="RichTextEditTheme.Bubble"
-              
+              ContentChanged="@OnContentChanged"
               PlaceHolder="Start writting"
               id="@AreaOrderId"
               ReadOnly="@readOnly"
@@ -14,8 +13,7 @@
               @onkeydown="KeyPress"
               ToolbarPosition="Blazorise.Placement.Top">
     <Editor>
-     
-        @((MarkupString)BindingValue)
+        @BindingValue
 
     </Editor>
     <Toolbar>
@@ -50,10 +48,10 @@
 
 @code {
 
-    private List<string> Keys { get; set; } = new List<string>();
-    public async Task KeyPress(KeyboardEventArgs e)
+    private List<DateTime> Keys { get; set; } = new List<DateTime>();
+    public void KeyPress(KeyboardEventArgs e)
     {
-        var test = vm.App.Ui.SelectedDocument.Elements.FirstOrDefault(x => x.Id == ElementId).Content = await richTextEditRef.GetHtmlAsync();
+
         if (e.Code == "Enter" || e.Code == "NumpadEnter")
         {
             vm.Ui.BlockRTAFocus = false;
@@ -61,25 +59,24 @@
 
             if (Keys.Any())
             {
-                string last = Keys.Last();
-                if (last == "Enter")
+                DateTime last = Keys.Last();
+                
+                if (DateTime.UtcNow<= last.AddMilliseconds(500))
                 {
-                    vm.NewElement();
+                    vm.NewElement(OrderId);                  
                     Keys.Clear();
                 }
             }
             else
             {
-                Keys.Add("Enter");
+                Keys.Add(DateTime.UtcNow);
 
             }
-            Save();
         }
         else
         {
             vm.Ui.BlockRTAFocus = true;
             Keys.Clear();
-            Save();
         }
 
     }
@@ -90,12 +87,32 @@
     protected string? contentAsHtml;
     protected string AreaOrderId;
 
+    public async Task OnContentChanged()
+    {
+        contentAsHtml = await richTextEditRef.GetHtmlAsync();
+        _value = contentAsHtml;
+        await BindingValueChanged.InvokeAsync(contentAsHtml);
+    }
+
+
+    private string _value;
     [Parameter]
-    public string BindingValue {get;set;}
+    public string BindingValue
+    {
+        get => _value;
+        set
+        {
+            if (_value == value) return;
+
+            _value = value;
+            if (richTextEditRef != null)
+                richTextEditRef.SetHtmlAsync(_value);
+        }
+    }
+
 
 
     private int orderId;
-
     [Parameter]
     public int OrderId
     {
@@ -110,14 +127,8 @@
         }
     }
 
-    public void Save(){
-        vm.App.Ui.SelectedDocument.Elements.FirstOrDefault(x => x.Id == ElementId).Content = BindingValue;
-    }
-
     [Parameter]
-    public string ElementId{ get; set; }
-
-
+    public EventCallback<string> BindingValueChanged { get; set; }
 
     protected override Task OnAfterRenderAsync(bool firstRender)
     {
@@ -130,21 +141,9 @@
         if (vm.Ui.BlockRTAFocus == false)
         {
             string elementId = vm.Ui.SelectedDocument.Elements.OrderBy(w => w.Order).Last().Order.ToString();
-            jsr.InvokeVoidAsync("focusLastTextEditor", elementId);
+            jsr.InvokeVoidAsync("focusLastTextEditor", elementId);                   
             vm.Ui.BlockRTAFocus = false;
-            
         }
-        
         return base.OnAfterRenderAsync(firstRender);
     }
-
-    protected override Task OnInitializedAsync()
-    {
-
-        return base.OnInitializedAsync();
-    }
-
-//Le quité el two way binding, para hacerlo de una sola via y que en el on keyPres actualice el VIewModel y ya.
 }
-
-        

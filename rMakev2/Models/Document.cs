@@ -38,6 +38,11 @@ namespace rMakev2.Models
             Element newElement = new Element(document);            
             return newElement;
         }
+        public Element AddElement(Document document, int currentElement)
+        {
+            Element newElement = new Element(document, currentElement);
+            return newElement;
+        }
         public Element RemoveElement(Element element)
         {
             Elements.Remove(element);
@@ -49,7 +54,6 @@ namespace rMakev2.Models
             Element current = Elements.Where(w => w.Id == element.Id).SingleOrDefault();
             current.Order = order;
             current.Content = order.ToString();
-
         }
       
     }
