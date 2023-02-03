@@ -31,17 +31,17 @@ a, .btn-link {
     margin-left: 15%;
 }
 
-.btn-load {
-    color: #000000;
-    background-color: transparent;
-    border-color: #000000;
-    border-radius: 8px;
-    position: relative;
-    text-align: center;
-    padding: 10px 100px;
-    top: 50%;
-    transform: translateY(-50%);
-}
+    .btn-load {
+        color: #000000;
+        background-color: transparent;
+        border-color: #000000;
+        border-radius: 8px;
+        position: relative;
+        text-align: center;
+        padding: 10px 100px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
 
 
 
@@ -130,7 +130,7 @@ h3 {
     text-align: left;
     color: #000000;
     position: relative;
-    top: 40%;
+    top: 50%;
     transform: translateY(-50%);
     margin-left: 15%;
 }

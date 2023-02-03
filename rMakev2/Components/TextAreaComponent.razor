@@ -13,7 +13,7 @@
               @onkeydown="KeyPress"
               ToolbarPosition="Blazorise.Placement.Top">
     <Editor>
-        @BindingValue
+        @((MarkupString)BindingValue)
 
     </Editor>
     <Toolbar>
