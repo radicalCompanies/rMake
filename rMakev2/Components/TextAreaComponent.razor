@@ -59,6 +59,7 @@
 
             if (Keys.Any())
             {
+                
                 DateTime last = Keys.Last();
                 
                 if (DateTime.UtcNow<= last.AddMilliseconds(500))
@@ -69,6 +70,9 @@
             }
             else
             {
+                
+                
+                
                 Keys.Add(DateTime.UtcNow);
 
             }
