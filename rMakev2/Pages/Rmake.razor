@@ -151,18 +151,16 @@
             </div>
         </div>
     </div>
-
+    <div>
+        <Icon  Name="IconName.List" />
+        <span>@vm.Ui.SelectedProject.Name</span>
+        <i class='bx bx-menu'></i>
+    </div>
     <div class="row Hola">
         <div class="Menu col-2">  @*Clase para el menu de la izquierda*@
             <div class="sidebar close">
-                <div class="logo-details">
-                    <i class='bx bxl-c-plus-plus'></i>
-                    <span class="logo_name">CodingLab</span>
-                    <i class='bx bx-menu close-menu'></i>
-                </div>
                 <ul class="nav-links">
                     <li>
-
                             <i class='bx bx-grid-alt'></i>
                             @if (@vm.Ui.EditProjectName == false)
                             {
@@ -210,7 +208,7 @@
                                 <input Id="ProjectName" @bind="@vm.Ui.SelectedProject.Name" @onblur="vm.UnBlockRTAFocus" @onkeydown="@vm.Enter" @bind:event="oninput" class="form-control-plaintext small" style=" font-size:24px; " placeholder="Project Name" autofocus @onclick="vm.BlockRTAFocus" />
 
                             }
-                            <span class="link_name">@vm.Ui.SelectedProject.Name</span>
+                            
                         <ul class="sub-menu blank">
                             <li><a class="link_name" href="#">Category</a></li>
                         </ul>
@@ -218,7 +216,6 @@
                     <li>
                         <div class="iocn-link">
                             <a href="#">
-                                <i class='bx bx-collection'></i>
                                 <span class="link_name">Category</span>
                             </a>
                             <i class='bx bxs-chevron-down arrow'></i>
