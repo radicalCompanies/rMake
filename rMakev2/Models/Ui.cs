@@ -45,6 +45,7 @@ namespace rMakev2.Models
         public bool EditedProjectName { get; set; } = false;
         public bool BlockRTAFocus { get; set; } = true;
 
+        public bool DisplayMenu { get; set; } = false;
 
 
 
@@ -77,6 +78,19 @@ namespace rMakev2.Models
             {
                 EditProjectName = true;
                 BlockRTAFocus = true;
+            }
+        }
+
+        public void ShowMenu()
+        {
+
+            if (DisplayMenu == true)
+            {
+                DisplayMenu = false;
+            }
+            else
+            {
+                DisplayMenu = true;
             }
         }
         public string JsonFn()

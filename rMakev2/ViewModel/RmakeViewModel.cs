@@ -244,6 +244,11 @@ namespace rMakev2.ViewModel
 
 
         }
+
+        public void DisplayMenu()
+        {
+            Ui.ShowMenu();
+        }
         public void Enter(KeyboardEventArgs e)
         {
             if (e.Code == "Enter" || e.Code == "NumpadEnter")

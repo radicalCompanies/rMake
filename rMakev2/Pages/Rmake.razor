@@ -40,15 +40,15 @@
                         <a href=""><img src="svgs/asset 1.svg" style="height: 20px; width:20px" /> </a>
                         <a href=""><img src="svgs/asset 2.svg" style="height: 20px; width:20px" /> </a>
                         <a href=""><img src="svgs/asset 3.svg" style="height: 20px; width:20px" /> </a>
-                      
+
                     </div>
                 </div>
-                
+
             </div>
         </div>
-        
-        
-       
+
+
+
 
     </div>
 
@@ -65,48 +65,48 @@
                 @*
                 @if (@vm.Ui.EditProjectName == false)
                 {
-                    <select @onchange="vm.EventSelectProject" class="form-select " style="border:none;">
-                        @foreach (var item in vm.App.Data.Projects)
-                        {
-                            if (item == vm.Ui.SelectedProject)
-                            {
-                                if (item.Name == "")
-                                {
-                                    <option value="@item.Id" selected="selected">Project (@item.Id)</option>
-                                }
-                                else
-                                {
-
-                                    <option value="@item.Id" selected="selected">@item.Name</option>
-                                }
-                            }
-                            else
-                            {
-                                if (item.Name == "")
-                                {
-                                    <option value="@item.Id">Project (@item.Id)</option>
-                                }
-                                else
-                                {
-
-                                    <option value="@item.Id">@item.Name</option>
-                                }
-                            }
-                        }
-                    </select>
-                    @if (vm.Ui.SelectedProject.ParentProjectId == null)
-                    {
-                        <div class="badge bg-secondary">Root project</div>
-                    }
-                    else
-                    {
-                        <div class="badge bg-secondary">@vm.Ui.SelectedProject.ParentProjectId</div>
-
-                    }
+                <select @onchange="vm.EventSelectProject" class="form-select " style="border:none;">
+                @foreach (var item in vm.App.Data.Projects)
+                {
+                if (item == vm.Ui.SelectedProject)
+                {
+                if (item.Name == "")
+                {
+                <option value="@item.Id" selected="selected">Project (@item.Id)</option>
                 }
                 else
                 {
-                    <input Id="ProjectName" @bind="@vm.Ui.SelectedProject.Name" @onblur="vm.UnBlockRTAFocus" @onkeydown="@vm.Enter" @bind:event="oninput" class="form-control-plaintext small" style=" font-size:24px; " placeholder="Project Name" autofocus @onclick="vm.BlockRTAFocus" />
+
+                <option value="@item.Id" selected="selected">@item.Name</option>
+                }
+                }
+                else
+                {
+                if (item.Name == "")
+                {
+                <option value="@item.Id">Project (@item.Id)</option>
+                }
+                else
+                {
+
+                <option value="@item.Id">@item.Name</option>
+                }
+                }
+                }
+                </select>
+                @if (vm.Ui.SelectedProject.ParentProjectId == null)
+                {
+                <div class="badge bg-secondary">Root project</div>
+                }
+                else
+                {
+                <div class="badge bg-secondary">@vm.Ui.SelectedProject.ParentProjectId</div>
+
+                }
+                }
+                else
+                {
+                <input Id="ProjectName" @bind="@vm.Ui.SelectedProject.Name" @onblur="vm.UnBlockRTAFocus" @onkeydown="@vm.Enter" @bind:event="oninput" class="form-control-plaintext small" style=" font-size:24px; " placeholder="Project Name" autofocus @onclick="vm.BlockRTAFocus" />
 
                 }
                 *@
@@ -114,84 +114,88 @@
 
 
             </div>
-         @*   <div style="float:left; width:15%">
+            @*   <div style="float:left; width:15%">
 
-                <button @onclick="vm.SwitchProjectName" class="btn btn-light rounded-circle"><Icon Name="IconName.Edit" /> </button>
-
-
-            </div>
-            <div style="float:left; width:15%">
-
-                <button @onclick="vm.NewProject" class="btn btn-light rounded-circle"><Icon Name="IconName.Add" /> </button>
+            <button @onclick="vm.SwitchProjectName" class="btn btn-light rounded-circle"><Icon Name="IconName.Edit" /> </button>
 
 
             </div>
             <div style="float:left; width:15%">
 
-                <button @onclick="vm.DeleteProject" class="btn btn-light rounded-circle"><Icon Name="IconName.Delete" /> </button>
-            
-            
+            <button @onclick="vm.NewProject" class="btn btn-light rounded-circle"><Icon Name="IconName.Add" /> </button>
+
+
+            </div>
+            <div style="float:left; width:15%">
+
+            <button @onclick="vm.DeleteProject" class="btn btn-light rounded-circle"><Icon Name="IconName.Delete" /> </button>
+
+
             </div>*@
 
         </div>
 
-       @* <div class="col-lg-3 col-md-2 col-sm-12">
-            <div style="float:left; width:70%">
-                <select @onchange="vm.EventSelectDocument" class="form-select" style="border:none;">
-                    @foreach (var item in vm.Ui.SelectedProject.Documents)
-                    {
-                        if (item == vm.Ui.SelectedDocument)
-                        {
-                            if (item.Name == "")
-                            {
-                                <option value="@item.Id" selected="selected">Title (@item.Order)</option>
-                            }
-                            else
-                            {
+        @* <div class="col-lg-3 col-md-2 col-sm-12">
+        <div style="float:left; width:70%">
+        <select @onchange="vm.EventSelectDocument" class="form-select" style="border:none;">
+        @foreach (var item in vm.Ui.SelectedProject.Documents)
+        {
+        if (item == vm.Ui.SelectedDocument)
+        {
+        if (item.Name == "")
+        {
+        <option value="@item.Id" selected="selected">Title (@item.Order)</option>
+        }
+        else
+        {
 
-                                <option value="@item.Id" selected="selected">@item.Name</option>
-                            }
-                        }
-                        else
-                        {
-                            if (item.Name == "")
-                            {
-                                <option value="@item.Id">Title (@item.Order)</option>
-                            }
-                            else
-                            {
+        <option value="@item.Id" selected="selected">@item.Name</option>
+        }
+        }
+        else
+        {
+        if (item.Name == "")
+        {
+        <option value="@item.Id">Title (@item.Order)</option>
+        }
+        else
+        {
 
-                                <option value="@item.Id">@item.Name</option>
-                            }
-                        }
-                    }
+        <option value="@item.Id">@item.Name</option>
+        }
+        }
+        }
 
-                </select>
-            </div>
+        </select>
+        </div>
 
-            <div style="float:left; width:15%">
+        <div style="float:left; width:15%">
 
-                <button @onclick="vm.NewDocument" class="btn btn-light rounded-circle"><Icon Name="IconName.Add" /> </button>
+        <button @onclick="vm.NewDocument" class="btn btn-light rounded-circle"><Icon Name="IconName.Add" /> </button>
 
-            </div>
-            <div style="float:left; width:15%">
+        </div>
+        <div style="float:left; width:15%">
 
-                <button @onclick="vm.DeleteDocument" class="btn btn-light rounded-circle"><Icon Name="IconName.Delete" /> </button>
+        <button @onclick="vm.DeleteDocument" class="btn btn-light rounded-circle"><Icon Name="IconName.Delete" /> </button>
 
 
-            </div>
+        </div>
         </div>*@
     </div>
     <div class="projectName">
-        <Icon  Name="IconName.Bars" IconSize="IconSize.Large" />
+        <button @onclick="vm.DisplayMenu" style="border:none; background:transparent;"><Icon Name="IconName.Bars" IconSize="IconSize.Large" /> </button>
         <span sytle="font-size: 18px;">@vm.Ui.SelectedProject.Name</span>
         <i class='bx bx-menu'></i>
     </div>
     <div class="row Hola">
-        <div class="Menu col-2">  @*Clase para el menu de la izquierda*@
-            <div class="sidebar close">
-                <ul class="nav-links">
-                    <li>
+        <div class="Menu col-2">
+            @if (vm.Ui.DisplayMenu == true)
+            {
+                @*        <div class="Menu col-2">*@
+                @*Clase para el menu de la izquierda*@
+                <div class="sidebar close">
+                    <ul class="nav-links">
+                        <li>
                             <i class='bx bx-grid-alt'></i>
                             @if (@vm.Ui.EditProjectName == false)
                             {
@@ -239,42 +243,45 @@
                                 <input Id="ProjectName" @bind="@vm.Ui.SelectedProject.Name" @onblur="vm.UnBlockRTAFocus" @onkeydown="@vm.Enter" @bind:event="oninput" class="form-control-plaintext small" style=" font-size:24px; " placeholder="Project Name" autofocus @onclick="vm.BlockRTAFocus" />
 
                             }
-                            
-                        <ul class="sub-menu blank">
-                            <li><a class="link_name" href="#">Category</a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <div class="iocn-link">
-                            <a href="#">
-                                <span class="link_name">Category</span>
-                            </a>
-                            <i class='bx bxs-chevron-down arrow'></i>
-                        </div>
-                        <ul class="sub-menu">
-                            <li><a class="link_name" href="#">Category</a></li>
-                            <li><a href="#">HTML & CSS</a></li>
-                            <li><a href="#">JavaScript</a></li>
-                            <li><a href="#">PHP & MySQL</a></li>
-                        </ul>
-                    </li>
-                    
-                </ul>
-            </div>
+
+                            <ul class="sub-menu blank">
+                                <li><a class="link_name" href="#">Category</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <div class="iocn-link">
+                                <a href="#">
+                                    <span class="link_name">Category</span>
+                                </a>
+                                <i class='bx bxs-chevron-down arrow'></i>
+                            </div>
+                            <ul class="sub-menu">
+                                <li><a class="link_name" href="#">Category</a></li>
+                                <li><a href="#">HTML & CSS</a></li>
+                                <li><a href="#">JavaScript</a></li>
+                                <li><a href="#">PHP & MySQL</a></li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </div>
+            
+            }
         </div>
-        <div class="Elements col-10"> @*Clase para los elements de la derecha*@
+        <div class="Elements col-10">
+                @*Clase para los elements de la derecha*@
             <div class="row mt-4">
                 <div class="col-lg-12 col-md-2 col-sm-12">
                     <input @bind="@vm.Ui.SelectedDocument.Name" @bind:event="oninput" id="PageName" autofocus="true" @onblur="vm.UnBlockRTAFocus" @onclick="vm.BlockRTAFocus" class="form-control-plaintext small" style=" font-size:28px; " placeholder="Title" />
                     <div style="position:relative;">
-                        @if (vm.Ui.SelectedDocument.ParentDocumentId == null)
-                        {
+                            @if (vm.Ui.SelectedDocument.ParentDocumentId == null)
+                            {
                             <div class="badge bg-success float-start" style="float:left; width:10%">Root Document</div>
-                        }
-                        else
-                        {
+                            }
+                            else
+                            {
                             <div class="badge bg-success" style="float:left; width:25%">@vm.Ui.SelectedDocument.ParentDocumentId</div>
-                        }
+                            }
                     </div>
                     <div class="clearfix"></div>
 
@@ -283,8 +290,8 @@
 
             <div class="row">
 
-                @foreach (var item in vm.Ui.SelectedDocument.Elements.OrderBy(w => w.Order))
-                {
+                    @foreach (var item in vm.Ui.SelectedDocument.Elements.OrderBy(w => w.Order))
+                    {
                     <div class="col-lg-8 col-md-10 col-sm-11">
 
                         <rMakev2.Components.TextAreaComponent @bind-BindingValue=@item.Content OrderId=@item.Order />
@@ -298,7 +305,7 @@
                         <button @onclick="()=>vm.MoveUp(item)" class="btn btn-light btn-sm"><Icon Name="IconName.ArrowUp" /></button>
                         <button @onclick="()=>vm.MoveDown(item)" class="btn btn-light btn-sm"><Icon Name="IconName.ArrowDown" /></button>
                     </div>
-                }
+                    }
 
                 <div class="col-8">
                     <button @onclick="vm.NewElement" class="btn btn-light btn-sm mt-3">New Element</button>
@@ -306,9 +313,9 @@
             </div>
         </div>
     </div>
-    
 
-    @*<div class="row">
+
+        @*<div class="row">
     <div class="col-12">
     <textarea style="background-color:black; color:lawngreen; width:500px; height:900px;">
     @vm.Ui.Json
@@ -319,7 +326,7 @@
 
 </div>
 
-@*<div class=" fixed-bottom mb-1">
+    @*<div class=" fixed-bottom mb-1">
     <div class=" container">
         <div class=" row">
             <div class=" col-12">
@@ -424,43 +431,43 @@
     </ModalContent>
 </Modal>
 
-@code
-{
-
-    [Parameter]
-    public string token { get; set; }
-
-
-    protected override async Task OnInitializedAsync()
-    {
-        try
-        {
-            if (token != "")
-                await vm.LoadProyectAsync(token);
-        }
-        catch
-        {
-
-        }
-
-
-    }
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    @code
     {
 
-        if (vm.Ui.EditProjectName == true && vm.Ui.EditedProjectName == false)
+        [Parameter]
+        public string token { get; set; }
+
+
+        protected override async Task OnInitializedAsync()
         {
-            await jsRuntime.InvokeVoidAsync("focusInput");
-            vm.Ui.EditedProjectName = true;
+            try
+            {
+                if (token != "")
+                    await vm.LoadProyectAsync(token);
+            }
+            catch
+            {
+
+            }
+
+
         }
 
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
 
-    }
+            if (vm.Ui.EditProjectName == true && vm.Ui.EditedProjectName == false)
+            {
+                await jsRuntime.InvokeVoidAsync("focusInput");
+                vm.Ui.EditedProjectName = true;
+            }
 
-    public async Task Focus()
-    {
-        vm.SwitchProjectName();
 
-    }
+        }
+
+        public async Task Focus()
+        {
+            vm.SwitchProjectName();
+
+        }
 }
