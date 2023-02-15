@@ -54,7 +54,7 @@
 
 
 
-    <div class="row mt-4 mb-4" style="height:90px;">
+    <div class="row mt-2 mb-2" style="height:30px;">
         <div class="col-lg-2 col-md-5 col-sm-12">
         </div>
         <div class="col-lg-4 col-md-2 col-sm-12">
@@ -265,23 +265,26 @@
 
                     </ul>
                 </div>
-            
+
             }
         </div>
         <div class="Elements col-10">
-                @*Clase para los elements de la derecha*@
+            @*Clase para los elements de la derecha*@
             <div class="row mt-4">
-                <div class="col-lg-12 col-md-2 col-sm-12">
+                <div class="col-2">
+                </div>
+                <div class="col-10">
+
                     <input @bind="@vm.Ui.SelectedDocument.Name" @bind:event="oninput" id="PageName" autofocus="true" @onblur="vm.UnBlockRTAFocus" @onclick="vm.BlockRTAFocus" class="form-control-plaintext small" style=" font-size:28px; " placeholder="Title" />
                     <div style="position:relative;">
-                            @if (vm.Ui.SelectedDocument.ParentDocumentId == null)
-                            {
+                        @if (vm.Ui.SelectedDocument.ParentDocumentId == null)
+                        {
                             <div class="badge bg-success float-start" style="float:left; width:10%">Root Document</div>
-                            }
-                            else
-                            {
+                        }
+                        else
+                        {
                             <div class="badge bg-success" style="float:left; width:25%">@vm.Ui.SelectedDocument.ParentDocumentId</div>
-                            }
+                        }
                     </div>
                     <div class="clearfix"></div>
 
@@ -289,10 +292,14 @@
             </div>
 
             <div class="row">
-
-                    @foreach (var item in vm.Ui.SelectedDocument.Elements.OrderBy(w => w.Order))
-                    {
-                    <div class="col-lg-8 col-md-10 col-sm-11">
+                @foreach (var item in vm.Ui.SelectedDocument.Elements.OrderBy(w => w.Order))
+                {
+                    <div class="col-2">
+                        <button @onclick="()=>vm.DeleteElement(item)" class="btn btn-light btn-sm"><Icon Name="IconName.Delete" /></button>
+                        <button @onclick="()=>vm.MoveUp(item)" class="btn btn-light btn-sm"><Icon Name="IconName.ArrowUp" /></button>
+                        <button @onclick="()=>vm.MoveDown(item)" class="btn btn-light btn-sm"><Icon Name="IconName.ArrowDown" /></button>
+                    </div>
+                    <div class="col-10">
 
                         <rMakev2.Components.TextAreaComponent @bind-BindingValue=@item.Content OrderId=@item.Order />
                         <span class="badge bg-primary small">
@@ -300,22 +307,20 @@
                         </span>
                     </div>
 
-                    <div class="col-lg-3 col-md-2 col-sm-12">
-                        <button @onclick="()=>vm.DeleteElement(item)" class="btn btn-light btn-sm"><Icon Name="IconName.Delete" /></button>
-                        <button @onclick="()=>vm.MoveUp(item)" class="btn btn-light btn-sm"><Icon Name="IconName.ArrowUp" /></button>
-                        <button @onclick="()=>vm.MoveDown(item)" class="btn btn-light btn-sm"><Icon Name="IconName.ArrowDown" /></button>
-                    </div>
-                    }
 
-                <div class="col-8">
-                    <button @onclick="vm.NewElement" class="btn btn-light btn-sm mt-3">New Element</button>
+                }
+                <div class="col-2">
+                
+                </div>
+                <div class="col-10">
+                    <button @onclick="vm.NewElement" class="btn btn-light btn-sm mt-3" style="font-size:24px">+</button>
                 </div>
             </div>
         </div>
     </div>
 
 
-        @*<div class="row">
+    @*<div class="row">
     <div class="col-12">
     <textarea style="background-color:black; color:lawngreen; width:500px; height:900px;">
     @vm.Ui.Json
@@ -326,7 +331,7 @@
 
 </div>
 
-    @*<div class=" fixed-bottom mb-1">
+@*<div class=" fixed-bottom mb-1">
     <div class=" container">
         <div class=" row">
             <div class=" col-12">
@@ -431,43 +436,43 @@
     </ModalContent>
 </Modal>
 
-    @code
+@code
+{
+
+    [Parameter]
+    public string token { get; set; }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            if (token != "")
+                await vm.LoadProyectAsync(token);
+        }
+        catch
+        {
+
+        }
+
+
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
 
-        [Parameter]
-        public string token { get; set; }
-
-
-        protected override async Task OnInitializedAsync()
+        if (vm.Ui.EditProjectName == true && vm.Ui.EditedProjectName == false)
         {
-            try
-            {
-                if (token != "")
-                    await vm.LoadProyectAsync(token);
-            }
-            catch
-            {
-
-            }
-
-
+            await jsRuntime.InvokeVoidAsync("focusInput");
+            vm.Ui.EditedProjectName = true;
         }
 
-        protected override async Task OnAfterRenderAsync(bool firstRender)
-        {
 
-            if (vm.Ui.EditProjectName == true && vm.Ui.EditedProjectName == false)
-            {
-                await jsRuntime.InvokeVoidAsync("focusInput");
-                vm.Ui.EditedProjectName = true;
-            }
+    }
 
+    public async Task Focus()
+    {
+        vm.SwitchProjectName();
 
-        }
-
-        public async Task Focus()
-        {
-            vm.SwitchProjectName();
-
-        }
+    }
 }
