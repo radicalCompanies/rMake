@@ -54,7 +54,7 @@
 
 
 
-    <div class="row mt-2 mb-2" style="height:30px;">
+    <div class="row mt-4 mb-4" style="height:30px;">
         <div class="col-lg-2 col-md-5 col-sm-12">
         </div>
         <div class="col-lg-4 col-md-2 col-sm-12">
@@ -183,7 +183,7 @@
         </div>*@
     </div>
     <div class="projectName">
-        <button @onclick="vm.DisplayMenu" style="border:none; background:transparent;"><Icon Name="IconName.Bars" IconSize="IconSize.Large" /> </button>
+        <button @onclick="vm.DisplayMenu" style="border:none; background:transparent; opacity: 0.5;"><Icon Name="IconName.Bars" IconSize="IconSize.Large" /> </button>
         <span sytle="font-size: 18px;">@vm.Ui.SelectedProject.Name</span>
         <i class='bx bx-menu'></i>
     </div>
@@ -199,7 +199,7 @@
                             <i class='bx bx-grid-alt'></i>
                             @if (@vm.Ui.EditProjectName == false)
                             {
-                                <select @onchange="vm.EventSelectProject" class="form-select " style="border:none;">
+                                <select @onchange="vm.EventSelectProject" class="form-select " style="border:none; background: #D9D9D9; font-weight: 700;">
                                     @foreach (var item in vm.App.Data.Projects)
                                     {
                                         if (item == vm.Ui.SelectedProject)
@@ -271,11 +271,11 @@
         <div class="Elements col-10">
             @*Clase para los elements de la derecha*@
             <div class="row mt-4">
-                <div class="col-2">
+                <div class="col-1">
                 </div>
                 <div class="col-10">
 
-                    <input @bind="@vm.Ui.SelectedDocument.Name" @bind:event="oninput" id="PageName" autofocus="true" @onblur="vm.UnBlockRTAFocus" @onclick="vm.BlockRTAFocus" class="form-control-plaintext small" style=" font-size:28px; " placeholder="Title" />
+                    <input @bind="@vm.Ui.SelectedDocument.Name" @bind:event="oninput" id="PageName" autofocus="true" @onblur="vm.UnBlockRTAFocus" @onclick="vm.BlockRTAFocus" class="form-control-plaintext small" style="color: #342e37; font-size:50px; " placeholder="Write your title here" />
                     <div style="position:relative;">
                         @if (vm.Ui.SelectedDocument.ParentDocumentId == null)
                         {
@@ -294,12 +294,13 @@
             <div class="row">
                 @foreach (var item in vm.Ui.SelectedDocument.Elements.OrderBy(w => w.Order))
                 {
-                    <div class="col-2">
-                        <button @onclick="()=>vm.DeleteElement(item)" class="btn btn-light btn-sm"><Icon Name="IconName.Delete" /></button>
-                        <button @onclick="()=>vm.MoveUp(item)" class="btn btn-light btn-sm"><Icon Name="IconName.ArrowUp" /></button>
-                        <button @onclick="()=>vm.MoveDown(item)" class="btn btn-light btn-sm"><Icon Name="IconName.ArrowDown" /></button>
+                    <div class="col-1 d-flex justify-content-center" >
+                        <button class="btn btn-light btn-sm" style="border:none; background:transparent; opacity: 0.5;"><Icon Name="IconName.Lightbulb" /></button>
+                        <button @onclick="()=>vm.MoveUp(item)" class="btn btn-light btn-sm" style="border:none; background:transparent; opacity: 0.5;"><Icon Name="IconName.ArrowUp" /></button>
+                        <button @onclick="()=>vm.MoveDown(item)" class="btn btn-light btn-sm" style="border:none; background:transparent; opacity: 0.5;"><Icon Name="IconName.ArrowDown" /></button>
+                        <button @onclick="()=>vm.DeleteElement(item)" class="btn btn-light btn-sm" style="border:none; background:transparent; opacity: 0.5;"><Icon Name="IconName.Delete" /></button>
                     </div>
-                    <div class="col-10">
+                    <div class="col-11">
 
                         <rMakev2.Components.TextAreaComponent @bind-BindingValue=@item.Content OrderId=@item.Order />
                         <span class="badge bg-primary small">
@@ -309,11 +310,10 @@
 
 
                 }
-                <div class="col-2">
-                
+                <div class="col-1">
                 </div>
-                <div class="col-10">
-                    <button @onclick="vm.NewElement" class="btn btn-light btn-sm mt-3" style="font-size:24px">+</button>
+                <div class="col-6 d-flex align-content-center">
+                    <button @onclick="vm.NewElement" class="btn btn-light btn-sm m-3" style="opacity: 0.5; border-radius: 50%;"><Icon Name="IconName.Add" IconSize="IconSize.x2" /></button>
                 </div>
             </div>
         </div>
