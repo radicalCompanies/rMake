@@ -6,48 +6,43 @@
 <PageTitle>rMake</PageTitle>
 <div class="container-fluid">
     <div class="row mt-1" style="height:50px;">
-        <div class="col-lg-2 col-md-5 col-sm-12">
-            
-               
-           
-
-
+       @* <div class="col-lg-2 col-md-5 col-sm-12">
         </div>
         <div class="col-lg-3 col-md-2 col-sm-12">
-        </div>
-        <div class="col-lg-2 col-md-2 col-sm-12">
-            <select class="form-select " style="border:thin; border-style:solid; text-align:right; ">
+        </div>*@
+        <div class="col-7">
+            <select class="form-select " style=" width:-webkit-fit-content; float:right; border:thin; border-style:solid; text-align:right; ">
                 <option value="1" selected="selected" style="color:#000">Data: @vm.App.Id</option>
                 <option value="1" style="color:#000">---</option>
                 <option value="2" style="color:crimson;">Cerrar</option>
             </select>
         </div>
 
-        <div class="col-lg-5">
+
+        <div class="col-5">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-2  mt-1">
-                        <a class="textMenu Underline" >Merge</a>
+                        <a class="textMenu Underline" style="float:right">Merge</a>
                     </div>
 
                     <div class="col-lg-3  mt-1">
-                        <a class="textMenu Underline" @onclick="vm.ForkProject">Fork project</a>
+                        <a class="textMenu Underline" style="float:right" @onclick="vm.ForkProject">Fork project</a>
                     </div>
                     <div class="col-lg-4  mt-1">
-                        <a class="textMenu Underline" @onclick="vm.CloneDocument">Clone document</a>
+                        <a class="textMenu Underline" style="float:right" @onclick="vm.CloneDocument">Clone document</a>
                     </div>
                     <div class="col-lg-3  mt-1">
 
-                        <a class="Underline" @onclick=" vm.ShowSaveModal"><img src="svgs/asset 1.svg" style="height: 20px; width:20px" /> </a>
-                        <a  class="Underline"><img src="svgs/asset 2.svg" style="height: 20px; width:20px" /> </a>
-                        <a class="Underline" @onclick=" vm.ShowPublishModal"><img src="svgs/asset 3.svg" style="height: 20px; width:20px" /> </a>
+                        <a class="Underline" @onclick=" vm.ShowSaveModal"><img src="svgs/asset 1.svg" style="height: 20px; width:20px; float:right" /> </a>
+                        <a class="Underline"><img src="svgs/asset 2.svg" style="height: 20px; width:20px; float:right" /> </a>
+                        <a class="Underline" @onclick=" vm.ShowPublishModal"><img src="svgs/asset 3.svg" style="height: 20px; width:20px; float:right" /> </a>
 
                     </div>
                 </div>
 
             </div>
         </div>
-
 
 
 
@@ -62,138 +57,138 @@
 
 
         </div>
-       
+
     </div>
 
 
-    <div class="row mt-4 mb-4" style="height:30px;">
-        <div class="col-lg-2 col-md-5 col-sm-12">
-        </div>
-        <div class="col-lg-4 col-md-2 col-sm-12">
-        </div>
-        <div class="col-lg-3 col-md-5 col-sm-12">
-            <div style="float:left; width:50%">
-
-                @*s
-                @if (@vm.Ui.EditProjectName == false)
-                {
-                <select @onchange="vm.EventSelectProject" class="form-select " style="border:none;">
-                @foreach (var item in vm.App.Data.Projects)
-                {
-                if (item == vm.Ui.SelectedProject)
-                {
-                if (item.Name == "")
-                {
-                <option value="@item.Id" selected="selected">Project (@item.Id)</option>
-                }
-                else
-                {
-
-                <option value="@item.Id" selected="selected">@item.Name</option>
-                }
-                }
-                else
-                {
-                if (item.Name == "")
-                {
-                <option value="@item.Id">Project (@item.Id)</option>
-                }
-                else
-                {
-
-                <option value="@item.Id">@item.Name</option>
-                }
-                }
-                }
-                </select>
-                @if (vm.Ui.SelectedProject.ParentProjectId == null)
-                {
-                <div class="badge bg-secondary">Root project</div>
-                }
-                else
-                {
-                <div class="badge bg-secondary">@vm.Ui.SelectedProject.ParentProjectId</div>
-
-                }
-                }
-                else
-                {
-                <input Id="ProjectName" @bind="@vm.Ui.SelectedProject.Name" @onblur="vm.UnBlockRTAFocus" @onkeydown="@vm.Enter" @bind:event="oninput" class="form-control-plaintext small" style=" font-size:24px; " placeholder="Project Name" autofocus @onclick="vm.BlockRTAFocus" />
-
-                }
-                *@
-
-
-
-            </div>
-            @*   <div style="float:left; width:15%">
-
-            <button @onclick="vm.SwitchProjectName" class="btn btn-light rounded-circle"><Icon Name="IconName.Edit" /> </button>
-
-
-            </div>
-            <div style="float:left; width:15%">
-
-            <button @onclick="vm.NewProject" class="btn btn-light rounded-circle"><Icon Name="IconName.Add" /> </button>
-
-
-            </div>
-            <div style="float:left; width:15%">
-
-            <button @onclick="vm.DeleteProject" class="btn btn-light rounded-circle"><Icon Name="IconName.Delete" /> </button>
-
-
-            </div>*@
-
-        </div>
-
-        @* <div class="col-lg-3 col-md-2 col-sm-12">
-        <div style="float:left; width:70%">
-        <select @onchange="vm.EventSelectDocument" class="form-select" style="border:none;">
-        @foreach (var item in vm.Ui.SelectedProject.Documents)
-        {
-        if (item == vm.Ui.SelectedDocument)
-        {
-        if (item.Name == "")
-        {
-        <option value="@item.Id" selected="selected">Title (@item.Order)</option>
-        }
-        else
-        {
-
-        <option value="@item.Id" selected="selected">@item.Name</option>
-        }
-        }
-        else
-        {
-        if (item.Name == "")
-        {
-        <option value="@item.Id">Title (@item.Order)</option>
-        }
-        else
-        {
-
-        <option value="@item.Id">@item.Name</option>
-        }
-        }
-        }
-
-        </select>
-        </div>
-
-        <div style="float:left; width:15%">
-
-        <button @onclick="vm.NewDocument" class="btn btn-light rounded-circle"><Icon Name="IconName.Add" /> </button>
-
-        </div>
-        <div style="float:left; width:15%">
-
-        <button @onclick="vm.DeleteDocument" class="btn btn-light rounded-circle"><Icon Name="IconName.Delete" /> </button>
-
-
-        </div>
-        </div>*@
+    @*<div class="row mt-4 mb-4" style="height:30px;">
+    <div class="col-lg-2 col-md-5 col-sm-12">
     </div>
+    <div class="col-lg-4 col-md-2 col-sm-12">
+    </div>
+    <div class="col-lg-3 col-md-5 col-sm-12">
+    <div style="float:left; width:50%">
+
+    @*s
+    @if (@vm.Ui.EditProjectName == false)
+    {
+    <select @onchange="vm.EventSelectProject" class="form-select " style="border:none;">
+    @foreach (var item in vm.App.Data.Projects)
+    {
+    if (item == vm.Ui.SelectedProject)
+    {
+    if (item.Name == "")
+    {
+    <option value="@item.Id" selected="selected">Project (@item.Id)</option>
+    }
+    else
+    {
+
+    <option value="@item.Id" selected="selected">@item.Name</option>
+    }
+    }
+    else
+    {
+    if (item.Name == "")
+    {
+    <option value="@item.Id">Project (@item.Id)</option>
+    }
+    else
+    {
+
+    <option value="@item.Id">@item.Name</option>
+    }
+    }
+    }
+    </select>
+    @if (vm.Ui.SelectedProject.ParentProjectId == null)
+    {
+    <div class="badge bg-secondary">Root project</div>
+    }
+    else
+    {
+    <div class="badge bg-secondary">@vm.Ui.SelectedProject.ParentProjectId</div>
+
+    }
+    }
+    else
+    {
+    <input Id="ProjectName" @bind="@vm.Ui.SelectedProject.Name" @onblur="vm.UnBlockRTAFocus" @onkeydown="@vm.Enter" @bind:event="oninput" class="form-control-plaintext small" style=" font-size:24px; " placeholder="Project Name" autofocus @onclick="vm.BlockRTAFocus" />
+
+    }
+
+
+
+
+    </div>
+    <div style="float:left; width:15%">
+
+    <button @onclick="vm.SwitchProjectName" class="btn btn-light rounded-circle"><Icon Name="IconName.Edit" /> </button>
+
+
+    </div>
+    <div style="float:left; width:15%">
+
+    <button @onclick="vm.NewProject" class="btn btn-light rounded-circle"><Icon Name="IconName.Add" /> </button>
+
+
+    </div>
+    <div style="float:left; width:15%">
+
+    <button @onclick="vm.DeleteProject" class="btn btn-light rounded-circle"><Icon Name="IconName.Delete" /> </button>
+
+
+    </div>
+
+    </div>
+
+    <div class="col-lg-3 col-md-2 col-sm-12">
+    <div style="float:left; width:70%">
+    <select @onchange="vm.EventSelectDocument" class="form-select" style="border:none;">
+    @foreach (var item in vm.Ui.SelectedProject.Documents)
+    {
+    if (item == vm.Ui.SelectedDocument)
+    {
+    if (item.Name == "")
+    {
+    <option value="@item.Id" selected="selected">Title (@item.Order)</option>
+    }
+    else
+    {
+
+    <option value="@item.Id" selected="selected">@item.Name</option>
+    }
+    }
+    else
+    {
+    if (item.Name == "")
+    {
+    <option value="@item.Id">Title (@item.Order)</option>
+    }
+    else
+    {
+
+    <option value="@item.Id">@item.Name</option>
+    }
+    }
+    }
+
+    </select>
+    </div>
+
+    <div style="float:left; width:15%">
+
+    <button @onclick="vm.NewDocument" class="btn btn-light rounded-circle"><Icon Name="IconName.Add" /> </button>
+
+    </div>
+    <div style="float:left; width:15%">
+
+    <button @onclick="vm.DeleteDocument" class="btn btn-light rounded-circle"><Icon Name="IconName.Delete" /> </button>
+
+
+    </div>
+    </div>
+    </div>*@
     <div class="projectName">
         <button @onclick="vm.DisplayMenu" style="border:none; background:transparent; opacity: 0.5;"><Icon Name="IconName.Bars" IconSize="IconSize.Large" /> </button>
         <span sytle="font-size: 18px;">@vm.Ui.SelectedProject.Name</span>
@@ -208,7 +203,7 @@
                 <div class="sidebar close">
                     <ul class="nav-links">
                         <li>
-                            <i class='bx bx-grid-alt'></i>
+                            @*<i class='bx bx-grid-alt'></i>*@
                             @if (@vm.Ui.EditProjectName == false)
                             {
                                 <select @onchange="vm.EventSelectProject" class="form-select " style="border:none; background: #D9D9D9; font-weight: 700;">
@@ -283,7 +278,7 @@
         <div class="Elements col-10">
             @*Clase para los elements de la derecha*@
             <div class="row mt-4">
-                <div class="col-1">
+                <div class="col-2">
                 </div>
                 <div class="col-10">
 
@@ -306,13 +301,16 @@
             <div class="row">
                 @foreach (var item in vm.Ui.SelectedDocument.Elements.OrderBy(w => w.Order))
                 {
-                    <div class="col-1 d-flex justify-content-center" >
-                        <button class="btn btn-light btn-sm" style="border:none; background:transparent; opacity: 0.5;"><Icon Name="IconName.Lightbulb" /></button>
-                        <button @onclick="()=>vm.MoveUp(item)" class="btn btn-light btn-sm" style="border:none; background:transparent; opacity: 0.5;"><Icon Name="IconName.ArrowUp" /></button>
-                        <button @onclick="()=>vm.MoveDown(item)" class="btn btn-light btn-sm" style="border:none; background:transparent; opacity: 0.5;"><Icon Name="IconName.ArrowDown" /></button>
-                        <button @onclick="()=>vm.DeleteElement(item)" class="btn btn-light btn-sm" style="border:none; background:transparent; opacity: 0.5;"><Icon Name="IconName.Delete" /></button>
+                    <div class="col-2">
+                        <button @onclick="()=>vm.DeleteElement(item)" class="btn btn-light btn-sm" style="float: right; border:none; background:transparent; opacity: 0.5;"><Icon Name="IconName.Delete" /></button>
+                        <button @onclick="()=>vm.MoveDown(item)" class="btn btn-light btn-sm" style="float: right; border:none; background:transparent; opacity: 0.5;"><Icon Name="IconName.ArrowDown" /></button>
+                        <button @onclick="()=>vm.MoveUp(item)" class="btn btn-light btn-sm" style="float: right; border:none; background:transparent; opacity: 0.5;"><Icon Name="IconName.ArrowUp" /></button>
+                        <button class="btn btn-light btn-sm" style="float: right; border:none; background:transparent; opacity: 0.5;"><Icon Name="IconName.Lightbulb" /></button>
+
+
+
                     </div>
-                    <div class="col-11">
+                    <div class="col-10">
 
                         <rMakev2.Components.TextAreaComponent @bind-BindingValue=@item.Content OrderId=@item.Order />
                         <span class="badge bg-primary small">
@@ -322,7 +320,7 @@
 
 
                 }
-                <div class="col-1">
+                <div class="col-2">
                 </div>
                 <div class="col-6 d-flex align-content-center">
                     <button @onclick="vm.NewElement" class="btn btn-light btn-sm m-3" style="opacity: 0.5; border-radius: 50%;"><Icon Name="IconName.Add" IconSize="IconSize.x2" /></button>
