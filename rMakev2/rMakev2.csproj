@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -7,14 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Blazored.Toast" Version="3.2.2" />
-    <PackageReference Include="Blazorise.Icons.Bootstrap" Version="1.1.4.1" />
-    <PackageReference Include="Blazorise.Icons.Material" Version="1.1.4.1" />
-	<PackageReference Include="Blazorise" Version="1.1.4.1" />
-	<PackageReference Include="Blazorise.Bootstrap" Version="1.1.4.1" />
-    <PackageReference Include="Blazorise.Icons.FontAwesome" Version="1.1.4.1" />
-    <PackageReference Include="Blazorise.RichTextEdit" Version="1.1.4.1" />
+    <PackageReference Include="Blazored.Toast" Version="4.0.0" />
+    <PackageReference Include="Blazorise.Icons.Bootstrap" Version="1.2.0" />
+    <PackageReference Include="Blazorise.Icons.Material" Version="1.2.0" />
+	<PackageReference Include="Blazorise" Version="1.2.0" />
+	<PackageReference Include="Blazorise.Bootstrap" Version="1.2.0" />
+    <PackageReference Include="Blazorise.Icons.FontAwesome" Version="1.2.0" />
+    <PackageReference Include="Blazorise.RichTextEdit" Version="1.2.0" />
+    <PackageReference Include="MudBlazor" Version="6.1.9" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.2" />
+    <PackageReference Include="Radzen.Blazor" Version="4.7.1" />
     <PackageReference Include="RestSharp" Version="108.0.3" />
   </ItemGroup>
 

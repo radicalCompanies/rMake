@@ -1,17 +1,17 @@
 
 using Blazorise.RichTextEdit;
-using Blazorise.RichTextEdit;
 using Blazorise;
 using Blazorise.Bootstrap;
 using Blazorise.Icons.FontAwesome;
 using rMakev2.ViewModel;
 using rMakev2.Services;
 using Blazored.Toast;
-
+using MudBlazor.Services;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddMudServices();
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
