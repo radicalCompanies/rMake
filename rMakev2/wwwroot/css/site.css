@@ -228,13 +228,17 @@ h4 {
 
 .hide {
     opacity: 0;
-    transition: all 0.5s ease;
+    transition: all 0.4s ease;
 }
 
-/*.myDiv:hover + .hide {
-    visibility: visible;
-    opacity: 1;
-}*/
+.server-select {
+    padding: 3px 35px 3px 10px;
+}
+
+.nav-bar-icons {
+    display: flex;
+    justify-content: space-evenly;
+}
 
 .hide:hover {
     opacity: 1;
@@ -271,7 +275,7 @@ h4 {
 }
 
 .sidebar .nav-links {
-    height: 150%;
+    height: auto;
     padding: 15px 0 0 0;
     overflow: auto;
     z-index: 2;
