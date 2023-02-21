@@ -376,11 +376,18 @@ namespace rMakev2.ViewModel
 
         }
 
+        public void ShowAreaComment()
+        {
+            App.Ui.DisplayComents= App.Ui.DisplayComents == true? false : true;
+        }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged()
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(null));
         }
+
+
     }
 }

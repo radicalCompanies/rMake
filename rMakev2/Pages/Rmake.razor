@@ -35,7 +35,7 @@
                     <div class="col-lg-3  mt-1">
 
                         <a class="Underline" @onclick=" vm.ShowSaveModal"><img src="svgs/asset 1.svg" style="height: 20px; width:20px; float:right" /> </a>
-                        <a class="Underline"><img src="svgs/asset 2.svg" style="height: 20px; width:20px; float:right" /> </a>
+                        <a class="Underline" @onclick=" vm.ShowAreaComment"><img src="svgs/asset 2.svg" style="height: 20px; width:20px; float:right" /> </a>
                         <a class="Underline" @onclick=" vm.ShowPublishModal"><img src="svgs/asset 3.svg" style="height: 20px; width:20px; float:right" /> </a>
 
                     </div>
@@ -265,7 +265,7 @@
 
             }
         </div>
-        <div class="Elements col-10">
+        <div class="Elements col-8">
             @*Clase para los elements de la derecha*@
             <div class="row mt-4">
                 <div class="col-2">
@@ -287,6 +287,8 @@
 
                 </div>
             </div>
+
+
 
             <div class="row">
                 @foreach (var item in vm.Ui.SelectedDocument.Elements.OrderBy(w => w.Order))
@@ -317,6 +319,17 @@
                 </div>
             </div>
         </div>
+
+        @if (vm.Ui.DisplayComents)
+        {
+            <div class="col-2 border border-dark" style=" margin-left:-15px">
+                <div>
+                    <textarea style="height: 20em; border:none; outline:none">hola here</textarea>
+                </div>
+            </div>
+            
+        }      
+        
     </div>
 
 
