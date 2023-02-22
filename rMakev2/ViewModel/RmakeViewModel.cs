@@ -113,6 +113,11 @@ namespace rMakev2.ViewModel
             Ui.SelectProject(project);
             this._toastService.ShowInfo("You have changed the project to " + project.Name);
         }
+        public void EventSelectDocumentMenu(Document document1)
+        {
+            Ui.SelectDocument(document1);
+            Ui.SelectProject(document1.Project);
+        }
         public void EventSelectDocument(ChangeEventArgs e)
         {
             string documentId = e.Value.ToString();

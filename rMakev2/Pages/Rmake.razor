@@ -3,6 +3,7 @@
 @using rMakev2.ViewModel;
 @inject RmakeViewModel vm;
 @inject IJSRuntime jsRuntime;
+@using MudBlazor;
 <PageTitle>rMake</PageTitle>
 <div class="container-fluid">
     <div class="row mt-1" style="height:50px;">
@@ -170,46 +171,36 @@
                 @*Clase para el menu de la izquierda*@
                 <div class="sidebar close">
                     <ul class="nav-links">
-                        @foreach (var item in vm.App.Data.Projects)
-                        {
-                            <MudPaper Width="250px" Class="py-3 mb-4" Elevation="0">
-                                <MudNavMenu>
-                                    <MudNavGroup Title="@item.Name" @bind-Expanded=_isExpanded>
+                        <MudPaper Width="150px">
+                            <MudList Clickable="true" @bind-SelectedItem="selectedItem" @bind-SelectedValue="selectedValue">
+                                @*<MudListSubheader>
+                                    Your drink:
+                                    <MudChip>
+                                        @(vm
+                                            selectedItem?.Text ?? "You are dry"
+                                            ) (@(
+                                         selectedValue?.ToString() ?? "0"
+                                         ))
+                                    </MudChip>
+                                </MudListSubheader>*@
+                                @foreach (var item in vm.App.Data.Projects)
+                                {
+                                    <MudListItem Text="@item.Name" Value="@item.Id">
+
+                                        <NestedList>
+                                            @foreach (var item1 in item.Documents)
+                                            {
+
+                                                <MudListItem Text="@item1.Name" Value="@item1.Id" @onclick="@(() => vm.EventSelectDocumentMenu(item1))">
+                                                </MudListItem>
 
 
-                                        @foreach (var item in vm.Ui.SelectedProject.Documents)
-                                        {
-                                            if (item == vm.Ui.SelectedDocument)
-                                            {
-                                                if (item.Name == "")
-                                                {
-                                                    <MudNavLink Href="@item.Id" @bind-Expanded=_isExpanded>Title (@item.Order)</MudNavLink>
-                                                    @*<option value="@item.Id" selected="selected">Title (@item.Order)</option>*@
-                                                }
-                                                else
-                                                {
-                                                    <MudNavLink Href="@item.Id" @bind-Expanded=_isExpanded>@item.Name</MudNavLink>
-                                                    @*<option value="@item.Id" selected="selected">@item.Name</option>*@
-                                                }
                                             }
-                                            else
-                                            {
-                                                if (item.Name == "")
-                                                {
-                                                    <MudNavLink Href="@item.Id" @bind-Expanded=_isExpanded>Title (@item.Order)</MudNavLink>
-                                                    @*<option value="@item.Id">Title (@item.Order)</option>*@
-                                                }
-                                                else
-                                                {
-                                                    <MudNavLink Href="@item.Id" @bind-Expanded=_isExpanded>@item.Name</MudNavLink>
-                                                    @*<option value="@item.Id">@item.Name</option>*@
-                                                }
-                                            }
-                                        }
-                                    </MudNavGroup>
-                                </MudNavMenu>
-                            </MudPaper>
-                        }
+                                        </NestedList>
+                                    </MudListItem>
+                                }
+                            </MudList>
+                        </MudPaper>
                         <li>
                             @*<i class='bx bx-grid-alt'></i>*@
                             @if (@vm.Ui.EditProjectName == false)
@@ -453,6 +444,8 @@
 {
 
     bool _isExpanded = true;
+    MudListItem selectedItem;
+    object selectedValue = 1;
 
     [Parameter]
     public string token { get; set; }
@@ -490,4 +483,5 @@
         vm.SwitchProjectName();
 
     }
+
 }
