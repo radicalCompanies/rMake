@@ -34,7 +34,7 @@
     <div class="row">
         <div class="col-lg-2 col-md-5 col-sm-12 ms-5">
 
-            <p style="font-size:60px;">rMake!</p>
+            <p style="font-size:40px;">rMake!</p>
             <p style="font-size:9px;"> V2 </p>
             @*<p style="font-size:9px">@vm.Ui.BlockRTAFocus</p>*@
 
@@ -137,8 +137,8 @@
         </div>
     </div>
 
-    <div class="projectName">
-        <button @onclick="vm.DisplayMenu" style="border:none; background:transparent; opacity: 0.5;"><Icon Name="IconName.Bars" IconSize="IconSize.Large" /> </button>
+    <div class="projectName d-flex justify-content-start align-items-center" style="width: fit-content;">
+        <button @onclick="vm.DisplayMenu" style="border:none; background:transparent; opacity: 0.3; padding-right: 12px;"><Icon Name="IconName.Bars" IconSize="IconSize.Large" /> </button>
 
         @if (@vm.Ui.EditProjectName == false)
         {
@@ -158,19 +158,18 @@
             <input Id="ProjectName" @bind="@vm.Ui.SelectedProject.Name" @onblur="vm.UnBlockRTAFocus" @onkeydown="@vm.Enter" @bind:event="oninput" class="form-control-plaintext small" style=" font-size:18px; " placeholder="Project Name" autofocus @onclick="vm.BlockRTAFocus" />
 
         }
-        <button @onclick="vm.SwitchProjectName" class="btn btn-light rounded-circle"><Icon Name="IconName.Edit" /> </button>
-        <i class='bx bx-menu'></i>
+        <button @onclick="vm.SwitchProjectName" class="btn btn-light rounded-circle hide-edit-icon" style="background-color: transparent; border-color: transparent;"><Icon Name="IconName.Edit" IconSize="IconSize.Small" /> </button>
+@*        <i class='bx bx-menu'></i>*@
     </div>
 
     <div class="row Hola">
         <div class="Menu col-2">
             @if (vm.Ui.DisplayMenu == true)
             {
-                @*        <div class="Menu col-2">*@
                 @*Clase para el menu de la izquierda*@
                 <div class="sidebar close">
                     <ul class="nav-links">
-                        <MudPaper Width="150px">
+                        <MudPaper Width="container">
                             <MudList Clickable="true" @bind-SelectedItem="selectedItem" @bind-SelectedValue="selectedValue">
                                 @foreach (var item in vm.App.Data.Projects)
                                 {
@@ -233,9 +232,9 @@
                 {
                     <div class="col-2 hide">
                         <button @onclick="()=>vm.DeleteElement(item)" class="btn btn-light btn-sm" style="float: right; border:none; background:transparent; opacity: 0.3;"><Icon Name="IconName.Delete" /></button>
-                        <button @onclick="()=>vm.MoveDown(item)" class="btn btn-light btn-sm" style="float: right; border:none; background:transparent; opacity: 0.5;"><Icon Name="IconName.ArrowDown" /></button>
-                        <button @onclick="()=>vm.MoveUp(item)" class="btn btn-light btn-sm" style="float: right; border:none; background:transparent; opacity: 0.5;"><Icon Name="IconName.ArrowUp" /></button>
-                        <button class="btn btn-light btn-sm" style="float: right; border:none; background:transparent; opacity: 0.5;"><Icon Name="IconName.Lightbulb" /></button>
+                        <button @onclick="()=>vm.MoveDown(item)" class="btn btn-light btn-sm" style="float: right; border:none; background:transparent; opacity: 0.3;"><Icon Name="IconName.ArrowDown" /></button>
+                        <button @onclick="()=>vm.MoveUp(item)" class="btn btn-light btn-sm" style="float: right; border:none; background:transparent; opacity: 0.3;"><Icon Name="IconName.ArrowUp" /></button>
+                        <button class="btn btn-light btn-sm" style="float: right; border:none; background:transparent; opacity: 0.3;"><Icon Name="IconName.Lightbulb" /></button>
 
 
 
