@@ -6,48 +6,31 @@
 @using MudBlazor;
 <PageTitle>rMake</PageTitle>
 <div class="container-fluid">
-    <div class="row mt-1" style="height:50px;">
-        @* <div class="col-lg-2 col-md-5 col-sm-12">
+    <div class="row mt-1 d-flex justify-content-end align-content-center align-items-center" style="height:50px;">
+        <select class="form-select align-items-center server-select" style=" width:-webkit-fit-content; float: left; border:thin; border-style:solid;">
+            <option value="1" selected="selected" style="color:#000">Data: @vm.App.Id</option>
+            <option value="1" style="color:#000">---</option>
+            <option value="2" style="color:crimson;">Cerrar</option>
+        </select>
+        <div style="float:left; width:10%;">
+            <a class="textMenu Underline" style="float:right">Merge</a>
         </div>
-        <div class="col-lg-3 col-md-2 col-sm-12">
-        </div>*@
-        <div class="col-7">
-            <select class="form-select " style=" width:-webkit-fit-content; float:right; border:thin; border-style:solid; text-align:right; ">
-                <option value="1" selected="selected" style="color:#000">Data: @vm.App.Id</option>
-                <option value="1" style="color:#000">---</option>
-                <option value="2" style="color:crimson;">Cerrar</option>
-            </select>
+        <div style="float:left; width:10%">
+            <a class="textMenu Underline" style="float:right" @onclick="vm.ForkProject">Fork project</a>
         </div>
-
-
-        <div class="col-5">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-2  mt-1">
-                        <a class="textMenu Underline" style="float:right">Merge</a>
-                    </div>
-
-                    <div class="col-lg-3  mt-1">
-                        <a class="textMenu Underline" style="float:right" @onclick="vm.ForkProject">Fork project</a>
-                    </div>
-                    <div class="col-lg-4  mt-1">
-                        <a class="textMenu Underline" style="float:right" @onclick="vm.CloneDocument">Clone document</a>
-                    </div>
-                    <div class="col-lg-3  mt-1">
-
-                        <a class="Underline" @onclick=" vm.ShowSaveModal"><img src="svgs/asset 1.svg" style="height: 20px; width:20px; float:right" /> </a>
-                        <a class="Underline" @onclick=" vm.ShowAreaComment"><img src="svgs/asset 2.svg" style="height: 20px; width:20px; float:right" /> </a>
-                        <a class="Underline" @onclick=" vm.ShowPublishModal"><img src="svgs/asset 3.svg" style="height: 20px; width:20px; float:right" /> </a>
-
-                    </div>
-                </div>
-
-            </div>
+        <div style="float:left; width:12%">
+            <a class="textMenu Underline" style="float:right" @onclick="vm.CloneDocument">Clone document</a>
         </div>
-
-
-
+        <div class="nav-bar-icons" style=" width:10%;">
+            <a class="Underline" @onclick=" vm.ShowSaveModal"><img src="svgs/asset 1.svg" style="height: 20px; width:20px; float:right" /> </a>
+            <a class="Underline"><img src="svgs/asset 2.svg" style="height: 20px; width:20px; float:right" /> </a>
+            <a class="Underline" @onclick=" vm.ShowPublishModal"><img src="svgs/asset 3.svg" style="height: 20px; width:20px; float:right" /> </a>
+        </div>
     </div>
+
+
+
+
     <div class="row">
         <div class="col-lg-2 col-md-5 col-sm-12 ms-5">
 
@@ -62,7 +45,7 @@
     </div>
 
     <div class="row d-flex justify-content-end mt-4 mb-4" style="height:30px;">
-        <div class="col-lg-3 col-md-5 col-sm-12">
+        @*<div class="col-lg-3 col-md-5 col-sm-12">
             <div style="float:left; width:50%">
 
                 @if (@vm.Ui.EditProjectName == false)
@@ -111,13 +94,10 @@
             <div style="float:left; width:15%">
                 <button @onclick="vm.SwitchProjectName" class="btn btn-light rounded-circle"><Icon Name="IconName.Edit" /> </button>
             </div>
-            <div style="float:left; width:15%">
-                <button @onclick="vm.NewProject" class="btn btn-light rounded-circle"><Icon Name="IconName.Add" /> </button>
-            </div>
-            <div style="float:left; width:15%">
+            <div style="float:left; width:30%">
                 <button @onclick="vm.DeleteProject" class="btn btn-light rounded-circle"><Icon Name="IconName.Delete" /> </button>
             </div>
-        </div>
+        </div>*@
         <div class="col-lg-3 col-md-2 col-sm-12">
             <div style="float:left; width:70%">
                 <select @onchange="vm.EventSelectDocument" class="form-select" style="border:none;">
@@ -159,7 +139,26 @@
 
     <div class="projectName">
         <button @onclick="vm.DisplayMenu" style="border:none; background:transparent; opacity: 0.5;"><Icon Name="IconName.Bars" IconSize="IconSize.Large" /> </button>
-        <span sytle="font-size: 18px;">@vm.Ui.SelectedProject.Name</span>
+
+        @if (@vm.Ui.EditProjectName == false)
+        {
+            <span sytle="font-size: 18px;">@vm.Ui.SelectedProject.Name</span>
+            @if (vm.Ui.SelectedProject.ParentProjectId == null)
+            {
+               // <div class="badge bg-secondary">Root project</div>
+            }
+            else
+            {
+               // <div class="badge bg-secondary">@vm.Ui.SelectedProject.ParentProjectId</div>
+
+            }
+        }
+        else
+        {
+            <input Id="ProjectName" @bind="@vm.Ui.SelectedProject.Name" @onblur="vm.UnBlockRTAFocus" @onkeydown="@vm.Enter" @bind:event="oninput" class="form-control-plaintext small" style=" font-size:18px; " placeholder="Project Name" autofocus @onclick="vm.BlockRTAFocus" />
+
+        }
+        <button @onclick="vm.SwitchProjectName" class="btn btn-light rounded-circle"><Icon Name="IconName.Edit" /> </button>
         <i class='bx bx-menu'></i>
     </div>
 
@@ -173,20 +172,9 @@
                     <ul class="nav-links">
                         <MudPaper Width="150px">
                             <MudList Clickable="true" @bind-SelectedItem="selectedItem" @bind-SelectedValue="selectedValue">
-                                @*<MudListSubheader>
-                                    Your drink:
-                                    <MudChip>
-                                        @(vm
-                                            selectedItem?.Text ?? "You are dry"
-                                            ) (@(
-                                         selectedValue?.ToString() ?? "0"
-                                         ))
-                                    </MudChip>
-                                </MudListSubheader>*@
                                 @foreach (var item in vm.App.Data.Projects)
                                 {
-                                    <MudListItem Text="@item.Name" Value="@item.Id">
-
+                                    <MudListItem Text="@item.Name" Value="@item.Id"> 
                                         <NestedList>
                                             @foreach (var item1 in item.Documents)
                                             {
@@ -198,60 +186,19 @@
                                             }
                                         </NestedList>
                                     </MudListItem>
+                                    <button @onclick="vm.DeleteProject" class="btn btn-light rounded-circle"><Icon Name="IconName.Delete" /> </button>
                                 }
                             </MudList>
                         </MudPaper>
                         <li>
                             @*<i class='bx bx-grid-alt'></i>*@
-                            @if (@vm.Ui.EditProjectName == false)
-                            {
-                                @*<select @onchange="vm.EventSelectProject" class="form-select " style="border:none; background: #D9D9D9; font-weight: 700;">
-                        @foreach (var item in vm.App.Data.Projects)
-                        {
-                        if (item == vm.Ui.SelectedProject)
-                        {
-                        if (item.Name == "")
-                        {
-                        <option value="@item.Id" selected="selected">Project (@item.Id)</option>
-                        }
-                        else
-                        {
 
-                        <option value="@item.Id" selected="selected">@item.Name</option>
-                        }
-                        }
-                        else
-                        {
-                        if (item.Name == "")
-                        {
-                        <option value="@item.Id">Project (@item.Id)</option>
-                        }
-                        else
-                        {
-
-                        <option value="@item.Id">@item.Name</option>
-                        }
-                        }
-                        }
-                        </select>*@
-                                @if (vm.Ui.SelectedProject.ParentProjectId == null)
-                                {
-                                    <div class="badge bg-secondary">Root project</div>
-                                }
-                                else
-                                {
-                                    <div class="badge bg-secondary">@vm.Ui.SelectedProject.ParentProjectId</div>
-
-                                }
-                            }
-                            else
-                            {
-                                <input Id="ProjectName" @bind="@vm.Ui.SelectedProject.Name" @onblur="vm.UnBlockRTAFocus" @onkeydown="@vm.Enter" @bind:event="oninput" class="form-control-plaintext small" style=" font-size:24px; " placeholder="Project Name" autofocus @onclick="vm.BlockRTAFocus" />
-
-                            }
 
                         </li>
                     </ul>
+                    <div class="justify-content-center">
+                        <button @onclick="vm.NewProject" class="btn btn-light" style="background-color:#B8C8DE; text-align: center; border-radius: 10px; ">New Project</button>
+                    </div>
                 </div>
 
             }
@@ -318,9 +265,9 @@
                     <textarea style="height: 20em; border:none; outline:none">hola here</textarea>
                 </div>
             </div>
-            
-        }      
-        
+
+        }
+
     </div>
 
 
