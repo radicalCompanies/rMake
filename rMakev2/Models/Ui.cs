@@ -46,7 +46,7 @@ namespace rMakev2.Models
         public bool BlockRTAFocus { get; set; } = true;
 
         public bool DisplayMenu { get; set; } = false;
-
+        public bool DisplayComents { get;set; } = false;
 
 
 
