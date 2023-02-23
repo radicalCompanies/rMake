@@ -23,7 +23,7 @@
         </div>
         <div class="nav-bar-icons" style=" width:10%;">
             <a class="Underline" @onclick=" vm.ShowSaveModal"><img src="svgs/asset 1.svg" style="height: 20px; width:20px; float:right" /> </a>
-            <a class="Underline"><img src="svgs/asset 2.svg" style="height: 20px; width:20px; float:right" /> </a>
+            <a class="Underline" @onclick=" vm.ShowAreaComment"><img src="svgs/asset 2.svg" style="height: 20px; width:20px; float:right" /> </a>
             <a class="Underline" @onclick=" vm.ShowPublishModal"><img src="svgs/asset 3.svg" style="height: 20px; width:20px; float:right" /> </a>
         </div>
     </div>
@@ -195,7 +195,7 @@
         {
             <div class="col-2 border border-dark" style=" margin-left:-15px">
                 <div>
-                    <textarea style="height: 20em; border:none; outline:none">hola here</textarea>
+                    <textarea style="height: 20em; border:none; outline:none; color: #342e37" placeholder="Comments Area"></textarea>
                 </div>
             </div>
 
