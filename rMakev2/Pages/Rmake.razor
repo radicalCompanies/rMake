@@ -44,112 +44,20 @@
 
     </div>
 
-    <div class="row d-flex justify-content-end mt-4 mb-4" style="height:30px;">
-        @*<div class="col-lg-3 col-md-5 col-sm-12">
-            <div style="float:left; width:50%">
-
-                @if (@vm.Ui.EditProjectName == false)
-                {
-                    <select @onchange="vm.EventSelectProject" class="form-select " style="border:none;">
-                        @foreach (var item in vm.App.Data.Projects)
-                        {
-                            if (item == vm.Ui.SelectedProject)
-                            {
-                                if (item.Name == "")
-                                {
-                                    <option value="@item.Id" selected="selected">Project (@item.Id)</option>
-                                }
-                                else
-                                {
-                                    <option value="@item.Id" selected="selected">@item.Name</option>
-                                }
-                            }
-                            else
-                            {
-                                if (item.Name == "")
-                                {
-                                    <option value="@item.Id">Project (@item.Id)</option>
-                                }
-                                else
-                                {
-                                    <option value="@item.Id">@item.Name</option>
-                                }
-                            }
-                        }
-                    </select>
-                    @if (vm.Ui.SelectedProject.ParentProjectId == null)
-                    {
-                        <div class="badge bg-secondary">Root project</div>
-                    }
-                    else
-                    {
-                        <div class="badge bg-secondary">@vm.Ui.SelectedProject.ParentProjectId</div>
-                    }
-                }
-                else
-                {
-                    <input Id="ProjectName" @bind="@vm.Ui.SelectedProject.Name" @onblur="vm.UnBlockRTAFocus" @onkeydown="@vm.Enter" @bind:event="oninput" class="form-control-plaintext small" style=" font-size:24px; " placeholder="Project Name" autofocus @onclick="vm.BlockRTAFocus" />
-                }
-            </div>
-            <div style="float:left; width:15%">
-                <button @onclick="vm.SwitchProjectName" class="btn btn-light rounded-circle"><Icon Name="IconName.Edit" /> </button>
-            </div>
-            <div style="float:left; width:30%">
-                <button @onclick="vm.DeleteProject" class="btn btn-light rounded-circle"><Icon Name="IconName.Delete" /> </button>
-            </div>
-        </div>*@
-        <div class="col-lg-3 col-md-2 col-sm-12">
-            <div style="float:left; width:70%">
-                <select @onchange="vm.EventSelectDocument" class="form-select" style="border:none;">
-                    @foreach (var item in vm.Ui.SelectedProject.Documents)
-                    {
-                        if (item == vm.Ui.SelectedDocument)
-                        {
-                            if (item.Name == "")
-                            {
-                                <option value="@item.Id" selected="selected">Title (@item.Order)</option>
-                            }
-                            else
-                            {
-                                <option value="@item.Id" selected="selected">@item.Name</option>
-                            }
-                        }
-                        else
-                        {
-                            if (item.Name == "")
-                            {
-                                <option value="@item.Id">Title (@item.Order)</option>
-                            }
-                            else
-                            {
-                                <option value="@item.Id">@item.Name</option>
-                            }
-                        }
-                    }
-                </select>
-            </div>
-            <div style="float:left; width:15%">
-                <button @onclick="vm.NewDocument" class="btn btn-light rounded-circle"><Icon Name="IconName.Add" /> </button>
-            </div>
-            <div style="float:left; width:15%">
-                <button @onclick="vm.DeleteDocument" class="btn btn-light rounded-circle"><Icon Name="IconName.Delete" /> </button>
-            </div>
-        </div>
-    </div>
 
     <div class="projectName d-flex justify-content-start align-items-center" style="width: fit-content;">
-        <button @onclick="vm.DisplayMenu" style="border:none; background:transparent; opacity: 0.3; padding-right: 12px;"><Icon Name="IconName.Bars" IconSize="IconSize.Large" /> </button>
+        <button @onclick="vm.DisplayMenu" style="border:none; background:transparent; opacity: 0.3;"><Icon Name="IconName.Bars" IconSize="IconSize.Large" /> </button>
 
         @if (@vm.Ui.EditProjectName == false)
         {
             <span sytle="font-size: 18px;">@vm.Ui.SelectedProject.Name</span>
             @if (vm.Ui.SelectedProject.ParentProjectId == null)
             {
-               // <div class="badge bg-secondary">Root project</div>
+                // <div class="badge bg-secondary">Root project</div>
             }
             else
             {
-               // <div class="badge bg-secondary">@vm.Ui.SelectedProject.ParentProjectId</div>
+                // <div class="badge bg-secondary">@vm.Ui.SelectedProject.ParentProjectId</div>
 
             }
         }
@@ -159,7 +67,6 @@
 
         }
         <button @onclick="vm.SwitchProjectName" class="btn btn-light rounded-circle hide-edit-icon" style="background-color: transparent; border-color: transparent;"><Icon Name="IconName.Edit" IconSize="IconSize.Small" /> </button>
-@*        <i class='bx bx-menu'></i>*@
     </div>
 
     <div class="row Hola">
@@ -169,31 +76,58 @@
                 @*Clase para el menu de la izquierda*@
                 <div class="sidebar close">
                     <ul class="nav-links">
-                        <MudPaper Width="container">
+                        <MudPaper Width="auto">
                             <MudList Clickable="true" @bind-SelectedItem="selectedItem" @bind-SelectedValue="selectedValue">
                                 @foreach (var item in vm.App.Data.Projects)
                                 {
-                                    <MudListItem Text="@item.Name" Value="@item.Id"> 
+
+                                    <MudListItem Text="@item.Name" Value="@item.Id">
+
                                         <NestedList>
                                             @foreach (var item1 in item.Documents)
                                             {
 
-                                                <MudListItem Text="@item1.Name" Value="@item1.Id" @onclick="@(() => vm.EventSelectDocumentMenu(item1))">
-                                                </MudListItem>
+
+                                                @if (item1.Name == "")
+                                                {
+                                                    <MudListItem Text="@item1.Name" Value="@item1.Id" @onclick="@(() => vm.EventSelectDocumentMenu(item1))">
+                                                        Titulo (@item1.Order)
+                                                        <MudIconButton Style="opacity: 0.3" @onclick="vm.DeleteDocument">
+                                                        <Icon Name="IconName.Delete" /> </MudIconButton>
+                                                        </MudListItem>
+                                                }
+                                                else
+                                                {
+                                                    <MudListItem Text="@item1.Name" Value="@item1.Id" @onclick="@(() => vm.EventSelectDocumentMenu(item1))">
+                                                        @item1.Name
+                                                        <MudIconButton Style="opacity: 0.3" @onclick="vm.DeleteDocument"><Icon Name="IconName.Delete" /> </MudIconButton>
+                                                    </MudListItem>
+                                                }
+
+
+
+
 
 
                                             }
+                                            <MudIconButton Style="opacity: 0.3"@onclick="vm.NewDocument"><Icon Name="IconName.Add" /> </MudIconButton>
                                         </NestedList>
+                                        <ChildContent>
+                                            @item.Name
+                                            <MudIconButton Style="opacity: 0.3"@onclick="vm.DeleteProject"><Icon Name="IconName.Delete" /> </MudIconButton>
+                                        </ChildContent>
                                     </MudListItem>
-                                    <button @onclick="vm.DeleteProject" class="btn btn-light rounded-circle"><Icon Name="IconName.Delete" /> </button>
+
+
+
                                 }
                             </MudList>
+
+
+
                         </MudPaper>
-                        <li>
-                            @*<i class='bx bx-grid-alt'></i>*@
 
 
-                        </li>
                     </ul>
                     <div class="justify-content-center">
                         <button @onclick="vm.NewProject" class="btn btn-light" style="background-color:#B8C8DE; text-align: center; border-radius: 10px; ">New Project</button>
