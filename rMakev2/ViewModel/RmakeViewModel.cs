@@ -144,7 +144,7 @@ namespace rMakev2.ViewModel
             if (App.Data.Projects.Count() >= 1)
             {
                 App.Data.RemoveProject(Ui.SelectedProject);
-                SelectProject(App.Data.Projects.First());
+                //SelectProject(App.Data.Projects.First());
                 this._toastService.ShowSuccess("Project eliminated");
             }
             else

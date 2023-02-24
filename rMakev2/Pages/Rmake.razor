@@ -46,95 +46,130 @@
 
 
     <div class="projectName d-flex justify-content-start align-items-center" style="width: fit-content;">
-        <button @onclick="vm.DisplayMenu" style="border:none; background:transparent; opacity: 0.3;"><Icon Name="IconName.Bars" IconSize="IconSize.Large" /> </button>
+        @*<div style="postion:fixed">
+            <button @onclick="vm.DisplayMenu" style="border:none; background:transparent; opacity: 0.3;"><Icon Name="IconName.Bars" IconSize="IconSize.Large" /> </button>
 
-        @if (@vm.Ui.EditProjectName == false)
-        {
-            <span sytle="font-size: 18px;">@vm.Ui.SelectedProject.Name</span>
-            @if (vm.Ui.SelectedProject.ParentProjectId == null)
+            @if (@vm.Ui.EditProjectName == false)
             {
-                // <div class="badge bg-secondary">Root project</div>
+                <span sytle="font-size: 18px;">@vm.Ui.SelectedProject.Name</span>
+                @if (vm.Ui.SelectedProject.ParentProjectId == null)
+                {
+                    // <div class="badge bg-secondary">Root project</div>
+                }
+                else
+                {
+                    // <div class="badge bg-secondary">@vm.Ui.SelectedProject.ParentProjectId</div>
+
+                }
             }
             else
             {
-                // <div class="badge bg-secondary">@vm.Ui.SelectedProject.ParentProjectId</div>
+                <input Id="ProjectName" @bind="@vm.Ui.SelectedProject.Name" @onblur="vm.UnBlockRTAFocus" @onkeydown="@vm.Enter" @bind:event="oninput" class="form-control-plaintext small" style=" font-size:18px; " placeholder="Project Name" autofocus @onclick="vm.BlockRTAFocus" />
 
             }
-        }
-        else
-        {
-            <input Id="ProjectName" @bind="@vm.Ui.SelectedProject.Name" @onblur="vm.UnBlockRTAFocus" @onkeydown="@vm.Enter" @bind:event="oninput" class="form-control-plaintext small" style=" font-size:18px; " placeholder="Project Name" autofocus @onclick="vm.BlockRTAFocus" />
 
-        }
-        <button @onclick="vm.SwitchProjectName" class="btn btn-light rounded-circle hide-edit-icon" style="background-color: transparent; border-color: transparent;"><Icon Name="IconName.Edit" IconSize="IconSize.Small" /> </button>
+            <button @onclick="vm.SwitchProjectName" class="btn btn-light rounded-circle hide-edit-icon" style="background-color: transparent; border-color: transparent;"><Icon Name="IconName.Edit" IconSize="IconSize.Small" /> </button>
+        </div>*@
     </div>
 
     <div class="row Hola">
         <div class="Menu col-2">
-            @if (vm.Ui.DisplayMenu == true)
-            {
-                @*Clase para el menu de la izquierda*@
-                <div class="sidebar close">
-                    <ul class="nav-links">
-                        <MudPaper Width="auto">
-                            <MudList Clickable="true" @bind-SelectedItem="selectedItem" @bind-SelectedValue="selectedValue">
-                                @foreach (var item in vm.App.Data.Projects)
-                                {
+            <div style="position:fixed">
+                <div class="projectName d-flex justify-content-start align-items-center" style="width: fit-content;">
+                    <div style="postion:fixed">
+                        <button @onclick="vm.DisplayMenu" style="border:none; background:transparent; opacity: 0.3;"><Icon Name="IconName.Bars" IconSize="IconSize.Large" /> </button>
 
-                                    <MudListItem Text="@item.Name" Value="@item.Id">
+                        @if (@vm.Ui.EditProjectName == false)
+                        {
+                            <span sytle="font-size: 18px;">@vm.Ui.SelectedProject.Name</span>
+                            @if (vm.Ui.SelectedProject.ParentProjectId == null)
+                            {
+                                // <div class="badge bg-secondary">Root project</div>
+                            }
+                            else
+                            {
+                                // <div class="badge bg-secondary">@vm.Ui.SelectedProject.ParentProjectId</div>
 
-                                        <NestedList>
-                                            @foreach (var item1 in item.Documents)
-                                            {
+                            }
+                        }
+                        else
+                        {
+                            <input Id="ProjectName" @bind="@vm.Ui.SelectedProject.Name" @onblur="vm.UnBlockRTAFocus" @onkeydown="@vm.Enter" @bind:event="oninput" class="form-control-plaintext small" style=" font-size:18px; " placeholder="Project Name" autofocus @onclick="vm.BlockRTAFocus" />
 
+                        }
 
-                                                @if (item1.Name == "")
-                                                {
-                                                    <MudListItem Text="@item1.Name" Value="@item1.Id" @onclick="@(() => vm.EventSelectDocumentMenu(item1))">
-                                                        Titulo (@item1.Order)
-                                                        <MudIconButton Style="opacity: 0.3" @onclick="vm.DeleteDocument">
-                                                        <Icon Name="IconName.Delete" /> </MudIconButton>
-                                                        </MudListItem>
-                                                }
-                                                else
-                                                {
-                                                    <MudListItem Text="@item1.Name" Value="@item1.Id" @onclick="@(() => vm.EventSelectDocumentMenu(item1))">
-                                                        @item1.Name
-                                                        <MudIconButton Style="opacity: 0.3" @onclick="vm.DeleteDocument"><Icon Name="IconName.Delete" /> </MudIconButton>
-                                                    </MudListItem>
-                                                }
-
-
-
-
-
-
-                                            }
-                                            <MudIconButton Style="opacity: 0.3"@onclick="vm.NewDocument"><Icon Name="IconName.Add" /> </MudIconButton>
-                                        </NestedList>
-                                        <ChildContent>
-                                            @item.Name
-                                            <MudIconButton Style="opacity: 0.3"@onclick="vm.DeleteProject"><Icon Name="IconName.Delete" /> </MudIconButton>
-                                        </ChildContent>
-                                    </MudListItem>
-
-
-
-                                }
-                            </MudList>
-
-
-
-                        </MudPaper>
-
-
-                    </ul>
-                    <div class="justify-content-center">
-                        <button @onclick="vm.NewProject" class="btn btn-light" style="background-color:#B8C8DE; text-align: center; border-radius: 10px; ">New Project</button>
+                        <button @onclick="vm.SwitchProjectName" class="btn btn-light rounded-circle hide-edit-icon" style="background-color: transparent; border-color: transparent;"><Icon Name="IconName.Edit" IconSize="IconSize.Small" /> </button>
                     </div>
                 </div>
+                @if (vm.Ui.DisplayMenu == true)
+                {
+                    @*Clase para el menu de la izquierda*@
+                    <div class="sidebar close">
+                        <ul class="nav-links">
+                            <MudPaper Width="auto">
+                                <MudList Clickable="true" @bind-SelectedItem="selectedItem" @bind-SelectedValue="selectedValue">
+                                    @foreach (var item in vm.App.Data.Projects)
+                                    {
 
-            }
+                                        <MudListItem Text="@item.Name" Value="@item.Id">
+
+                                            <NestedList>
+                                                @foreach (var item1 in item.Documents)
+                                                {
+
+
+                                                    @if (item1.Name == "")
+                                                    {
+                                                        <MudListItem Text="@item1.Name" Value="@item1.Id" @onclick="@(() => vm.EventSelectDocumentMenu(item1))">
+                                                            Titulo (@item1.Order)
+                                                            <MudIconButton Style="opacity: 0.3" @onclick="vm.DeleteDocument">
+                                                                <Icon Name="IconName.Delete" />
+                                                            </MudIconButton>
+                                                        </MudListItem>
+                                                    }
+                                                    else
+                                                    {
+                                                        <MudListItem Text="@item1.Name" Value="@item1.Id" @onclick="@(() => vm.EventSelectDocumentMenu(item1))">
+                                                            @item1.Name
+                                                            <MudIconButton Style="opacity: 0.3" @onclick="vm.DeleteDocument"><Icon Name="IconName.Delete" /> </MudIconButton>
+                                                        </MudListItem>
+                                                    }
+
+
+
+
+
+
+                                                }
+                                                <MudIconButton Style="opacity: 0.3" @onclick="vm.NewDocument"><Icon Name="IconName.Add" /> </MudIconButton>
+                                            </NestedList>
+                                            <ChildContent>
+                                                @item.Name
+                                                <MudIconButton Style="opacity: 0.3" @onclick="vm.DeleteProject"><Icon Name="IconName.Delete" /> </MudIconButton>
+                                            </ChildContent>
+                                        </MudListItem>
+
+
+
+                                    }
+                                </MudList>
+
+
+
+                            </MudPaper>
+
+
+                        </ul>
+                        <div class="container-fluid">
+                            <div class="justify-content-center">
+                                <button @onclick="vm.NewProject" class="btn btn-light" style="background-color:#B8C8DE; text-align: center; border-radius: 10px; ">New Project</button>
+                            </div>
+                        </div>
+                    </div>
+
+
+                }
+            </div>
         </div>
         <div class="Elements col-8">
             @*Clase para los elements de la derecha*@
@@ -193,8 +228,8 @@
 
         @if (vm.Ui.DisplayComents)
         {
-            <div class="col-2 border-1" style="border-color:#D6D6D6; border-radius: 4px; border-style:solid; margin-left:-15px">
-                <div>
+            <div class="col-2">
+                <div style="position:fixed; border-color:#D6D6D6; border-radius: 4px; border-style:solid; border-width:1px; margin-left:-15px" >
                     <textarea style="height: 20em; border:none; outline:none; color: #342e37" placeholder="Comments Area"></textarea>
                 </div>
             </div>

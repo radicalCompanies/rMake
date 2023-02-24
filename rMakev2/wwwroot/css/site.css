@@ -203,7 +203,7 @@ h4 {
 
 .sidebar {
     position: relative;
-    height: 175%;
+    height: 400px;
     width: 100%;
     border-style: solid;
     border-width: 1px;
@@ -213,6 +213,7 @@ h4 {
     z-index: 100;
     transition: all 0.5s ease;
 }
+
 
 .projectName {
     padding-left: 12px;
@@ -240,9 +241,9 @@ h4 {
     transition: all 0.4s ease;
 }
 
-.hide:hover {
-     opacity: 1;
-}
+    .hide:hover {
+        opacity: 1;
+    }
 
 .server-select {
     padding: 3px 35px 3px 10px;
