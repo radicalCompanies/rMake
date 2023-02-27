@@ -6,32 +6,33 @@
 @using MudBlazor;
 <PageTitle>rMake</PageTitle>
 <div class="container-fluid">
-    <div class="row mt-1 d-flex justify-content-end align-content-center align-items-center" style="height:50px;">
-        <select class="form-select align-items-center server-select" style=" width:-webkit-fit-content; float: left; border:thin; border-style:solid;">
-            <option value="1" selected="selected" style="color:#000">Data: @vm.App.Id</option>
-            <option value="1" style="color:#000">---</option>
-            <option value="2" style="color:crimson;">Cerrar</option>
-        </select>
-        <div style="float:left; width:10%;">
-            <a class="textMenu Underline" style="float:right">Merge</a>
-        </div>
-        <div style="float:left; width:10%">
-            <a class="textMenu Underline" style="float:right" @onclick="vm.ForkProject">Fork project</a>
-        </div>
-        <div style="float:left; width:12%">
-            <a class="textMenu Underline" style="float:right" @onclick="vm.CloneDocument">Clone document</a>
-        </div>
-        <div class="nav-bar-icons" style=" width:10%;">
-            <a class="Underline" @onclick=" vm.ShowSaveModal"><img src="svgs/asset 1.svg" style="height: 20px; width:20px; float:right" /> </a>
-            <a class="Underline" @onclick=" vm.ShowAreaComment"><img src="svgs/asset 2.svg" style="height: 20px; width:20px; float:right" /> </a>
-            <a class="Underline" @onclick=" vm.ShowPublishModal"><img src="svgs/asset 3.svg" style="height: 20px; width:20px; float:right" /> </a>
+    <div style="position:fixed; width: 100%; background: rgba(255,255,255,0.5); backdrop-filter: blur(5px); border-bottom: 0.2mm solid #ebebeb; padding-right: 15px; z-index: 3;">
+        <div class="mt-1 d-flex justify-content-end align-content-center align-items-center" style="height:50px;">
+            <select class="form-select align-items-center server-select" style=" width:-webkit-fit-content; float: left; border:thin; border-style:solid;">
+                <option value="1" selected="selected" style="color:#000">Data: @vm.App.Id</option>
+                <option value="1" style="color:#000">---</option>
+                <option value="2" style="color:crimson;">Cerrar</option>
+            </select>
+            <div style="float:left; width:10%;">
+                <a class="textMenu Underline" style="float:right">Merge</a>
+            </div>
+            <div style="float:left; width:10%">
+                <a class="textMenu Underline" style="float:right" @onclick="vm.ForkProject">Fork project</a>
+            </div>
+            <div style="float:left; width:12%">
+                <a class="textMenu Underline" style="float:right" @onclick="vm.CloneDocument">Clone document</a>
+            </div>
+            <div class="nav-bar-icons" style=" width:10%;">
+                <a class="Underline" @onclick=" vm.ShowSaveModal"><img src="svgs/asset 1.svg" style="height: 15px; width:15px; float:right" /> </a>
+                <a class="Underline" @onclick=" vm.ShowAreaComment"><img src="svgs/asset 2.svg" style="height: 15px; width:15px; float:right" /> </a>
+                <a class="Underline" @onclick=" vm.ShowPublishModal"><img src="svgs/asset 3.svg" style="height: 15px; width:15px; float:right" /> </a>
+            </div>
         </div>
     </div>
 
 
 
-
-    <div class="row">
+    <div class="row" style="padding-top: 70px;">
         <div class="col-lg-2 col-md-5 col-sm-12 ms-5">
 
             <p style="font-size:40px;">rMake!</p>
@@ -47,28 +48,28 @@
 
     <div class="projectName d-flex justify-content-start align-items-center" style="width: fit-content;">
         @*<div style="postion:fixed">
-            <button @onclick="vm.DisplayMenu" style="border:none; background:transparent; opacity: 0.3;"><Icon Name="IconName.Bars" IconSize="IconSize.Large" /> </button>
+        <button @onclick="vm.DisplayMenu" style="border:none; background:transparent; opacity: 0.3;"><Icon Name="IconName.Bars" IconSize="IconSize.Large" /> </button>
 
-            @if (@vm.Ui.EditProjectName == false)
-            {
-                <span sytle="font-size: 18px;">@vm.Ui.SelectedProject.Name</span>
-                @if (vm.Ui.SelectedProject.ParentProjectId == null)
-                {
-                    // <div class="badge bg-secondary">Root project</div>
-                }
-                else
-                {
-                    // <div class="badge bg-secondary">@vm.Ui.SelectedProject.ParentProjectId</div>
+        @if (@vm.Ui.EditProjectName == false)
+        {
+        <span sytle="font-size: 18px;">@vm.Ui.SelectedProject.Name</span>
+        @if (vm.Ui.SelectedProject.ParentProjectId == null)
+        {
+        // <div class="badge bg-secondary">Root project</div>
+        }
+        else
+        {
+        // <div class="badge bg-secondary">@vm.Ui.SelectedProject.ParentProjectId</div>
 
-                }
-            }
-            else
-            {
-                <input Id="ProjectName" @bind="@vm.Ui.SelectedProject.Name" @onblur="vm.UnBlockRTAFocus" @onkeydown="@vm.Enter" @bind:event="oninput" class="form-control-plaintext small" style=" font-size:18px; " placeholder="Project Name" autofocus @onclick="vm.BlockRTAFocus" />
+        }
+        }
+        else
+        {
+        <input Id="ProjectName" @bind="@vm.Ui.SelectedProject.Name" @onblur="vm.UnBlockRTAFocus" @onkeydown="@vm.Enter" @bind:event="oninput" class="form-control-plaintext small" style=" font-size:18px; " placeholder="Project Name" autofocus @onclick="vm.BlockRTAFocus" />
 
-            }
+        }
 
-            <button @onclick="vm.SwitchProjectName" class="btn btn-light rounded-circle hide-edit-icon" style="background-color: transparent; border-color: transparent;"><Icon Name="IconName.Edit" IconSize="IconSize.Small" /> </button>
+        <button @onclick="vm.SwitchProjectName" class="btn btn-light rounded-circle hide-edit-icon" style="background-color: transparent; border-color: transparent;"><Icon Name="IconName.Edit" IconSize="IconSize.Small" /> </button>
         </div>*@
     </div>
 
@@ -76,8 +77,8 @@
         <div class="Menu col-2">
             <div style="position:fixed">
                 <div class="projectName d-flex justify-content-start align-items-center" style="width: fit-content;">
-                    <div style="postion:fixed">
-                        <button @onclick="vm.DisplayMenu" style="border:none; background:transparent; opacity: 0.3;"><Icon Name="IconName.Bars" IconSize="IconSize.Large" /> </button>
+                    <div class="d-flex align-items-center">
+                        <button @onclick="vm.DisplayMenu" style="border:none; background:transparent; opacity: 0.3; padding-right: 10px;"><Icon Name="IconName.Bars" IconSize="IconSize.Large" /> </button>
 
                         @if (@vm.Ui.EditProjectName == false)
                         {
@@ -94,7 +95,7 @@
                         }
                         else
                         {
-                            <input Id="ProjectName" @bind="@vm.Ui.SelectedProject.Name" @onblur="vm.UnBlockRTAFocus" @onkeydown="@vm.Enter" @bind:event="oninput" class="form-control-plaintext small" style=" font-size:18px; " placeholder="Project Name" autofocus @onclick="vm.BlockRTAFocus" />
+                            <input Id="ProjectName" @bind="@vm.Ui.SelectedProject.Name" @onblur="vm.UnBlockRTAFocus" @onkeydown="@vm.Enter" @bind:event="oninput" class="form-control-plaintext small" style=" font-size:18px; padding-left: 5px;" placeholder="Project Name" autofocus @onclick="vm.BlockRTAFocus" />
 
                         }
 
@@ -105,7 +106,7 @@
                 {
                     @*Clase para el menu de la izquierda*@
                     <div class="sidebar close">
-                        <ul class="nav-links">
+                        <ul class="nav-links d-flex align-items-center">
                             <MudPaper Width="auto">
                                 <MudList Clickable="true" @bind-SelectedItem="selectedItem" @bind-SelectedValue="selectedValue">
                                     @foreach (var item in vm.App.Data.Projects)
@@ -123,7 +124,7 @@
                                                         <MudListItem Text="@item1.Name" Value="@item1.Id" @onclick="@(() => vm.EventSelectDocumentMenu(item1))">
                                                             Titulo (@item1.Order)
                                                             <MudIconButton Style="opacity: 0.3" @onclick="vm.DeleteDocument">
-                                                                <Icon Name="IconName.Delete" />
+                                                                <Icon Name="IconName.Delete" IconSize="IconSize.ExtraSmall" />
                                                             </MudIconButton>
                                                         </MudListItem>
                                                     }
@@ -131,7 +132,7 @@
                                                     {
                                                         <MudListItem Text="@item1.Name" Value="@item1.Id" @onclick="@(() => vm.EventSelectDocumentMenu(item1))">
                                                             @item1.Name
-                                                            <MudIconButton Style="opacity: 0.3" @onclick="vm.DeleteDocument"><Icon Name="IconName.Delete" /> </MudIconButton>
+                                                            <MudIconButton Style="opacity: 0.3" @onclick="vm.DeleteDocument"><Icon Name="IconName.Delete" IconSize="IconSize.ExtraSmall" /> </MudIconButton>
                                                         </MudListItem>
                                                     }
 
@@ -141,11 +142,11 @@
 
 
                                                 }
-                                                <MudIconButton Style="opacity: 0.3" @onclick="vm.NewDocument"><Icon Name="IconName.Add" /> </MudIconButton>
+                                                <MudIconButton Style="opacity: 0.3" @onclick="vm.NewDocument"><Icon Name="IconName.Add" IconSize="IconSize.ExtraSmall" /> </MudIconButton>
                                             </NestedList>
                                             <ChildContent>
                                                 @item.Name
-                                                <MudIconButton Style="opacity: 0.3" @onclick="vm.DeleteProject"><Icon Name="IconName.Delete" /> </MudIconButton>
+                                                <MudIconButton Style="opacity: 0.3" @onclick="vm.DeleteProject"><div class="delete-icon-menu-left"><Icon Name="IconName.Delete" IconSize="IconSize.ExtraSmall" /> </div></MudIconButton>
                                             </ChildContent>
                                         </MudListItem>
 
@@ -161,8 +162,8 @@
 
                         </ul>
                         <div class="container-fluid">
-                            <div class="justify-content-center">
-                                <button @onclick="vm.NewProject" class="btn btn-light" style="background-color:#B8C8DE; text-align: center; border-radius: 10px; ">New Project</button>
+                            <div class="d-flex justify-content-center">
+                                <button @onclick="vm.NewProject" class="btn btn-light" style="background-color:#B8C8DE; border-radius: 10px; ">New Project</button>
                             </div>
                         </div>
                     </div>
@@ -171,14 +172,14 @@
                 }
             </div>
         </div>
-        <div class="Elements col-8">
+        <div class="Elements col-8" style="z-index: 2;">
             @*Clase para los elements de la derecha*@
             <div class="row mt-4">
                 <div class="col-2">
                 </div>
                 <div class="col-10">
 
-                    <input @bind="@vm.Ui.SelectedDocument.Name" @bind:event="oninput" id="PageName" autofocus="true" @onblur="vm.UnBlockRTAFocus" @onclick="vm.BlockRTAFocus" class="form-control-plaintext small" style="color: #342e37; font-size:50px; " placeholder="Write your title here" />
+                    <input @bind="@vm.Ui.SelectedDocument.Name" @bind:event="oninput" id="PageName" autofocus="true" @onblur="vm.UnBlockRTAFocus" @onclick="vm.BlockRTAFocus" class="form-control-plaintext small" style="color: #342e37; font-size:50px; padding-left: 15px;" placeholder="Write your title here" />
                     <div style="position:relative;">
                         @if (vm.Ui.SelectedDocument.ParentDocumentId == null)
                         {
@@ -229,7 +230,7 @@
         @if (vm.Ui.DisplayComents)
         {
             <div class="col-2">
-                <div style="position:fixed; border-color:#D6D6D6; border-radius: 4px; border-style:solid; border-width:1px; margin-left:-15px" >
+                <div style="position:fixed; border-color:#D6D6D6; border-radius: 4px; border-style:solid; border-width:1px; margin-left:-15px">
                     <textarea style="height: 20em; border:none; outline:none; color: #342e37" placeholder="Comments Area"></textarea>
                 </div>
             </div>
