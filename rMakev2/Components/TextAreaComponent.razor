@@ -145,7 +145,7 @@
         if (vm.Ui.BlockRTAFocus == false)
         {
             string elementId = vm.Ui.SelectedDocument.Elements.OrderBy(w => w.Order).Last().Order.ToString();
-            jsr.InvokeVoidAsync("focusLastTextEditor", elementId);                   
+            jsr.InvokeVoidAsync("focusLastTextEditor", elementId);
             vm.Ui.BlockRTAFocus = false;
         }
         return base.OnAfterRenderAsync(firstRender);

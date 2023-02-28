@@ -214,6 +214,8 @@ h4 {
     transition: all 0.5s ease;
     max-width: 250px;
     overflow: auto;
+    overflow-x: !important hidden;
+    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1);
 }
 
 
@@ -264,6 +266,20 @@ h4 {
     z-index: 2;
 }
 
+.myDiv {
+    -webkit-transition: all 0.30s ease-in-out;
+    -moz-transition: all 0.30s ease-in-out;
+    -ms-transition: all 0.30s ease-in-out;
+    -o-transition: all 0.30s ease-in-out;
+}
+
+.myDiv:focus {
+    box-shadow: 0 0 5px rgba(81, 203, 238, 1);
+    padding: 3px 0px 3px 3px;
+    margin: 5px 1px 3px 0px;
+    border: 1px solid rgba(81, 203, 238, 1);
+}
+/*Edits de la scrollbar*/
 ::-webkit-scrollbar {
     width: 10px;
 }

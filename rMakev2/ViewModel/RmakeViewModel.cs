@@ -135,7 +135,7 @@ namespace rMakev2.ViewModel
         public void NewProject()
         {
             SelectProject(App.Data.AddProject());
-            this._toastService.ShowSuccess("New project created");
+            //this._toastService.ShowSuccess("New project created");
 
         }
         public void DeleteProject()
@@ -145,7 +145,7 @@ namespace rMakev2.ViewModel
             {
                 App.Data.RemoveProject(Ui.SelectedProject);
                 //SelectProject(App.Data.Projects.First());
-                this._toastService.ShowSuccess("Project eliminated");
+                //this._toastService.ShowSuccess("Project eliminated");
             }
             else
             {
@@ -168,7 +168,7 @@ namespace rMakev2.ViewModel
         public void NewDocument()
         {
             SelectDocument(Ui.SelectedProject.AddDocument(Ui.SelectedProject));
-            this._toastService.ShowSuccess("New document created");
+            //this._toastService.ShowSuccess("New document created");
         }
         public void DeleteDocument()
         {
