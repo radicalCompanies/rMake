@@ -170,6 +170,12 @@ namespace rMakev2.ViewModel
             SelectDocument(Ui.SelectedProject.AddDocument(Ui.SelectedProject));
             //this._toastService.ShowSuccess("New document created");
         }
+
+        public void NewDocumentMenu(Project project)
+        {
+            SelectDocument(project.AddDocument(project));
+        }
+
         public void DeleteDocument()
         {
             if (Ui.SelectedProject.Documents.Count() > 1)
@@ -186,6 +192,25 @@ namespace rMakev2.ViewModel
                 }
             }
         }
+
+        public void DeleteDocumentMenu(Document document)
+        {
+            Project project = document.Project;
+
+            
+                if (project.Documents.Count() > 1)
+                {
+                    project.RemoveDocument(document);
+                    SelectDocument(document);
+                }
+                else if (project.Documents.Count() == 1)
+                {
+                    project.RemoveDocument(document);
+                    NewDocumentMenu(project);
+                }
+            
+        }
+
         public void NewElement()
         {
             Ui.SelectedDocument.AddElement(Ui.SelectedDocument);  
