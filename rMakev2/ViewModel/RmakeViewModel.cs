@@ -198,16 +198,16 @@ namespace rMakev2.ViewModel
             Project project = document.Project;
 
             
-                if (project.Documents.Count() > 1)
-                {
-                    project.RemoveDocument(document);
-                    SelectDocument(document);
-                }
-                else if (project.Documents.Count() == 1)
-                {
-                    project.RemoveDocument(document);
-                    NewDocumentMenu(project);
-                }
+            if (project.Documents.Count() > 1)
+            {
+                project.RemoveDocument(document);
+                SelectDocument(document);
+            }
+            else if (project.Documents.Count() == 1)
+            {
+                project.RemoveDocument(document);
+                NewDocumentMenu(project);
+            }
             
         }
 
