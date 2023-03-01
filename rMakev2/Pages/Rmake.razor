@@ -7,9 +7,9 @@
 <PageTitle>rMake</PageTitle>
 <div class="container-fluid">
     <div style="z-index: 6; float: left; position: fixed; padding-left: 20px; padding-top: 10px; justify-content: center;">
-            <p style="font-size:40px; margin: 0;">rMake!</p>
-            <p style="font-size:9px; text-align: center;"> V2 </p>
-            @*<p style="font-size:9px">@vm.Ui.BlockRTAFocus</p>*@
+        <p style="font-size:40px; margin: 0;">rMake!</p>
+        <p style="font-size:9px; text-align: center;"> V2 </p>
+        @*<p style="font-size:9px">@vm.Ui.BlockRTAFocus</p>*@
     </div>
     <div style="position:fixed; width: 100%; background: rgba(255,255,255,0.5); backdrop-filter: blur(5px);  padding-right: 15px; z-index: 3;">
         <div class="mt-1 d-flex justify-content-end align-content-center align-items-center" style="height:60px;">
@@ -28,9 +28,9 @@
                 <a class="textMenu Underline" style="float:right" @onclick="vm.CloneDocument">Clone document</a>
             </div>
             <div class="nav-bar-icons" style=" width:10%;">
-                <a class="Underline" @onclick=" vm.ShowSaveModal"><img src="svgs/asset 1.svg" style="height: 15px; width:15px; float:right" /> </a>
-                <a class="Underline" @onclick=" vm.ShowAreaComment"><img src="svgs/asset 2.svg" style="height: 15px; width:15px; float:right" /> </a>
-                <a class="Underline" @onclick=" vm.ShowPublishModal"><img src="svgs/asset 3.svg" style="height: 15px; width:15px; float:right" /> </a>
+                <a class="Underline" @onclick=" vm.ShowSaveModal"><img src="svgs/asset 1.svg" style="height: 18px; width:18px; float:right" /> </a>
+                <a class="Underline" @onclick=" vm.ShowAreaComment"><img src="svgs/asset 2.svg" style="height: 18px; width:18px; float:right" /> </a>
+                <a class="Underline" @onclick=" vm.ShowPublishModal"><img src="svgs/asset 3.svg" style="height: 18px; width:18px; float:right" /> </a>
             </div>
         </div>
     </div>
@@ -66,7 +66,7 @@
     <div class="row Hola" style="padding-top: 162px;">
         <div class="Menu col-2">
             <div style="position:fixed">
-                <div class="projectName d-flex justify-content-start align-items-center" style="width: fit-content;">
+                <div class="projectName d-flex justify-content-start align-items-center" style="width: 250px; padding-bottom: 10px;">
                     <div class="d-flex align-items-center">
                         <button @onclick="vm.DisplayMenu" style="border:none; background:transparent; opacity: 0.3; padding-right: 10px;"><Icon Name="IconName.Bars" IconSize="IconSize.Large" /> </button>
 
@@ -102,7 +102,7 @@
                                     @foreach (var item in vm.App.Data.Projects)
                                     {
 
-                                        <MudListItem Style="font-weight: 500; border-top: 1px solid rgba(133, 133, 133, 0.2);" Text="@item.Name" Value="@item.Id">
+                                        <MudListItem Style="font-weight: 500;" Text="@item.Name" Value="@item.Id">
 
                                             <NestedList>
                                                 @foreach (var item1 in item.Documents)
@@ -111,18 +111,22 @@
 
                                                     @if (item1.Name == "")
                                                     {
-                                                        <MudListItem Style="font-size: 14px; opacity: 0.4" Text="@item1.Name" Value="@item1.Id" @onclick="@(() => vm.EventSelectDocumentMenu(item1))">
-                                                            Titulo (@item1.Order)
-                                                            <MudIconButton Style="opacity: 0.7;" @onclick="() => vm.DeleteDocumentMenu(item1)">
-                                                                <Icon Name="IconName.Delete" IconSize="IconSize.ExtraSmall" />
-                                                            </MudIconButton>
-                                                        </MudListItem>
+                                                        <div class="hide-test" style="padding-left: 20px">
+                                                            <MudListItem Style="font-size: 14px; opacity: 0.4;" Text="@item1.Name" Value="@item1.Id" @onclick="@(() => vm.EventSelectDocumentMenu(item1))">
+                                                                Titulo (@item1.Order)
+                                                                <MudIconButton @onclick="() => vm.DeleteDocumentMenu(item1)">
+                                                                    <img class="hide-delete-icon" src="css/iconsRmake/Asset 4.svg" style="height: 15px; width:15px; float:right;" />
+                                                                </MudIconButton>
+                                                            </MudListItem>
+                                                        </div>
                                                     }
                                                     else
                                                     {
                                                         <MudListItem Text="@item1.Name" Value="@item1.Id" @onclick="@(() => vm.EventSelectDocumentMenu(item1))">
                                                             @item1.Name
-                                                            <MudIconButton Style="opacity: 0.2;" @onclick="() => vm.DeleteDocumentMenu(item1)"><Icon Name="IconName.Delete" IconSize="IconSize.ExtraSmall" /> </MudIconButton>
+                                                            <MudIconButton Style="opacity: 0.2;" @onclick="() => vm.DeleteDocumentMenu(item1)">
+                                                                <img src="css/iconsRmake/Asset 4.svg" style="height: 15px; width:15px; float:right" />
+                                                            </MudIconButton>
                                                         </MudListItem>
                                                     }
 
@@ -134,10 +138,11 @@
                                                 }
 
                                                 <MudIconButton Style="opacity: 0.3;" @onclick="() => vm.NewDocumentMenu(item)"><Icon Name="IconName.Add" IconSize="IconSize.ExtraSmall" /> </MudIconButton>
+                                                <MudDivider Style="opacity: 0.1" />
                                             </NestedList>
                                             <ChildContent>
                                                 @item.Name
-                                                <MudIconButton Style="opacity: 0.2" @onclick="()=>vm.DeleteProjectMenu(item)"><div class="delete-icon-menu-left"><Icon Name="IconName.Delete" IconSize="IconSize.ExtraSmall" /> </div></MudIconButton>
+                                                <MudIconButton Style="opacity: 0.3" @onclick="()=>vm.DeleteProjectMenu(item)"><div class="delete-icon-menu-left"><img src="css/iconsRmake/Asset 4.svg" style="height: 15px; width:15px; float:right" /> </div></MudIconButton>
                                             </ChildContent>
                                         </MudListItem>
 

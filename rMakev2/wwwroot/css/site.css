@@ -232,6 +232,15 @@ h4 {
     opacity: 0.3;
 }
 
+.hide-delete-icon {
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.hide-test:hover .hide-delete-icon {
+    opacity: 0.9
+}
+
 .Menu {
     padding: 10px 0px;
 }
@@ -240,14 +249,23 @@ h4 {
     border: transparent;
 }
 
+/*.hide-test {
+    opacity: 0;
+    transition: all 0.2s ease;
+}
+
+    .hide-test:hover {
+        opacity: 1;
+    }    */
+
 .hide {
     opacity: 0;
     transition: all 0.4s ease;
 }
 
-.hide:hover {
-    opacity: 1;
-}    
+    .hide:hover, .hide-test:hover {
+        opacity: 1;
+    }    
 
 .server-select {
     padding: 3px 35px 3px 10px;
@@ -264,6 +282,10 @@ h4 {
     padding: 0 0 0 0 0;
     overflow: auto;
     z-index: 2;
+}
+
+MudIconButton {
+    background-color: black;
 }
 
 .myDiv {
