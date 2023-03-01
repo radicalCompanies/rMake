@@ -381,7 +381,10 @@
             await jsRuntime.InvokeVoidAsync("focusInput");
             vm.Ui.EditedProjectName = true;
         }
-
+        else if (vm.Ui.EditProjectName == false && vm.Ui.EditedProjectName == true)
+        {
+            vm.Ui.EditedProjectName = false;
+        }
 
     }
 
