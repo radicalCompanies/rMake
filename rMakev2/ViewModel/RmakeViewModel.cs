@@ -144,7 +144,7 @@ namespace rMakev2.ViewModel
             if (App.Data.Projects.Count() >= 1)
             {
                 App.Data.RemoveProject(Ui.SelectedProject);
-                //SelectProject(App.Data.Projects.First());
+                SelectProject(App.Data.Projects.First());
                 //this._toastService.ShowSuccess("Project eliminated");
             }
             else
@@ -154,6 +154,20 @@ namespace rMakev2.ViewModel
                 NewProject();
             }
         }
+        public void DeleteProjectMenu(Project project)
+        {
+            if (App.Data.Projects.Count() > 1) {
+                App.Data.RemoveProject(project);
+                SelectProject(App.Data.Projects.First());
+            }
+
+            else if (App.Data.Projects.Count() == 1)
+            {
+                App.Data.RemoveProject(project);
+                NewProject();
+            }
+        }
+
         public void ForkProject()
         {
             SelectProject(App.Data.ForkProject(Ui.SelectedProject));

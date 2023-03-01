@@ -137,7 +137,7 @@
                                             </NestedList>
                                             <ChildContent>
                                                 @item.Name
-                                                <MudIconButton Style="opacity: 0.2" @onclick="vm.DeleteProject"><div class="delete-icon-menu-left"><Icon Name="IconName.Delete" IconSize="IconSize.ExtraSmall" /> </div></MudIconButton>
+                                                <MudIconButton Style="opacity: 0.2" @onclick="()=>vm.DeleteProjectMenu(item)"><div class="delete-icon-menu-left"><Icon Name="IconName.Delete" IconSize="IconSize.ExtraSmall" /> </div></MudIconButton>
                                             </ChildContent>
                                         </MudListItem>
 
