@@ -96,69 +96,71 @@
                 {
                     @*Clase para el menu de la izquierda*@
                     <div class="sidebar close">
-                        <ul class="nav-links d-flex align-items-center">
-                            <MudPaper Width="auto">
-                                <MudList Clickable="true" @bind-SelectedItem="selectedItem" @bind-SelectedValue="selectedValue">
-                                    @foreach (var item in vm.App.Data.Projects)
-                                    {
+                        <div style="max-height: 300px; box-sizing: border-box; margin-bottom: 45px;">
+                            <ul class="nav-links d-flex align-items-center">
+                                <MudPaper Width="auto">
+                                    <MudList Clickable="true" @bind-SelectedItem="selectedItem" @bind-SelectedValue="selectedValue">
+                                        @foreach (var item in vm.App.Data.Projects)
+                                        {
 
-                                        <MudListItem Style="font-weight: 500;" Text="@item.Name" Value="@item.Id">
+                                            <MudListItem Style="font-weight: 500;" Text="@item.Name" Value="@item.Id">
 
-                                            <NestedList>
-                                                @foreach (var item1 in item.Documents)
-                                                {
-
-
-                                                    @if (item1.Name == "")
+                                                <NestedList>
+                                                    @foreach (var item1 in item.Documents)
                                                     {
-                                                        <div class="hide-test" style="padding-left: 20px">
-                                                            <MudListItem Style="font-size: 14px; opacity: 0.4;" Text="@item1.Name" Value="@item1.Id" @onclick="@(() => vm.EventSelectDocumentMenu(item1))">
-                                                                Titulo (@item1.Order)
-                                                                <MudIconButton @onclick="() => vm.DeleteDocumentMenu(item1)">
-                                                                    <img class="hide-delete-icon" src="css/iconsRmake/Asset 4.svg" style="height: 15px; width:15px; float:right;" />
+
+
+                                                        @if (item1.Name == "")
+                                                        {
+                                                            <div class="hide-test" style="padding-left: 20px">
+                                                                <MudListItem Style="font-size: 14px; opacity: 0.4;" Text="@item1.Name" Value="@item1.Id" @onclick="@(() => vm.EventSelectDocumentMenu(item1))">
+                                                                    Titulo (@item1.Order)
+                                                                    <MudIconButton @onclick="() => vm.DeleteDocumentMenu(item1)">
+                                                                        <img class="hide-delete-icon" src="css/iconsRmake/Asset 4.svg" style="height: 15px; width:15px; float:right;" />
+                                                                    </MudIconButton>
+                                                                </MudListItem>
+                                                            </div>
+                                                        }
+                                                        else
+                                                        {
+                                                            <MudListItem Text="@item1.Name" Value="@item1.Id" @onclick="@(() => vm.EventSelectDocumentMenu(item1))">
+                                                                @item1.Name
+                                                                <MudIconButton Style="opacity: 0.2;" @onclick="() => vm.DeleteDocumentMenu(item1)">
+                                                                    <img src="css/iconsRmake/Asset 4.svg" style="height: 15px; width:15px; float:right" />
                                                                 </MudIconButton>
                                                             </MudListItem>
-                                                        </div>
-                                                    }
-                                                    else
-                                                    {
-                                                        <MudListItem Text="@item1.Name" Value="@item1.Id" @onclick="@(() => vm.EventSelectDocumentMenu(item1))">
-                                                            @item1.Name
-                                                            <MudIconButton Style="opacity: 0.2;" @onclick="() => vm.DeleteDocumentMenu(item1)">
-                                                                <img src="css/iconsRmake/Asset 4.svg" style="height: 15px; width:15px; float:right" />
-                                                            </MudIconButton>
-                                                        </MudListItem>
+                                                        }
+
+
+
+
+
+
                                                     }
 
+                                                    <MudIconButton Style="opacity: 0.3;" @onclick="() => vm.NewDocumentMenu(item)"><Icon Name="IconName.Add" IconSize="IconSize.ExtraSmall" /> </MudIconButton>
+                                                    <MudDivider Style="opacity: 0.1 width: auto;" />
+                                                </NestedList>
+                                                <ChildContent>
+                                                    @item.Name
+                                                    <MudIconButton Style="opacity: 0.3" @onclick="()=>vm.DeleteProjectMenu(item)"><div class="delete-icon-menu-left"><img src="css/iconsRmake/Asset 4.svg" style="height: 15px; width:15px; float:right" /> </div></MudIconButton>
+                                                </ChildContent>
+                                            </MudListItem>
 
 
 
-
-
-                                                }
-
-                                                <MudIconButton Style="opacity: 0.3;" @onclick="() => vm.NewDocumentMenu(item)"><Icon Name="IconName.Add" IconSize="IconSize.ExtraSmall" /> </MudIconButton>
-                                                <MudDivider Style="opacity: 0.1" />
-                                            </NestedList>
-                                            <ChildContent>
-                                                @item.Name
-                                                <MudIconButton Style="opacity: 0.3" @onclick="()=>vm.DeleteProjectMenu(item)"><div class="delete-icon-menu-left"><img src="css/iconsRmake/Asset 4.svg" style="height: 15px; width:15px; float:right" /> </div></MudIconButton>
-                                            </ChildContent>
-                                        </MudListItem>
+                                        }
+                                    </MudList>
 
 
 
-                                    }
-                                </MudList>
+                                </MudPaper>
 
 
-
-                            </MudPaper>
-
-
-                        </ul>
-                        <div class="container-fluid">
-                            <div class="d-flex justify-content-center">
+                            </ul>
+                        </div>
+                        <div style="position: fixed; width: stretch;">
+                            <div style="width: auto;">
                                 <button @onclick="vm.NewProject" class="btn btn-light" style="background-color:#fff; border-radius: 10px; border:thin; border-style:solid; border-color: #000; font-size: 14px;">New Project</button>
                             </div>
                         </div>
