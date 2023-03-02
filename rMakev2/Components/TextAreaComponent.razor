@@ -47,6 +47,11 @@
 </RichTextEdit>
 
 @code {
+    private string TextAreaValue;
+    protected override async Task OnInitializedAsync()
+    {
+        TextAreaValue = BindingValue;
+    }
 
     private List<DateTime> Keys { get; set; } = new List<DateTime>();
     public void KeyPress(KeyboardEventArgs e)
@@ -103,7 +108,7 @@
     [Parameter]
     public string BindingValue
     {
-        get => _value;
+        get => TextAreaValue;
         set
         {
             if (_value == value) return;
@@ -150,4 +155,6 @@
         }
         return base.OnAfterRenderAsync(firstRender);
     }
+
+
 }

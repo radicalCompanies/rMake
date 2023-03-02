@@ -61,6 +61,8 @@ namespace rMakev2.Models
                 newelement.DocumentId = newDocument.Id;
                 newelement.Document = newDocument;
                 newelement.ParentElementId = item.Id;
+                newelement.Id = Guid.NewGuid().ToString();
+                newelement.Order = item.Order;
 
                 newDocument.Elements.Add(newelement);
             }
