@@ -159,6 +159,7 @@ namespace rMakev2.ViewModel
             if (App.Data.Projects.Count() > 1) {
                 App.Data.RemoveProject(project);
                 SelectProject(App.Data.Projects.First());
+                SelectDocument(Ui.SelectedProject.Documents.First());
 
             }
 
