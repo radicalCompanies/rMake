@@ -67,16 +67,16 @@
                 
                 DateTime last = Keys.Last();
                 
-                if (DateTime.UtcNow<= last.AddMilliseconds(500))
+                if (DateTime.UtcNow<= last.AddMilliseconds(200))
                 {
                     vm.NewElement(OrderId);                  
                     Keys.Clear();
                 }
+
+                Keys.Add(DateTime.UtcNow);
             }
             else
             {
-                
-                
                 
                 Keys.Add(DateTime.UtcNow);
 
