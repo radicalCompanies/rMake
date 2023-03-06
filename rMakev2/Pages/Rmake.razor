@@ -63,7 +63,7 @@
         </div>*@
     </div>
 
-    <div class="row Hola" style="padding-top: 162px;">
+    <div class="row Hola" style="padding-top: 162px;"> 
         <div class="Menu col-2">
             <div style="position:fixed">
                 <div class="projectName d-flex justify-content-start align-items-center" style="width: 250px; padding-bottom: 10px;">
@@ -97,7 +97,7 @@
                     @*Clase para el menu de la izquierda*@
                     <div class="sidebar close">
                         <div style="max-height: 300px; box-sizing: border-box; margin-bottom: 45px;">
-                            <ul class="nav-links d-flex align-items-center">
+                            <ul class="nav-links d-flex align-items-center" >
                                 <MudPaper Width="auto">
                                     <MudList Clickable="true" @bind-SelectedItem="selectedItem" @bind-SelectedValue="selectedValue">
                                         @foreach (var item in vm.App.Data.Projects)
@@ -159,9 +159,9 @@
 
                             </ul>
                         </div>
-                        <div style="position: fixed; width: stretch;">
-                            <div style="width: auto;">
-                                <button @onclick="vm.NewProject" class="btn btn-light" style="background-color:#fff; border-radius: 10px; border:thin; border-style:solid; border-color: #000; font-size: 14px;">New Project</button>
+                        <div class="d-flex justify-content-center" style="position: fixed; width: auto;">
+                            <div  style="width: auto;">
+                                <button @onclick="vm.NewProject" class="btn btn-light" style="left: 62.5%; background-color:#fff; border-radius: 10px; border:thin; border-style:solid; border-color: #000; font-size: 14px;">New Project</button>
                             </div>
                         </div>
                     </div>
@@ -227,9 +227,9 @@
 
         @if (vm.Ui.DisplayComents)
         {
-            <div class="col-2">
-                <div style="position:fixed; border-color:#D6D6D6; border-radius: 4px; border-style:solid; border-width:1px; margin-left:-15px">
-                    <textarea style="height: 20em; border:none; outline:none; color: #342e37" placeholder="Comments Area"></textarea>
+            <div class="col-2" style="max-width:fit-content;">
+                <div style="position:fixed; border-color:#D6D6D6; border-radius: 11px; border-style:solid; border-width:2px; margin-left: 15px; box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1);">
+                    <textarea style="text-align: center; border-radius: 11px; padding: 10px; height: 20em; outline:none;   color: #342e37; resize:none; width: 200px; " placeholder="Comments Area:"></textarea>
                 </div>
             </div>
 
