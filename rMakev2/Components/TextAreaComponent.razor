@@ -51,6 +51,8 @@
     protected override async Task OnInitializedAsync()
     {
         TextAreaValue = BindingValue;
+        
+
     }
 
     private List<DateTime> Keys { get; set; } = new List<DateTime>();
@@ -108,16 +110,16 @@
     [Parameter]
     public string BindingValue
     {
-        get => TextAreaValue;
+        get => _value;
         set
         {
-            if (_value == value) return;
+            if (TextAreaValue == value) return;
 
-            _value = value;
+            TextAreaValue = value;
             if (richTextEditRef != null)
-                richTextEditRef.SetHtmlAsync(_value);
+                richTextEditRef.SetHtmlAsync(TextAreaValue);
         }
-    }
+    } 
 
 
 

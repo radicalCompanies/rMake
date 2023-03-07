@@ -173,6 +173,9 @@
                     <li class="nav-item active projectName">
                         <span>@vm.Ui.SelectedProject.Name</span>
                     </li>
+                    <li>
+                        <a class="barItems" @onclick="() => vm.DeleteProjectMenu(vm.Ui.SelectedProject)"><img src="svgs/Delete.svg" title="Delete Project" /></a>
+                    </li>
                     <li class="nav-item">
                         <a class="barItems" @onclick="vm.ForkProject"><img src="svgs/Fork.svg" title="Fork Project" /> </a>
                     </li>
@@ -231,7 +234,7 @@
                                 }
 
                                 <div class=" mt-4">
-                                    <button @onclick="vm.NewDocument" class="small">  <img src="svgs/Plus.svg" title="New Document" class="mr-2 smallIcon" />New Document </button>
+                                    <button @onclick="() => vm.NewDocumentMenu(project)" class="small">  <img src="svgs/Plus.svg" title="New Document" class="mr-2 smallIcon" />New Document </button>
                                     <hr />
                                 </div>
                             }
@@ -310,6 +313,92 @@
     </section>
 </div>
 
+<Modal @ref="vm.App.Ui.SaveModal" class="half-modal fade">
+    <ModalContent Centered="true">
+        <ModalBody>
+            <div class="close-button" @onclick="vm.HideSaveModal">
+                <Icon Name="IconName.Times"></Icon>
+            </div>
+            <div class="h-100 p-4">
+                <div class="w-100 h-50">
+                    <h2>Choose your server</h2>
+                    <p>Save your token to retrive your content</p>
+                    <h5> @vm.App.Data.Id</h5>
+                    <div class="form-check p-3">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            rMake@Rebel-server
+                        </label>
+                    </div>
+
+
+                    <button @onclick=" vm.SaveContentAsync" class="btn btn-success"><Icon Name="IconName.Lightbulb" /> Save</button>
+
+                </div>
+            </div>
+        </ModalBody>
+    </ModalContent>
+</Modal>
+
+<Modal @ref="vm.App.Ui.PublishModal" class="half-modal fade">
+    <ModalContent Centered="true">
+        <ModalBody>
+            <div class="close-button" @onclick="vm.HidePublishModal">
+                <Icon Name="IconName.Times"></Icon>
+            </div>
+            <div class="h-100 p-4">
+                <div class="w-100 h-50">
+                    <h2>Where do you want to publish your content</h2>
+                    <p>rMake is a decentralized solution for creators.</p>
+                    <div class="form-check p-3">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked>
+                        <label class="form-check-label" for="flexCheckDefault">
+                            www.xipegroup.com
+                        </label>
+                    </div>
+                    <div class="form-check p-3">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
+                        <label class="form-check-label" for="flexCheckChecked">
+                            www.radicalcompanies.org
+                        </label>
+                    </div>
+                    <div class="form-check p-3">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
+                        <label class="form-check-label" for="flexCheckChecked">
+                            www.radicalpurpose.org
+                        </label>
+                    </div>
+                    <div class="form-check p-3">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
+                        <label class="form-check-label" for="flexCheckChecked">
+                            www.anotherwebsite.org
+                        </label>
+                    </div>
+                    <button @onclick=" vm.SaveContentAsync" class="btn btn-success"><Icon Name="IconName.Lightbulb" /> Save</button>
+
+                </div>
+            </div>
+        </ModalBody>
+    </ModalContent>
+</Modal>
+
+<Modal @ref="vm.App.Ui.MergeModal" class="half-modal fade">
+    <ModalContent Centered="true">
+        <ModalBody>
+            <div class="close-button" @onclick="vm.HideSaveModal">
+                <Icon Name="IconName.Times"></Icon>
+            </div>
+            <div class="h-100 p-4">
+                <div class="w-100 h-50">
+                    <h2>Choose Documents to Merge</h2>
+                    <p>How it works...</p>
+
+
+                </div>
+            </div>
+        </ModalBody>
+    </ModalContent>
+</Modal>
 
 @code {
     bool _isExpanded = true;
@@ -326,11 +415,18 @@
         {
             if (token != "")
                 await vm.LoadProyectAsync(token);
+
+                
         }
         catch
         {
 
         }
+
+
+
+
+
 
 
     }

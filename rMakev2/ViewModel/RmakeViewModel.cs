@@ -82,10 +82,10 @@ namespace rMakev2.ViewModel
             while (true)
             {
 
-                //Thread.Sleep(10000);
+                Thread.Sleep(1000000000);
                 HashMyContent();
                 _communicationService.SaveAsync(App).Wait();
-                //this._toastService.ShowSuccess("Project Saved");
+                this._toastService.ShowSuccess("Project Auto Saved");
             }
         }
 
