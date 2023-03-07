@@ -83,8 +83,10 @@
         border-top: white;
     }
 
-    .minH-500 {
-        min-height: 500px;
+    .min-maxH-400 {
+        min-height: 400px;
+        max-height: 400px;
+        overflow: auto;
     }
 
     .menuDocumentTitle {
@@ -113,12 +115,42 @@
         opacity: .3;
     }
 
+    .input-project-name {
+        font-size: 16px;
+        padding-top: 15px !important;
+        padding-left: 10px;
+        font-weight: 500;
+        text-overflow: ellipsis;
+    }
+
     .documentMenu {
         border-radius: 5px;
         border: 1px solid #777;
         padding: 5px;
         padding-left: 15px;
         width: 100px;
+    }
+
+    .document-name {
+        width: 100%;
+        border-radius: 0;
+        position: relative;
+        transition: all 0.2s ease;
+    }
+
+        .document-name:hover {
+            background-color: rgba(0, 0, 0, 0.09);
+            background-clip: content-box;
+            border-radius: 5px;
+        }
+
+    .b {
+        opacity: 0;
+        transition: all 0.2s ease;
+    }
+
+    .a:hover + .b {
+        opacity: 1;
     }
 
     .spacer {
@@ -164,21 +196,27 @@
     <section>
         @*menu*@
         <div class="row mt-5">
-            <div class="col-sm-12 col-md-3col-lg-3 col-xl-2 mt-5 p-5 pl-0 ml-0">
+            <div class="col-sm-12 col-md-3 col-lg-3 col-xl-2 mt-5 p-5 pl-0 ml-0">
                 <b @onclick="vm.DisplayMenu" class="small mt-4 m-2"><Icon Name="IconName.Bars" IconSize="IconSize.Large" /></b>
                 @if (vm.Ui.DisplayMenu == true)
                 {
                     <div class="card mt-3">
                         <div class="card-header bg-white bb-white"></div>
-                        <div class="card-body minH-500 ">
+                        <div class="card-body min-maxH-400 ">
                             @foreach (var project in vm.App.Data.Projects)
                             {
                                 <div>
-                                    <input Id="ProjectName" @bind="project.Name" @onblur="vm.UnBlockRTAFocus" @onkeydown="@vm.Enter" @bind:event="oninput" class="form-control-plaintext small" style=" font-size:16px; margin-left:10px; padding-top:15px !important;" placeholder="Project Name" autofocus @onclick="vm.BlockRTAFocus" />
+                                    <input Id="ProjectName"
+                                   @bind="project.Name"
+                                   @onblur="vm.UnBlockRTAFocus"
+                                   @onkeydown="@vm.Enter"
+                                   @bind:event="oninput"
+                                   class="form-control-plaintext small input-project-name"
+                                   placeholder="Project Name" autofocus @onclick="vm.BlockRTAFocus" />
                                 </div>
                                 @foreach (var document in project.Documents)
                                 {
-                                    <div class="col-12">
+                                    <div class="col-12 document-name">
                                         @if (document.Name == "")
                                         {
                                             <a @onclick="@(() => vm.EventSelectDocumentMenu(document))" class="menuDocumentTitle">Untitled</a>
@@ -228,27 +266,35 @@
                 }
 
                 <div style="width:20px; float:left; margin-top:15px;">
-                    <img src="svgs/3 dots.svg" title="New Document" class=" " @onclick="vm.DocumentMenu" />
+                    <img style="padding: 5px;" src="svgs/3 dots.svg" title="New Document" class=" " @onclick="vm.DocumentMenu" />
                 </div>
                 <div style="width:90%; float:left;">
 
-                    <input @bind="@vm.Ui.SelectedDocument.Name" @bind:event="oninput" id="PageName" autofocus="true" @onblur="vm.UnBlockRTAFocus" @onclick="vm.BlockRTAFocus" class="form-control-plaintext small" style="color: #342e37; font-size:30px; padding-left: 15px;" placeholder="Write your title here" />
+                    <input @bind="@vm.Ui.SelectedDocument.Name"
+                           @bind:event="oninput" id="PageName" autofocus="true"
+                           @onblur="vm.UnBlockRTAFocus"
+                           @onclick="vm.BlockRTAFocus"
+                           class="form-control-plaintext small"
+                           style="color: #342e37; font-size:30px; padding-left: 15px;"
+                           placeholder="Write your title here" />
                 </div>
                 <div class="clearfix"></div>
                 <div class="mt-4">
                     @foreach (var item in vm.Ui.SelectedDocument.Elements.OrderBy(w => w.Order))
                     {
                         <div class="mt-4">
-                            <div style="margin-left:-180px; width:100px;  display:block; float:left; width:10%">
-                                <a @onclick="()=>vm.DeleteElement(item)"><img src="svgs/Delete.svg" title="New Document" class="m-1 mdicon" /></a>
-                                <a @onclick="()=>vm.MoveDown(item)"><img src="svgs/Arrow down.svg" title="New Document" class="m-1 mdicon" /></a>
-                                <a @onclick="()=>vm.MoveUp(item)"><img src="svgs/Arrow up.svg" title="New Document" class="m-1 mdicon" /></a>
+                            <div class="b" style="margin-left:-150px; width:auto;  display:flex; float:left; padding-top: 10px">
+                                <a @onclick="()=>vm.DeleteElement(item)"><img src="svgs/Delete.svg" title="Delete" class="m-1 mdicon" /></a>
+                                <a @onclick="()=>vm.MoveDown(item)"><img src="svgs/Arrow down.svg" title="Move Down" class="m-1 mdicon" /></a>
+                                <a @onclick="()=>vm.MoveUp(item)"><img src="svgs/Arrow up.svg" title="Move Up" class="m-1 mdicon" /></a>
                                 <a><img src="svgs/Idea.svg" title="Comming soon" class="mr-2 mdicon" /></a>
                             </div>
-                            <div style="float:left; width:90%">
-                                <rMakev2.Components.TextAreaComponent @bind-BindingValue=@item.Content OrderId=@item.Order />
+                            <div class="a">
+                                <div style="float:left; width:90%">
+                                    <rMakev2.Components.TextAreaComponent @bind-BindingValue=@item.Content OrderId=@item.Order />
+                                </div>
+                                <div class="clearfix"></div>
                             </div>
-                            <div class="clearfix"></div>
 
                         </div>
                     }
