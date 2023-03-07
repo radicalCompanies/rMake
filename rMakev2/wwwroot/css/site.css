@@ -99,8 +99,40 @@ a, .btn-link {
     min-height: 100vh;
 }
 
+/*font SIZE inicio*/
+.h1 {
+    font-size: 50px;
+}
+
+.h2 {
+    font-size: 40px;
+}
+
+.h3 {
+    font-size: 25px;
+}
+
+.h4 {
+    font-size: 20px;
+}
+
+.t1 {
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.t2 {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.t3 {
+    font-size: 14px;
+    font-weight: 400;
+}
+
+
 h1 {
-    /*font-family: "open sauce one";*/
     font-size: 65px;
     font-weight: 400;
     line-height: 65px;
@@ -111,7 +143,6 @@ h1 {
 }
 
 h5 {
-    /*font-family: "open sauce one";*/
     margin-left: 10%;
     font-size: 30px;
     font-weight: 400;
@@ -122,11 +153,9 @@ h5 {
 }
 
 h3 {
-    /*font-family: "open sauce one";*/
     font-size: 25px;
     font-weight: 400;
     line-height: 40px;
-    /*font-style: italic;*/
     text-align: left;
     color: #000000;
     position: relative;
@@ -136,17 +165,34 @@ h3 {
 }
 
 h4 {
-    /*font-family: "open sauce one";*/
     font-size: 30px;
     font-weight: 400;
     line-height: 40px;
-    /*font-style: italic;*/
     text-align: left;
     color: #000000;
     position: relative;
     top: 50%;
     transform: translateY(-50%);
 }
+
+/*font SIZE Final*/
+
+/* ICONS inicio */
+.bg-icons {
+    height: 25px;
+    width: 25px;
+}
+
+.md-icons {
+    height: 20px;
+    width: 20px;
+}
+
+.sm-icons {
+    height: 15px;
+    width: 15px;
+}
+/* ICONS final */
 
 .form-control-index {
     display: block;
@@ -180,6 +226,51 @@ h4 {
     margin-left: 0% !important;
 }
 
+.logo-container {
+    z-index: 6;
+    float: left;
+    position: fixed;
+    padding-left: 20px;
+    padding-top: 10px;
+    justify-content: center;
+    display: flex;
+    justify-content: space-between;
+    position: fixed;
+    width: 100%;
+    background: rgba(255,255,255,0.5);
+    backdrop-filter: blur(5px);
+    padding-right: 15px;
+    z-index: 10;
+}
+
+.header-menu {
+    position: fixed;
+    width: 100%;
+    padding-right: 15px;
+    z-index: -1;
+}
+
+.server-select {
+    width: 100%;
+    float: left;
+    border: thin;
+    border-style: solid;
+    padding: 3px 35px 3px 10px;
+    max-width: fit-content;
+}
+
+.top-icons {
+    height: 18px;
+    width: 18px;
+    float: right;
+}
+
+.display-menu {
+    border: none;
+    background: transparent;
+    opacity: 0.3;
+    padding-right: 10px;
+}
 
 .textMenu {
     color: black;
@@ -204,28 +295,46 @@ h4 {
 .sidebar {
     position: relative;
     height: 400px;
-    width: 100%;
+    width: auto;
     border-style: solid;
     border-width: 1px;
     border-radius: 8px;
-    background: #fff;
     border-color: #D6D6D6;
+    background: #fff;
     z-index: 100;
     transition: all 0.5s ease;
     max-width: 250px;
+    min-width: auto;
     overflow: auto;
     overflow-x: !important hidden;
     box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1);
 }
 
+.projects-container {
+    max-height: 300px;
+    box-sizing: border-box;
+    margin-bottom: 45px;
+}
 
 .projectName {
     padding-left: 12px;
 }
 
+.new-project-btn {
+    left: 62.5%;
+    background-color: #fff;
+    border-radius: 10px;
+    border: thin;
+    border-style: solid;
+    border-color: #000;
+    font-size: 14px;
+}
+
 .hide-edit-icon {
     opacity: 0;
     transition: all 0.4s ease;
+    background-color: transparent;
+    border-color: transparent;
 }
 
 .projectName:hover .hide-edit-icon {
@@ -249,14 +358,33 @@ h4 {
     border: transparent;
 }
 
-/*.hide-test {
-    opacity: 0;
-    transition: all 0.2s ease;
+.elements-icons {
+    float: right;
+    border: none;
+    background: transparent;
+    opacity: 0.3;
 }
 
-    .hide-test:hover {
-        opacity: 1;
-    }    */
+.comments-container {
+    position: fixed;
+    border-color: #D6D6D6;
+    border-radius: 11px;
+    border-style: solid;
+    border-width: 2px;
+    margin-left: 15px;
+    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+textarea {
+    text-align: center;
+    border-radius: 11px;
+    padding: 10px;
+    height: 20em;
+    outline: none;
+    color: #342e37;
+    resize: none;
+    width: 200px;
+}
 
 .hide {
     opacity: 0;
@@ -265,11 +393,31 @@ h4 {
 
     .hide:hover, .hide-test:hover {
         opacity: 1;
-    }    
+    }
 
-.server-select {
-    padding: 3px 35px 3px 10px;
+.Elements {
+    display: grid;
+    grid-template-columns: 2fr 8fr 2fr;
+    justify-content: space-between;
+    column-gap: 10px;
 }
+
+
+.item1 {
+    grid-column-start: 1;
+    grid-column-end: 2;
+}
+
+.item2 {
+    grid-column-start: 2;
+    grid-column-end: 3;
+}
+
+.item3 {
+    grid-column-start: 3;
+    grid-column-end: 4;
+}
+
 
 .nav-bar-icons {
     display: flex;
@@ -295,12 +443,12 @@ MudIconButton {
     -o-transition: all 0.30s ease-in-out;
 }
 
-.myDiv:focus {
-    box-shadow: 0 0 5px rgba(81, 203, 238, 1);
-    padding: 3px 0px 3px 3px;
-    margin: 5px 1px 3px 0px;
-    border: 1px solid rgba(81, 203, 238, 1);
-}
+    .myDiv:focus {
+        box-shadow: 0 0 5px rgba(81, 203, 238, 1);
+        padding: 3px 0px 3px 3px;
+        margin: 5px 1px 3px 0px;
+        border: 1px solid rgba(81, 203, 238, 1);
+    }
 /*Edits de la scrollbar*/
 ::-webkit-scrollbar {
     width: 10px;
