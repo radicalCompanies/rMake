@@ -1,0 +1,313 @@
+﻿@page "/Mvp"
+@page "/Mvp/{token}"
+@using rMakev2.ViewModel;
+@inject RmakeViewModel vm;
+@inject IJSRuntime jsRuntime;
+@using MudBlazor;
+<PageTitle>rHacker</PageTitle>
+
+<style>
+    .topBar {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background: rgba(255,255,255,0.5);
+        backdrop-filter: blur(5px);
+        padding-right: 15px;
+        z-index: 3;
+        border-bottom: 1px solid #f3f3f3;
+        min-height: 50px;
+    }
+
+    .logo {
+        font-size: 30px;
+        margin: 0;
+        font-weight: 700;
+    }
+
+    .subLogo {
+        font-size: 9px;
+        text-align: left;
+        margin: 0px;
+    }
+
+    .barItems {
+        float: right;
+        width: 30px;
+        margin: 10px;
+        padding: 5px;
+    }
+
+    .projectName {
+        min-width: 100px;
+        padding-top: 15px !important;
+        padding-right: 25px;
+        margin-right: 15px;
+        border-right: 1px solid #f1f1f1;
+    }
+
+    .brandArea {
+        float: left;
+        width: 80px;
+        text-align: left;
+        height: 0px;
+    }
+
+    .itemsArea {
+        float: left;
+        text-align: left;
+        height: 50px;
+        margin-left: 5px;
+    }
+
+    .leftArea {
+        position: absolute;
+        right: 0px;
+        margin-right: 50px;
+    }
+
+    .book-explorer {
+        position: fixed;
+        top: 100px;
+        left: 0px;
+        z-index: 99;
+        padding: 3px;
+        background-color: #fff;
+    }
+
+    .bb-white {
+        border-bottom: white;
+    }
+
+    .bt-white {
+        border-top: white;
+    }
+
+    .minH-500 {
+        min-height: 500px;
+    }
+
+    .menuDocumentTitle {
+        text-overflow: ellipsism !important;
+        white-space: nowrap;
+        overflow: hidden;
+        width: 100% font-size:13px;
+        margin-left: 20px;
+        font-size: 13px;
+    }
+
+    .btn-Outline {
+        background: none;
+        color: #000;
+    }
+
+    .smallIcon {
+        width: 12px;
+        height: 12px;
+    }
+
+    .mdicon {
+        width: 16px;
+        height: 16px;
+        color: #666;
+        opacity: .3;
+    }
+
+    .documentMenu {
+        border-radius: 5px;
+        border: 1px solid #777;
+        padding: 5px;
+        padding-left: 15px;
+        width: 100px;
+    }
+
+    .spacer {
+        width: 10px;
+        height: 34px;
+    }
+
+</style>
+<div class="container-fluid">
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light  topBar">
+            <a class="navbar-brand" href="#">
+                <div class="logo">rMake!</div>
+                <div class="subLogo"> Hacker Mode </div>
+            </a>
+            <div class="leftArea">
+                <ul class="navbar-nav mr-auto">
+                    <li class="spacer">
+                    </li>
+                    <li class="nav-item active projectName">
+                        <span>@vm.Ui.SelectedProject.Name</span>
+                    </li>
+                    <li class="nav-item">
+                        <a class="barItems" @onclick="vm.ForkProject"><img src="svgs/Fork.svg" title="Fork Project" /> </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="barItems" @onclick="vm.ForkProject"><img src="svgs/Merge.svg" title="Merge Projects" /> </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="barItems" @onclick="vm.ForkProject"><img src="svgs/Code.svg" title="Json View" /> </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="barItems" @onclick=" vm.ShowSaveModal"><img src="svgs/asset 1.svg" title="Save Project" /> </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="barItems" @onclick=" vm.ShowPublishModal"><img src="svgs/asset 3.svg" title="Publish" /> </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <section>
+        @*menu*@
+        <div class="row mt-5">
+            <div class="col-sm-12 col-md-3col-lg-3 col-xl-2 mt-5 p-5 pl-0 ml-0">
+                <b @onclick="vm.DisplayMenu" class="small mt-4 m-2"><Icon Name="IconName.Bars" IconSize="IconSize.Large" /></b>
+                @if (vm.Ui.DisplayMenu == true)
+                {
+                    <div class="card mt-3">
+                        <div class="card-header bg-white bb-white"></div>
+                        <div class="card-body minH-500 ">
+                            @foreach (var project in vm.App.Data.Projects)
+                            {
+                                <div>
+                                    <input Id="ProjectName" @bind="project.Name" @onblur="vm.UnBlockRTAFocus" @onkeydown="@vm.Enter" @bind:event="oninput" class="form-control-plaintext small" style=" font-size:16px; margin-left:10px; padding-top:15px !important;" placeholder="Project Name" autofocus @onclick="vm.BlockRTAFocus" />
+                                </div>
+                                @foreach (var document in project.Documents)
+                                {
+                                    <div class="col-12">
+                                        @if (document.Name == "")
+                                        {
+                                            <a @onclick="@(() => vm.EventSelectDocumentMenu(document))" class="menuDocumentTitle">Untitled</a>
+                                        }
+                                        else
+                                        {
+                                            <div class="menuDocumentTitle">
+                                                <a @onclick="@(() => vm.EventSelectDocumentMenu(document))">@document.Name</a>
+                                            </div>
+                                        }
+                                    </div>
+                                }
+
+                                <div class=" mt-4">
+                                    <button @onclick="vm.NewDocument" class="small">  <img src="svgs/Plus.svg" title="New Document" class="mr-2 smallIcon" />New Document </button>
+                                    <hr />
+                                </div>
+                            }
+                        </div>
+                        <div class="card-footer bg-white bt-white text-center pb-3">
+                            <button @onclick="vm.NewProject" class="btn btn-dark btn-Outline btn-sm" style="font-size:13px;">New Project</button>
+                        </div>
+                    </div>
+                }
+            </div>
+            @*/menu*@
+            @*working area*@
+            <div class="col-sm-12 col-md-2 col-lg-2 col-xl-1 mt-5 p-5 ">
+            </div>
+            <div class="col-sm-12 col-md-7 col-lg-7 col-xl-8 mt-5 p-5 ">
+
+                @if (vm.Ui.DisplayDocumentMenu == true)
+                {
+                    <div class="spacer">
+
+                        <div class="documentMenu mb-2">
+                            <a @onclick="vm.DeleteDocument"><img src="svgs/Delete.svg" title="Delete Document" class="m-1 smallIcon" /></a>
+                            <a @onclick="vm.CloneDocument"><img src="svgs/Clone.svg" title="Clone Document" class="m-1 smallIcon" /></a>
+                            <a><img src="svgs/Merge.svg" title="Merge Documents comming soon" class="m-1 smallIcon" /></a>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="spacer"></div>
+
+                }
+
+                <div style="width:20px; float:left; margin-top:15px;">
+                    <img src="svgs/3 dots.svg" title="New Document" class=" " @onclick="vm.DocumentMenu" />
+                </div>
+                <div style="width:90%; float:left;">
+
+                    <input @bind="@vm.Ui.SelectedDocument.Name" @bind:event="oninput" id="PageName" autofocus="true" @onblur="vm.UnBlockRTAFocus" @onclick="vm.BlockRTAFocus" class="form-control-plaintext small" style="color: #342e37; font-size:30px; padding-left: 15px;" placeholder="Write your title here" />
+                </div>
+                <div class="clearfix"></div>
+                <div class="mt-4">
+                    @foreach (var item in vm.Ui.SelectedDocument.Elements.OrderBy(w => w.Order))
+                    {
+                        <div class="mt-4">
+                            <div style="margin-left:-180px; width:100px;  display:block; float:left; width:10%">
+                                <a @onclick="()=>vm.DeleteElement(item)"><img src="svgs/Delete.svg" title="New Document" class="m-1 mdicon" /></a>
+                                <a @onclick="()=>vm.MoveDown(item)"><img src="svgs/Arrow down.svg" title="New Document" class="m-1 mdicon" /></a>
+                                <a @onclick="()=>vm.MoveUp(item)"><img src="svgs/Arrow up.svg" title="New Document" class="m-1 mdicon" /></a>
+                                <a><img src="svgs/Idea.svg" title="Comming soon" class="mr-2 mdicon" /></a>
+                            </div>
+                            <div style="float:left; width:90%">
+                                <rMakev2.Components.TextAreaComponent @bind-BindingValue=@item.Content OrderId=@item.Order />
+                            </div>
+                            <div class="clearfix"></div>
+
+                        </div>
+                    }
+                </div>
+            </div>
+
+        </div>
+
+
+        @*/working area*@
+
+
+    </section>
+</div>
+
+
+@code {
+    bool _isExpanded = true;
+    MudListItem selectedItem;
+    object selectedValue = 1;
+
+    [Parameter]
+    public string token { get; set; }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            if (token != "")
+                await vm.LoadProyectAsync(token);
+        }
+        catch
+        {
+
+        }
+
+
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+
+        if (vm.Ui.EditProjectName == true && vm.Ui.EditedProjectName == false)
+        {
+            await jsRuntime.InvokeVoidAsync("focusInput");
+            vm.Ui.EditedProjectName = true;
+        }
+        else if (vm.Ui.EditProjectName == false && vm.Ui.EditedProjectName == true)
+        {
+            vm.Ui.EditedProjectName = false;
+        }
+
+    }
+
+    public async Task Focus()
+    {
+        vm.SwitchProjectName();
+
+    }
+
+}

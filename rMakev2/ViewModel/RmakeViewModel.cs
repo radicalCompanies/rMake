@@ -98,6 +98,13 @@ namespace rMakev2.ViewModel
         {
             App.Ui.SaveModal.Show();
         }
+
+        public void DocumentMenu()
+        {
+            App.Ui.DocumentMenu();
+        }
+
+
         public void HidePublishModal()
         {
             App.Ui.PublishModal.Hide();

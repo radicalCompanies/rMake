@@ -47,7 +47,7 @@ namespace rMakev2.Models
 
         public bool DisplayMenu { get; set; } = false;
         public bool DisplayComents { get;set; } = false;
-
+        public bool DisplayDocumentMenu { get; set; }
 
 
         public Modal? SaveModal { get; set; } 
@@ -92,6 +92,20 @@ namespace rMakev2.Models
                 DisplayMenu = true;
             }
         }
+
+        public void DocumentMenu()
+        {
+
+            if (DisplayDocumentMenu == true)
+            {
+                DisplayDocumentMenu = false;
+            }
+            else
+            {
+                DisplayDocumentMenu = true;
+            }
+        }
+
         public string JsonFn()
         {
             var options = new JsonSerializerOptions

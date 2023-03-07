@@ -1,0 +1,261 @@
+﻿@page "/Hacker"
+@page "/Hacker/{token}"
+@using rMakev2.ViewModel;
+@inject RmakeViewModel vm;
+@inject IJSRuntime jsRuntime;
+@using MudBlazor;
+<PageTitle>rHacker</PageTitle>
+<div class="container-fluid">
+    <section>
+        <div style="position:fixed; top:0; width: 100%;background: rgba(255,255,255,0.5); backdrop-filter: blur(5px); padding-right: 15px; z-index: 3; border-bottom:1px solid #f3f3f3;">
+
+            <div class="row">
+                <div class="col-sm-12 col-md-2">
+                    <p style="font-size:30px; margin: 0; font-weight:700">rMake!</p>
+                    <p style="font-size:9px; text-align: left; margin:0px;"> Hacker Mode </p>
+                </div>
+                <div class="col-sm-12 col-md-10 text-right p-3" style="padding:1px  !important; padding-top:12px !important;">
+                    <p class="textMenu Underline p-2" style="float:left; padding:0px !important; margin:0px !important;">@vm.Ui.SelectedProject.Name |</p>
+                    <a class="textMenu Underline p-2">Merge</a>
+                    <a class="textMenu Underline p-2" @onclick="vm.ForkProject">Fork project</a>
+                    <a class="Underline p-1" @onclick=" vm.ShowSaveModal"><img src="svgs/asset 1.svg" style="height: 18px; width:18px; " /> </a>
+                    <a class="Underline p-1" @onclick=" vm.DeleteProject"><Icon Name="IconName.Delete" IconSize="IconSize.Small" /> </a>
+                    <a class="Underline p-2" @onclick=" vm.ShowAreaComment"><img src="svgs/asset 2.svg" style="height: 18px; width:18px; " /> </a>
+                    <a class="Underline p-2" @onclick=" vm.ShowPublishModal"><img src="svgs/asset 3.svg" style="height: 18px; width:18px; " title="Publish" /> </a>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<section id="Working Area">
+
+    <div class="row" style="margin-top:100px;">
+        <div class="col-sm-12 col-md-2">
+        </div>
+        <div class="col-sm-12 col-md-7 col-lg-6 col- pr-4">
+            <input @bind="@vm.Ui.SelectedDocument.Name" @bind:event="oninput" id="PageName" autofocus="true" @onblur="vm.UnBlockRTAFocus" @onclick="vm.BlockRTAFocus" class="form-control-plaintext small" style="color: #342e37; font-size:30px; padding-left: 15px;" placeholder="Write your title here" />
+        </div>
+       @* EXPLORER*@
+        <div class="col-sm-12 col-md-3 col-lg-2 vh-100" id="book-explorer" style="position:fixed; top:0px; right:0px; z-index:99; padding:3px; background-color:#f1f1f1;">
+            <div style="margin-top:10px; margin-bottom:10px;" class="row">
+                <div class="col-7">
+                    <b class="small mt-4 m-2"><Icon Name="IconName.ChevronUp" IconSize="IconSize.Small" />Project Explorer</b>
+                </div>
+                <div class="col-5 text-right">
+                    <button @onclick="vm.NewProject" class="btn btn-success btn-sm" style="font-size:10px;">New Project</button>
+                </div>
+            </div>
+            <div class=" vh-100" style="background-color:#f6f6f6; margin:4px;">
+                @foreach (var project in vm.App.Data.Projects)
+                {
+                    <div class="row">
+                        <div class="col-12">
+                            <input Id="ProjectName" @bind="project.Name" @onblur="vm.UnBlockRTAFocus" @onkeydown="@vm.Enter" @bind:event="oninput" class="form-control-plaintext small" style=" font-size:16px; margin-left:10px; padding-top:15px !important;" placeholder="Project Name" autofocus @onclick="vm.BlockRTAFocus" />
+                        </div>
+
+                    </div>
+                    @foreach (var document in project.Documents)
+                    {
+                        <div class="row">
+                            <div class="col-9 pl-4 pt-1 ">
+                                @if (document.Name == "")
+                                {
+                                    <a @onclick="@(() => vm.EventSelectDocumentMenu(document))" style="font-size:13px; margin-left:20px; margin-top:30px;">Untitled</a>
+                                }
+                                else
+                                {
+                                    <div style="text-overflow:ellipsism!important; white-space: nowrap;  overflow: hidden; width:100% font-size:13px; margin-left:20px; ">
+                                        <a @onclick="@(() => vm.EventSelectDocumentMenu(document))">@document.Name</a>
+                                    </div>
+                                }
+                            </div>
+                            <div class="col-1 pr-2 pt-2 pr-3">
+                                <button @onclick="() => vm.DeleteDocumentMenu(document)" style="border:none; background:transparent; opacity: 0.3;"><Icon Name="IconName.Delete" IconSize="IconSize.Small" /> </button>
+                            </div>
+                            <div class="col-2 pt-2">
+                                <button class="textMenu Underline p-2" style="border:none; background:transparent; opacity: 0.3;" @onclick="vm.CloneDocument"><Icon Name="IconName.Book" IconSize="IconSize.Small" /></button>
+                            </div>
+                        </div>
+                    }
+                    <div style="height:20px;"></div>
+                }
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        @foreach (var item in vm.Ui.SelectedDocument.Elements.OrderBy(w => w.Order))
+        {
+
+            <div class="col-sm-12 col-md-2">
+            </div>
+            <div class="col-sm-12 col-md-8 col-lg-6">
+
+                <rMakev2.Components.TextAreaComponent @bind-BindingValue=@item.Content OrderId=@item.Order />
+
+            </div>
+            <div class="col-sm-12 col-md-2">
+                <button @onclick="()=>vm.DeleteElement(item)" class="btn btn-light btn-sm"><Icon Name="IconName.Delete" /></button>
+                <button @onclick="()=>vm.MoveDown(item)" class="btn btn-light btn-sm"><Icon Name="IconName.ArrowDown" /></button>
+                <button @onclick="()=>vm.MoveUp(item)" class="btn btn-light btn-sm"><Icon Name="IconName.ArrowUp" /></button>
+                <button class="btn btn-light btn-sm"><Icon Name="IconName.Lightbulb" /></button>
+            </div>
+
+        }
+        <div class="col-6 d-flex align-content-center">
+            <button @onclick="vm.NewElement" class="btn btn-light btn-sm m-3" style="opacity: 0.5; border-radius: 50%;"><Icon Name="IconName.Add" IconSize="IconSize.x2" /></button>
+        </div>
+    </div>
+
+</section>
+
+<section>
+    @if (vm.Ui.DisplayComents)
+    {
+        <div class="col-2">
+            <div style="position:fixed; border-color:#D6D6D6; border-radius: 4px; border-style:solid; border-width:1px; margin-left:-15px">
+                <textarea style="height: 20em; border:none; outline:none; color: #342e37" placeholder="Comments Area"></textarea>
+            </div>
+        </div>
+
+    }
+</section>
+
+<Modal @ref="vm.App.Ui.SaveModal" class="half-modal fade">
+    <ModalContent Centered="true">
+        <ModalBody>
+            <div class="close-button" @onclick="vm.HideSaveModal">
+                <Icon Name="IconName.Times"></Icon>
+            </div>
+            <div class="h-100 p-4">
+                <div class="w-100 h-50">
+                    <h2>Choose your server</h2>
+                    <p>Save your token to retrive your content</p>
+                    <h5> @vm.App.Data.Id</h5>
+                    <div class="form-check p-3">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            rMake@Rebel-server
+                        </label>
+                    </div>
+
+
+                    <button @onclick=" vm.SaveContentAsync" class="btn btn-success" ><Icon Name="IconName.Lightbulb"  /> Save</button>
+
+                </div>
+            </div>
+        </ModalBody>
+    </ModalContent>
+</Modal>
+
+<Modal @ref="vm.App.Ui.PublishModal" class="half-modal fade">
+    <ModalContent Centered="true">
+        <ModalBody>
+            <div class="close-button" @onclick="vm.HideSaveModal">
+                <Icon Name="IconName.Times"></Icon>
+            </div>
+            <div class="h-100 p-4">
+                <div class="w-100 h-50">
+                    <h2>Where do you want to publish your content</h2>
+                    <p>rMake is a decentralized solution for creators.</p>
+                    <div class="form-check p-3">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked>
+                        <label class="form-check-label" for="flexCheckDefault">
+                            www.xipegroup.com
+                        </label>
+                    </div>
+                    <div class="form-check p-3">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
+                        <label class="form-check-label" for="flexCheckChecked">
+                            www.radicalcompanies.org
+                        </label>
+                    </div>
+                    <div class="form-check p-3">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
+                        <label class="form-check-label" for="flexCheckChecked">
+                            www.radicalpurpose.org
+                        </label>
+                    </div>
+                    <div class="form-check p-3">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
+                        <label class="form-check-label" for="flexCheckChecked">
+                            www.anotherwebsite.org
+                        </label>
+                    </div>
+                    <button @onclick=" vm.SaveContentAsync" class="btn btn-success"><Icon Name="IconName.Lightbulb" /> Save</button>
+
+                </div>
+            </div>
+        </ModalBody>
+    </ModalContent>
+</Modal>
+
+<Modal @ref="vm.App.Ui.MergeModal" class="half-modal fade">
+    <ModalContent Centered="true">
+        <ModalBody>
+            <div class="close-button" @onclick="vm.HideSaveModal">
+                <Icon Name="IconName.Times"></Icon>
+            </div>
+            <div class="h-100 p-4">
+                <div class="w-100 h-50">
+                    <h2>Choose Documents to Merge</h2>
+                    <p>How it works...</p>
+
+
+                </div>
+            </div>
+        </ModalBody>
+    </ModalContent>
+</Modal>
+
+
+
+
+@code {
+    bool _isExpanded = true;
+    MudListItem selectedItem;
+    object selectedValue = 1;
+
+    [Parameter]
+    public string token { get; set; }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            if (token != "")
+                await vm.LoadProyectAsync(token);
+        }
+        catch
+        {
+
+        }
+
+
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+
+        if (vm.Ui.EditProjectName == true && vm.Ui.EditedProjectName == false)
+        {
+            await jsRuntime.InvokeVoidAsync("focusInput");
+            vm.Ui.EditedProjectName = true;
+        }
+        else if (vm.Ui.EditProjectName == false && vm.Ui.EditedProjectName == true)
+        {
+            vm.Ui.EditedProjectName = false;
+        }
+
+    }
+
+    public async Task Focus()
+    {
+        vm.SwitchProjectName();
+
+    }
+
+}
