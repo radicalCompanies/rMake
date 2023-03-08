@@ -16,15 +16,18 @@ namespace rMakev2.Models
             Id = Guid.NewGuid().ToString();
             Content = "";
             Order = Document.Elements.Count() + 1;
+            EditItem = false;
             DocumentId = document.Id;
             Document = document;
             Document.Elements.Add(this);
+            
         }
         public Element(Document document, int previousElement)
         {
             Document = document ?? throw new Exceptions("Document is null");
             Id = Guid.NewGuid().ToString();
             Content = "";
+            EditItem = false;
             Order = previousElement + 1;
             foreach (var item in Document.Elements.Where(w => w.Order > previousElement+1))
             {
@@ -46,10 +49,14 @@ namespace rMakev2.Models
         public bool IsValid { get; set; }
         public string ParentElementId { get; set; }
 
+        public bool EditItem { get; set; }
+
         public void AddIdea(string Idea)
         {
             Ideary = Idea;
-        }      
+        }
+        
+        
 
     }
 }

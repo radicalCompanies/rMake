@@ -1,5 +1,5 @@
-﻿@page "/Mvp"
-@page "/Mvp/{token}"
+﻿@page "/alternativo"
+@page "/alternativo/{token}"
 @using rMakev2.ViewModel;
 @inject RmakeViewModel vm;
 @inject IJSRuntime jsRuntime;
@@ -23,14 +23,14 @@
         font-size: 30px;
         margin: 0;
         font-weight: 700;
-        margin-left:50%
+        margin-left: 50%
     }
 
     .subLogo {
         font-size: 9px;
         text-align: left;
         margin: 0px;
-        margin-left:50%
+        margin-left: 50%
     }
 
     .barItems {
@@ -38,7 +38,7 @@
         width: 30px;
         margin: 10px;
         padding: 5px;
-        margin-left:10px;
+        margin-left: 10px;
     }
 
     .projectName {
@@ -129,13 +129,13 @@
         height: 34px;
     }
 
-    .menuBarsIcon{
-        margin-left:50px;
+    .menuBarsIcon {
+        margin-left: 50px;
     }
 
-    .dots{
-        display:block;
-        padding:10px;
+    .dots {
+        display: block;
+        padding: 10px;
     }
 
 </style>
@@ -241,8 +241,8 @@
 
                 <div style="width:20px; float:left; margin-top:15px;">
                     <a>
-                    <img src="svgs/3 dots.svg" title="Document Menu" class="dots " @onclick="vm.DocumentMenu" />
-                        </a>
+                        <img src="svgs/3 dots.svg" title="Document Menu" class="dots " @onclick="vm.DocumentMenu" />
+                    </a>
                 </div>
                 <div style="width:90%; float:left;">
 
@@ -253,19 +253,76 @@
                     @foreach (var item in vm.Ui.SelectedDocument.Elements.OrderBy(w => w.Order))
                     {
                         <div class="mt-4">
-                            <div style="margin-left:-100px; width:120px;  display:block; float:left;">
-                                <a @onclick="()=>vm.DeleteElement(item)"><img src="svgs/Delete.svg" title="New Document" class="m-1 mdicon" /></a>
-                                <a @onclick="()=>vm.MoveDown(item)"><img src="svgs/Arrow down.svg" title="New Document" class="m-1 mdicon" /></a>
-                                <a @onclick="()=>vm.MoveUp(item)"><img src="svgs/Arrow up.svg" title="New Document" class="m-1 mdicon" /></a>
-                                <a><img src="svgs/Idea.svg" title="Comming soon" class="mr-2 mdicon" /></a>
-                            </div>
-                            <div style="float:left; width:90%">
-                                <rMakev2.Components.TextAreaComponent @bind-BindingValue=@item.Content OrderId=@item.Order />
-                            </div>
-                            <div class="clearfix"></div>
 
+
+                            @if (item.EditItem == true)
+                            {
+                                <div style="margin-left:-100px; width:120px;  display:block; float:left;">
+                                    <a @onclick="()=>vm.DeleteElement(item)"><img src="svgs/Delete.svg" title="New Document" class="m-1 mdicon" /></a>
+                                    <a @onclick="()=>vm.MoveDown(item)"><img src="svgs/Arrow down.svg" title="New Document" class="m-1 mdicon" /></a>
+                                    <a @onclick="()=>vm.MoveUp(item)"><img src="svgs/Arrow up.svg" title="New Document" class="m-1 mdicon" /></a>
+                                    <a><img src="svgs/Idea.svg" title="Comming soon" class="mr-2 mdicon" /></a>
+                                </div>
+                                <div style="float:left; width:90%">
+
+                                    <RichTextEdit Theme="RichTextEditTheme.Bubble"
+                                          PlaceHolder="Start writting"
+                                          SubmitOnEnter="false"
+                                          ToolbarPosition="Blazorise.Placement.Top">
+                                        <Editor>
+
+                                            @((MarkupString)item.Content)
+
+                                        </Editor>
+                                        <Toolbar>
+                                            <RichTextEditToolbarGroup>
+                                                <RichTextEditToolbarButton Action="RichTextEditAction.Bold" />
+                                                <RichTextEditToolbarButton Action="RichTextEditAction.Italic" />
+                                                <RichTextEditToolbarButton Action="RichTextEditAction.Strike" />
+                                                <RichTextEditToolbarButton Action="RichTextEditAction.Underline" />
+                                                <RichTextEditToolbarButton Action="RichTextEditAction.Image" />
+                                                <RichTextEditToolbarButton Action="RichTextEditAction.CodeBlock" />
+                                                <RichTextEditToolbarSelect Action="RichTextEditAction.Align">
+                                                    <RichTextEditToolbarSelectItem Value="center" />
+                                                    <RichTextEditToolbarSelectItem Value="right" />
+                                                    <RichTextEditToolbarSelectItem Value="justify" />
+                                                    <RichTextEditToolbarSelectItem Selected />
+                                                </RichTextEditToolbarSelect>
+
+                                                <RichTextEditToolbarSelect Action="RichTextEditAction.Size">
+                                                    <RichTextEditToolbarSelectItem Value="small" />
+                                                    <RichTextEditToolbarSelectItem Selected />
+                                                    <RichTextEditToolbarSelectItem Value="large" />
+                                                    <RichTextEditToolbarSelectItem Value="huge">Very Big</RichTextEditToolbarSelectItem>
+                                                </RichTextEditToolbarSelect>
+                                                <RichTextEditToolbarButton Action="RichTextEditAction.List" Value="ordered" />
+                                                <RichTextEditToolbarButton Action="RichTextEditAction.List" Value="bullet" />
+                                            </RichTextEditToolbarGroup>
+                                            <!-- Custom toolbar content -->
+                                            <RichTextEditToolbarGroup Float="Blazorise.Float.End">
+                                            </RichTextEditToolbarGroup>
+                                        </Toolbar>
+                                    </RichTextEdit>
+                                </div>
+                            }
+
+                            else
+                            {
+                                <div @onclick=@(()=>vm.EditItem(item)) style="background-color:#fff; min-height:100px;">
+                                    
+                                    @if(item.Content==""){
+                                        <p>Stat typing</p>
+                                    }else{
+
+                                    @((MarkupString)item.Content)
+                                    }
+                                </div>
+                            }
+                            
+                            <div class="clearfix"></div>
                         </div>
                     }
+                    <button @onclick="vm.NewElement" class="small">  <img src="svgs/Plus.svg" title="New Document" class="mr-2 mt-5 pt-4" />New Element </button>
                 </div>
             </div>
 
@@ -297,7 +354,7 @@
                     </div>
 
 
-                    <button @onclick=" vm.SaveContentAsync" class="btn btn-success" ><Icon Name="IconName.Lightbulb"  /> Save</button>
+                    <button @onclick=" vm.SaveContentAsync" class="btn btn-success"><Icon Name="IconName.Lightbulb" /> Save</button>
 
                 </div>
             </div>

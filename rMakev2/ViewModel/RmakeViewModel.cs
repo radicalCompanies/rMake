@@ -104,6 +104,10 @@ namespace rMakev2.ViewModel
             App.Ui.DocumentMenu();
         }
 
+        public void EditItem(Element element){
+            App.Ui.EditItem(element);
+        }
+
 
         public void HidePublishModal()
         {
