@@ -1,0 +1,29 @@
+﻿@page "/Error"
+@using System.ComponentModel.DataAnnotations;
+@using rMakev2.ViewModel;
+@using rMakev2.Services;
+@inject NavigationManager NavigationManager
+@inject IToastService toastService
+
+<div>
+
+    <h5>Token not found</h5>
+
+</div>
+<div>
+    <Button Class="btn btn-lg btn-success" @onclick="navigate">Go back</Button>
+
+</div>
+
+
+
+@{
+
+    void navigate()
+    {
+
+        NavigationManager.NavigateTo("/");
+
+    }
+
+}

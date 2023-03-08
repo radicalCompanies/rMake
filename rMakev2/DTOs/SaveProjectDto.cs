@@ -1,6 +1,7 @@
 ﻿
 using Newtonsoft.Json;
 using rMakev2.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace rMakev2.DTOs
 {
@@ -9,6 +10,8 @@ namespace rMakev2.DTOs
     public class SaveProjectDto
     {
         [JsonProperty(PropertyName = "id")]
+        [Required]
+        [RegularExpression(@"^(?:\\{{0,1}(?:[0-9a-fA-F]){8}-(?:[0-9a-fA-F]){4}-(?:[0-9a-fA-F]){4}-(?:[0-9a-fA-F]){4}-(?:[0-9a-fA-F]){12}\\}{0,1})$", ErrorMessage = "This is not a valid Guid")]
         public string Id { get; set; }
         public string DataToken { get; set; }
         public List<ProjectDTO> Projects { get; set; }
