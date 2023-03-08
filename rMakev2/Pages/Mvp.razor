@@ -23,14 +23,12 @@
         font-size: 30px;
         margin: 0;
         font-weight: 700;
-        margin-left:50%
     }
 
     .subLogo {
         font-size: 9px;
         text-align: left;
         margin: 0px;
-        margin-left:50%
     }
 
     .barItems {
@@ -38,7 +36,6 @@
         width: 30px;
         margin: 10px;
         padding: 5px;
-        margin-left:10px;
     }
 
     .projectName {
@@ -86,8 +83,10 @@
         border-top: white;
     }
 
-    .minH-500 {
-        min-height: 500px;
+    .min-maxH-400 {
+        min-height: 400px;
+        max-height: 400px;
+        overflow: auto;
     }
 
     .menuDocumentTitle {
@@ -116,6 +115,14 @@
         opacity: .3;
     }
 
+    .input-project-name {
+        font-size: 16px;
+        padding-top: 15px !important;
+        padding-left: 10px;
+        font-weight: 500;
+        text-overflow: ellipsis;
+    }
+
     .documentMenu {
         border-radius: 5px;
         border: 1px solid #777;
@@ -124,18 +131,31 @@
         width: 100px;
     }
 
+    .document-name {
+        width: 100%;
+        border-radius: 0;
+        position: relative;
+        transition: all 0.2s ease;
+    }
+
+        .document-name:hover {
+            background-color: rgba(0, 0, 0, 0.09);
+            background-clip: content-box;
+            border-radius: 5px;
+        }
+
+    .b {
+        opacity: 0;
+        transition: all 0.2s ease;
+    }
+
+    .a:hover + .b {
+        opacity: 1;
+    }
+
     .spacer {
         width: 10px;
         height: 34px;
-    }
-
-    .menuBarsIcon{
-        margin-left:50px;
-    }
-
-    .dots{
-        display:block;
-        padding:10px;
     }
 
 </style>
@@ -153,6 +173,9 @@
                     <li class="nav-item active projectName">
                         <span>@vm.Ui.SelectedProject.Name</span>
                     </li>
+                    <li>
+                        <a class="barItems" @onclick="() => vm.DeleteProjectMenu(vm.Ui.SelectedProject)"><img src="svgs/Delete.svg" title="Delete Project" /></a>
+                    </li>
                     <li class="nav-item">
                         <a class="barItems" @onclick="vm.ForkProject"><img src="svgs/Fork.svg" title="Fork Project" /> </a>
                     </li>
@@ -160,7 +183,7 @@
                         <a class="barItems" @onclick="vm.ForkProject"><img src="svgs/Merge.svg" title="Merge Projects" /> </a>
                     </li>
                     <li class="nav-item">
-                        <a class="barItems" @onclick="vm.ForkProject"><img src="svgs/Code.svg" title="Json View Coming Soon" /> </a>
+                        <a class="barItems" @onclick="vm.ForkProject"><img src="svgs/Code.svg" title="Json View" /> </a>
                     </li>
                     <li class="nav-item">
                         <a class="barItems" @onclick=" vm.ShowSaveModal"><img src="svgs/asset 1.svg" title="Save Project" /> </a>
@@ -176,21 +199,27 @@
     <section>
         @*menu*@
         <div class="row mt-5">
-            <div class="col-sm-12 col-md-3col-lg-3 col-xl-2 mt-5 p-5 pl-0 ml-0">
-                <b @onclick="vm.DisplayMenu" class="small mt-4 m-2 pl-4"><img src="svgs/Menu Bar.svg" title="Publish" class="menuBarsIcon" /></b>
+            <div class="col-sm-12 col-md-3 col-lg-3 col-xl-2 mt-5 p-5 pl-0 ml-0">
+                <b @onclick="vm.DisplayMenu" class="small mt-4 m-2"><Icon Name="IconName.Bars" IconSize="IconSize.Large" /></b>
                 @if (vm.Ui.DisplayMenu == true)
                 {
                     <div class="card mt-3">
                         <div class="card-header bg-white bb-white"></div>
-                        <div class="card-body minH-500 ">
+                        <div class="card-body min-maxH-400 ">
                             @foreach (var project in vm.App.Data.Projects)
                             {
                                 <div>
-                                    <input Id="ProjectName" @bind="project.Name" @onblur="vm.UnBlockRTAFocus" @onkeydown="@vm.Enter" @bind:event="oninput" class="form-control-plaintext small" style=" font-size:16px; margin-left:10px; padding-top:15px !important;" placeholder="Project Name" autofocus @onclick="vm.BlockRTAFocus" />
+                                    <input Id="ProjectName"
+                                   @bind="project.Name"
+                                   @onblur="vm.UnBlockRTAFocus"
+                                   @onkeydown="@vm.Enter"
+                                   @bind:event="oninput"
+                                   class="form-control-plaintext small input-project-name"
+                                   placeholder="Project Name" autofocus @onclick="vm.BlockRTAFocus" />
                                 </div>
                                 @foreach (var document in project.Documents)
                                 {
-                                    <div class="col-12">
+                                    <div class="col-12 document-name">
                                         @if (document.Name == "")
                                         {
                                             <a @onclick="@(() => vm.EventSelectDocumentMenu(document))" class="menuDocumentTitle">Untitled</a>
@@ -205,7 +234,7 @@
                                 }
 
                                 <div class=" mt-4">
-                                    <button @onclick="vm.NewDocument" class="small">  <img src="svgs/Plus.svg" title="New Document" class="mr-2 smallIcon" />New Document </button>
+                                    <button @onclick="() => vm.NewDocumentMenu(project)" class="small">  <img src="svgs/Plus.svg" title="New Document" class="mr-2 smallIcon" />New Document </button>
                                     <hr />
                                 </div>
                             }
@@ -240,29 +269,35 @@
                 }
 
                 <div style="width:20px; float:left; margin-top:15px;">
-                    <a>
-                    <img src="svgs/3 dots.svg" title="Document Menu" class="dots " @onclick="vm.DocumentMenu" />
-                        </a>
+                    <img style="padding: 5px;" src="svgs/3 dots.svg" title="New Document" class=" " @onclick="vm.DocumentMenu" />
                 </div>
                 <div style="width:90%; float:left;">
 
-                    <input @bind="@vm.Ui.SelectedDocument.Name" @bind:event="oninput" id="PageName" autofocus="true" @onblur="vm.UnBlockRTAFocus" @onclick="vm.BlockRTAFocus" class="form-control-plaintext small" style="color: #342e37; font-size:30px; padding-left: 15px;" placeholder="Write your title here" />
+                    <input @bind="@vm.Ui.SelectedDocument.Name"
+                           @bind:event="oninput" id="PageName" autofocus="true"
+                           @onblur="vm.UnBlockRTAFocus"
+                           @onclick="vm.BlockRTAFocus"
+                           class="form-control-plaintext small"
+                           style="color: #342e37; font-size:30px; padding-left: 15px;"
+                           placeholder="Write your title here" />
                 </div>
                 <div class="clearfix"></div>
                 <div class="mt-4">
                     @foreach (var item in vm.Ui.SelectedDocument.Elements.OrderBy(w => w.Order))
                     {
                         <div class="mt-4">
-                            <div style="margin-left:-100px; width:120px;  display:block; float:left;">
-                                <a @onclick="()=>vm.DeleteElement(item)"><img src="svgs/Delete.svg" title="New Document" class="m-1 mdicon" /></a>
-                                <a @onclick="()=>vm.MoveDown(item)"><img src="svgs/Arrow down.svg" title="New Document" class="m-1 mdicon" /></a>
-                                <a @onclick="()=>vm.MoveUp(item)"><img src="svgs/Arrow up.svg" title="New Document" class="m-1 mdicon" /></a>
+                            <div class="b" style="margin-left:-150px; width:auto;  display:flex; float:left; padding-top: 10px">
+                                <a @onclick="()=>vm.DeleteElement(item)"><img src="svgs/Delete.svg" title="Delete" class="m-1 mdicon" /></a>
+                                <a @onclick="()=>vm.MoveDown(item)"><img src="svgs/Arrow down.svg" title="Move Down" class="m-1 mdicon" /></a>
+                                <a @onclick="()=>vm.MoveUp(item)"><img src="svgs/Arrow up.svg" title="Move Up" class="m-1 mdicon" /></a>
                                 <a><img src="svgs/Idea.svg" title="Comming soon" class="mr-2 mdicon" /></a>
                             </div>
-                            <div style="float:left; width:90%">
-                                <rMakev2.Components.TextAreaComponent @bind-BindingValue=@item.Content OrderId=@item.Order />
+                            <div class="a">
+                                <div style="float:left; width:90%">
+                                    <rMakev2.Components.TextAreaComponent @bind-BindingValue=@item.Content OrderId=@item.Order />
+                                </div>
+                                <div class="clearfix"></div>
                             </div>
-                            <div class="clearfix"></div>
 
                         </div>
                     }
@@ -297,7 +332,7 @@
                     </div>
 
 
-                    <button @onclick=" vm.SaveContentAsync" class="btn btn-success" ><Icon Name="IconName.Lightbulb"  /> Save</button>
+                    <button @onclick=" vm.SaveContentAsync" class="btn btn-success"><Icon Name="IconName.Lightbulb" /> Save</button>
 
                 </div>
             </div>
@@ -308,7 +343,7 @@
 <Modal @ref="vm.App.Ui.PublishModal" class="half-modal fade">
     <ModalContent Centered="true">
         <ModalBody>
-            <div class="close-button" @onclick="vm.HideSaveModal">
+            <div class="close-button" @onclick="vm.HidePublishModal">
                 <Icon Name="IconName.Times"></Icon>
             </div>
             <div class="h-100 p-4">
@@ -380,11 +415,18 @@
         {
             if (token != "")
                 await vm.LoadProyectAsync(token);
+
+                
         }
         catch
         {
 
         }
+
+
+
+
+
 
 
     }
