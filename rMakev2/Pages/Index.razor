@@ -1,4 +1,5 @@
 ﻿@page "/"
+@using System.ComponentModel.DataAnnotations;
 @using rMakev2.ViewModel;
 @using rMakev2.Services;
 @inject NavigationManager NavigationManager
@@ -19,9 +20,9 @@
     <div class="col-lg-6 vh-100 p-5" style="background-color:#DAE4F2">
         <div class="right-side">
             <h3 style="margin-left: 0px">If you already have content, <strong><em>use your token</em></strong></h3>
-            <input Id="token" @bind="tokenstring" class="form-control-index small" style=" font-size:20px; border-radius: 8px" placeholder="example: 24256aG-A90n56D3-a722" autofocus />
+            <input Id="token" @bind="tokenstring" @onkeydown="Enter" class="form-control-index small" style=" font-size:20px; border-radius: 8px" placeholder="example: 24256aG-A90n56D3-a722" autofocus />
             <br />
-            <Button Class="btn btn-load btn-lg" @onclick="navigate">Load</Button>
+            <Button Class="btn btn-load btn-lg" @onclick="navigate" @onkeydown="Enter" >Load</Button>
         </div>
     </div>
 </div>
@@ -48,5 +49,11 @@
         if (tokenstring != "")
             NavigationManager.NavigateTo("/App/" + tokenstring);
 
+    }
+
+    public void Enter(KeyboardEventArgs e)
+    {
+        if (tokenstring != "" && (e.Code == "Enter" || e.Code == "NumpadEnter"))
+            NavigationManager.NavigateTo("/App/" + tokenstring);
     }
 }

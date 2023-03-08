@@ -38,7 +38,7 @@ namespace rMakev2.Models
             }
         }
         [JsonIgnore]
-        public string Json { get; set; } 
+        public string Json { get; set; }
         public string AppId { get; set; }
 
         public bool EditProjectName { get; set; }
@@ -46,13 +46,13 @@ namespace rMakev2.Models
         public bool BlockRTAFocus { get; set; } = true;
 
         public bool DisplayMenu { get; set; } = false;
-        public bool DisplayComents { get;set; } = false;
+        public bool DisplayComents { get; set; } = false;
         public bool DisplayDocumentMenu { get; set; }
 
 
-        public Modal? SaveModal { get; set; } 
+        public Modal? SaveModal { get; set; }
         public Modal PublishModal { get; set; }
-        public Modal MergeModal { get; set; } 
+        public Modal MergeModal { get; set; }
         public App App { get; set; }
 
 
@@ -64,7 +64,7 @@ namespace rMakev2.Models
         public void SelectDocument(Document document)
         {
             SelectedDocument = document;
-        }        
+        }
         public void SwitchEditName()
         {
 
@@ -78,6 +78,29 @@ namespace rMakev2.Models
                 EditProjectName = true;
                 BlockRTAFocus = true;
             }
+        }
+
+
+        public void EditItem(Element element)
+        {
+
+            foreach (var item in SelectedDocument.Elements)
+            {
+                item.EditItem = false;
+            }
+
+
+            if (element.EditItem == true)
+            {
+                element.EditItem = false;
+
+            }
+            else
+            {
+                element.EditItem = true;
+
+            }
+            
         }
 
         public void ShowMenu()
@@ -123,5 +146,5 @@ namespace rMakev2.Models
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(null));
         }
     }
-    
+
 }

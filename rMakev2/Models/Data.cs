@@ -1,4 +1,5 @@
 ﻿
+using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Text.Json.Serialization;
 namespace rMakev2.Models
@@ -13,7 +14,8 @@ namespace rMakev2.Models
             App = app;
             AppId = app.Id;
             app.Data = this;   
-        }        
+        }
+        
         public string Id { get; set; }
         public List<Project> Projects { get; set; }
         [JsonIgnore]
