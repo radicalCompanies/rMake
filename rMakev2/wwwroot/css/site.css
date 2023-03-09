@@ -12,6 +12,7 @@ a, .btn-link {
     color: #fff;
 }
 
+/*font SIZE inicio*/
 .btn-primary {
     color: #fff;
     background-color: #1b6ec2;
@@ -19,19 +20,17 @@ a, .btn-link {
 }
 
 .btn-start {
-    color: #000000;
-    background-color: #789ad0;
+    color: #fff;
+    background-color: rgba(0,0,0,0.3);
     border-color: none;
     border-radius: 8px;
     position: relative;
     text-align: center;
-    margin-top: 5px;
-    top: 42%;
     transform: translateY(-58%);
-    margin-left: 15%;
+    font-size: 14px;
 }
 
-.btn-load {
+/*.btn-load {
     color: #000000;
     background-color: transparent;
     border-color: #000000;
@@ -41,7 +40,7 @@ a, .btn-link {
     padding: 10px 100px;
     top: 50%;
     transform: translateY(-50%);
-}
+}*/
 
 
 
@@ -99,7 +98,6 @@ a, .btn-link {
     min-height: 100vh;
 }
 
-/*font SIZE inicio*/
 .h1 {
     font-size: 50px;
 }
@@ -131,52 +129,14 @@ a, .btn-link {
     font-weight: 400;
 }
 
-
-h1 {
-    font-size: 65px;
-    font-weight: 400;
-    line-height: 65px;
-    font-style: normal;
-    text-align: left;
-    color: #000000;
-    margin-left: 10%;
+.h-2-logo {
+    font-size: 28px;
 }
 
-h5 {
-    margin-left: 10%;
-    font-size: 30px;
-    font-weight: 400;
-    line-height: 35px;
-    font-style: normal;
-    text-align: left;
-    color: #000000;
+.h-3-logo {
+    font-size: 18px;            
 }
-
-h3 {
-    font-size: 25px;
-    font-weight: 400;
-    line-height: 40px;
-    text-align: left;
-    color: #000000;
-    position: relative;
-    top: 50%;
-    transform: translateY(-50%);
-    margin-left: 15%;
-}
-
-h4 {
-    font-size: 30px;
-    font-weight: 400;
-    line-height: 40px;
-    text-align: left;
-    color: #000000;
-    position: relative;
-    top: 50%;
-    transform: translateY(-50%);
-}
-
 /*font SIZE Final*/
-
 /* ICONS inicio */
 .bg-icons {
     height: 25px;
@@ -194,27 +154,56 @@ h4 {
 }
 /* ICONS final */
 
+/*Index Style Inicio*/
+.index-header {
+}
+
+.space {
+    padding-top: 1.5%;
+    padding-left: 5%;
+}
+
+.login-container {
+    box-sizing: border-box;
+    padding: 45px 30px;
+    position: relative;
+    top: 15%;
+    width: 100%;
+    max-width: 60%;
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px;
+    border-radius: 10px;
+    font-weight: 500;
+    color: #342e37;
+}
+
+.or-index {
+    text-align: center;
+    opacity: 0.6;
+    font-weight: 500;
+}
+
 .form-control-index {
     display: block;
     width: 100%;
     padding: .375rem .75rem;
-    font-size: 1rem;
+    font-size: 14px;
     font-weight: 400;
     line-height: 1.5;
     color: #212529;
     background-color: transparent;
     background-clip: padding-box;
-    border: 1px solid #000000;
+    border: 1px solid rgba(0,0,0,0.5);
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    border-radius: .25rem;
+    border-radius: 8px;
     transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
     position: relative;
     top: 50%;
     left: 50%;
     transform: translateX(-50%) translateY(-50%);
 }
+/*Index Style Final*/
 
 .right-side {
     margin-top: 0%;

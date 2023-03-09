@@ -5,25 +5,30 @@
 @inject NavigationManager NavigationManager
 @inject IToastService toastService
 
-
-
 <div class="row" style="width: 100vw">
-    <div class="col-lg-6 vh-100 p-5">
-        <h1>rMake!</h1>
-        <h5>By radical companies.</h5>
+    <div class="col-lg-6 vh-100 space">
+        <div class="index-header">
+            <h2 class="h-2-logo">rMake!</h2>
+            <h3 class="h-3-logo">By radical companies.</h3>
+        </div>
 
-        <h3 style="top: 30%">Start creating <strong><em>something new</em></strong></h3>
-        <a href="App" class="btn btn-start btn-lg" style="top: 30%;">Start from scratch</a>
+        <div class="login-container">
+            <p>Start a new journey here</p>
+            <br />
+            <a href="App" class="btn btn-start btn-lg">Start from scratch</a>
+            <br />
+            <p class="or-index">or</p>
+            <br />
+            <p>Use an existing token</p>
+            <br />
+            <input Id="token" @bind="tokenstring" @onkeydown="Enter" class="form-control-index small" placeholder="example: 24256aG-A90n56D3-a722" autofocus />
+            <br />
+            <a Class="btn btn-start btn-lg" @onclick="navigate" @onkeydown="Enter">Load</a>
+        </div>
 
     </div>
 
-    <div class="col-lg-6 vh-100 p-5" style="background-color:#DAE4F2">
-        <div class="right-side">
-            <h3 style="margin-left: 0px">If you already have content, <strong><em>use your token</em></strong></h3>
-            <input Id="token" @bind="tokenstring" @onkeydown="Enter" class="form-control-index small" style=" font-size:20px; border-radius: 8px" placeholder="example: 24256aG-A90n56D3-a722" autofocus />
-            <br />
-            <Button Class="btn btn-load btn-lg" @onclick="navigate" @onkeydown="Enter" >Load</Button>
-        </div>
+    <div class="col-lg-6 vh-100 pr-5" style="background-color:#DAE4F2">
     </div>
 </div>
 
