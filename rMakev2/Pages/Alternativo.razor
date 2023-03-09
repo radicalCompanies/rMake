@@ -4,6 +4,7 @@
 @inject RmakeViewModel vm;
 @inject IJSRuntime jsRuntime;
 @using MudBlazor;
+@using rMakev2.Models
 <PageTitle>rHacker</PageTitle>
 
 <style>
@@ -266,9 +267,13 @@
                                 <div style="float:left; width:90%">
 
                                     <RichTextEdit Theme="RichTextEditTheme.Bubble"
+                                          @ref="richTextEditRef"
                                           PlaceHolder="Start writting"
                                           SubmitOnEnter="false"
-                                          ToolbarPosition="Blazorise.Placement.Top">
+                                          ToolbarPosition="Blazorise.Placement.Top"
+                                          @onkeydown="(e) => KeyPress(e, item)"
+                                          ContentChanged="() => Save(item)"
+                                    >       
                                         <Editor>
 
                                             @((MarkupString)item.Content)
@@ -308,13 +313,13 @@
 
                             else
                             {
-                                <div @onclick=@(()=>vm.EditItem(item)) style="background-color:#fff; min-height:100px;">
+                                <div @onclick=@(()=>vm.EditItem(item)) style="background-color:#fff;">
                                     
                                     @if(item.Content==""){
-                                        <p>Stat typing</p>
+                                        <p>Start typing</p>
                                     }else{
 
-                                    @((MarkupString)item.Content)
+                                        @((MarkupString)item.Content)
                                     }
                                 </div>
                             }
@@ -430,6 +435,70 @@
     [Parameter]
     public string token { get; set; }
 
+    //private string _value;
+    //private string TextAreaValue;
+    //protected RichTextEdit? richTextEditRef;
+    //public string BindingValue
+    //{
+    //    get => _value;
+    //    set
+    //    {
+    //        if (TextAreaValue == value) return;
+
+    //        TextAreaValue = value;
+    //        if (richTextEditRef != null)
+    //            richTextEditRef.SetHtmlAsync(TextAreaValue);
+    //    }
+    //}
+
+    protected RichTextEdit richTextEditRef;
+
+    public async Task Save(Element element)
+    {
+        element.Content = await richTextEditRef.GetTextAsync();
+
+    }
+
+    private List<DateTime> Keys { get; set; } = new List<DateTime>();
+    public void KeyPress(KeyboardEventArgs e, Element item)
+    {
+
+        if (e.Code == "Enter" || e.Code == "NumpadEnter")
+        {
+            vm.Ui.BlockRTAFocus = false;
+
+
+            if (Keys.Any())
+            {
+
+                DateTime last = Keys.Last();
+
+                if (DateTime.UtcNow <= last.AddMilliseconds(200))
+                {
+                    Element newElement;
+                    newElement = vm.NewElement(item.Order);
+                    vm.EditItem(newElement);
+
+                    Keys.Clear();
+
+                }
+
+                Keys.Add(DateTime.UtcNow);
+            }
+            else
+            {
+
+                Keys.Add(DateTime.UtcNow);
+
+            }
+        }
+        else
+        {
+            vm.Ui.BlockRTAFocus = true;
+            Keys.Clear();
+        }
+
+    }
 
     protected override async Task OnInitializedAsync()
     {
