@@ -3,7 +3,6 @@
 @using rMakev2.ViewModel;
 @inject RmakeViewModel vm;
 @inject IJSRuntime jsRuntime;
-@using MudBlazor;
 <PageTitle>rHacker</PageTitle>
 
 <style>
@@ -90,12 +89,13 @@
     }
 
     .menuDocumentTitle {
-        text-overflow: ellipsism !important;
-        white-space: nowrap;
-        overflow: hidden;
-        width: 100% font-size:13px;
         margin-left: 20px;
         font-size: 13px;
+        text-overflow: ellipsis;
+        max-width: 165px;
+        white-space: nowrap;
+        cursor: pointer;
+        overflow: hidden;
     }
 
     .btn-Outline {
@@ -136,21 +136,22 @@
         border-radius: 0;
         position: relative;
         transition: all 0.2s ease;
+        margin-bottom: 2px;
+        text-overflow: ellipsis;
+        max-width: 178px !important;
+        overflow: hidden;
+        white-space: nowrap;
+        cursor: pointer;
     }
 
-        .document-name:hover {
-            background-color: rgba(0, 0, 0, 0.09);
-            background-clip: content-box;
-            border-radius: 5px;
-        }
-
-    .b {
-        opacity: 0;
-        transition: all 0.2s ease;
+    p {
+        margin-bottom: 2px;
     }
 
-    .a:hover + .b {
-        opacity: 1;
+    .document-name:hover {
+        background-color: rgba(0, 0, 0, 0.09);
+        background-clip: content-box;
+        border-radius: 2px;
     }
 
     .spacer {
@@ -222,13 +223,11 @@
                                     <div class="col-12 document-name">
                                         @if (document.Name == "")
                                         {
-                                            <a @onclick="@(() => vm.EventSelectDocumentMenu(document))" class="menuDocumentTitle">Untitled</a>
+                                            <p @onclick="@(() => vm.EventSelectDocumentMenu(document))" class="menuDocumentTitle">Untitled</p>
                                         }
                                         else
                                         {
-                                            <div class="menuDocumentTitle">
-                                                <a @onclick="@(() => vm.EventSelectDocumentMenu(document))">@document.Name</a>
-                                            </div>
+                                            <p class="menuDocumentTitle" @onclick="@(() => vm.EventSelectDocumentMenu(document))">@document.Name</p>
                                         }
                                     </div>
                                 }
@@ -278,7 +277,7 @@
                            @onblur="vm.UnBlockRTAFocus"
                            @onclick="vm.BlockRTAFocus"
                            class="form-control-plaintext small"
-                           style="color: #342e37; font-size:30px; padding-left: 15px;"
+                           style="color: #342e37; font-size:30px; padding-left: 15px; text-overflow: ellipsis;"
                            placeholder="Write your title here" />
                 </div>
                 <div class="clearfix"></div>
@@ -402,7 +401,6 @@
 
 @code {
     bool _isExpanded = true;
-    MudListItem selectedItem;
     object selectedValue = 1;
 
     [Parameter]
@@ -416,7 +414,7 @@
             if (token != "")
                 await vm.LoadProyectAsync(token);
 
-                
+
         }
         catch
         {

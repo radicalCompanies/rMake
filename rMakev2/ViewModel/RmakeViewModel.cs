@@ -13,6 +13,7 @@ using RestSharp;
 using Microsoft.JSInterop;
 using rMakev2.Services;
 
+
 namespace rMakev2.ViewModel
 {
     public class RmakeViewModel : INotifyPropertyChanged
@@ -20,14 +21,17 @@ namespace rMakev2.ViewModel
         private ToastService _toastService;
         private ICommunicationService _communicationService;
 
+        private NavigationManager _navigationManager;
 
-        public RmakeViewModel(IToastService toast, ICommunicationService communicationService)
+        public RmakeViewModel(IToastService toast, ICommunicationService communicationService, NavigationManager navigationManager)
         {
             this._toastService = toast as Blazored.Toast.Services.ToastService;
             this._communicationService = communicationService;
+            this._navigationManager = navigationManager;
 
 
             InitializeData();
+            _navigationManager = navigationManager;
         }
 
         public RmakeViewModel()
@@ -206,19 +210,18 @@ namespace rMakev2.ViewModel
 
         public void DeleteDocument()
         {
+ 
             if (Ui.SelectedProject.Documents.Count() > 1)
             {
-                if (Ui.SelectedProject.Documents.Count() >= 1)
-                {
-                    Ui.SelectedProject.RemoveDocument(Ui.SelectedDocument);
-                    SelectDocument(Ui.SelectedProject.Documents.First());
-                }
-                else
-                {
-                    Ui.SelectedProject.RemoveDocument(Ui.SelectedDocument);
-                    NewDocument();
-                }
+                Ui.SelectedProject.RemoveDocument(Ui.SelectedDocument);
+                SelectDocument(Ui.SelectedProject.Documents.First());
             }
+            else if (Ui.SelectedProject.Documents.Count() == 1)
+            {
+                Ui.SelectedProject.RemoveDocument(Ui.SelectedDocument);
+                NewDocument();
+            }
+            
         }
 
         public void DeleteDocumentMenu(Document document)
@@ -249,9 +252,9 @@ namespace rMakev2.ViewModel
         {
             Ui.SelectedDocument.AddElement(Ui.SelectedDocument);  
         }
-        public void NewElement(int currentOrder)
+        public Element NewElement(int currentOrder)
         {
-            Ui.SelectedDocument.AddElement(Ui.SelectedDocument, currentOrder);
+            return Ui.SelectedDocument.AddElement(Ui.SelectedDocument, currentOrder);
         }
         public void DeleteElement(Element element)
         {
@@ -383,6 +386,13 @@ namespace rMakev2.ViewModel
         {
 
             SaveProjectDto savedContent = await _communicationService.LoadAsync(token);
+
+            if (savedContent == null)
+            {
+                _navigationManager.NavigateTo("/Error");
+                return;
+            }
+                
             App.Data.Id = savedContent.Id;
             foreach (var proj in savedContent.Projects)
             {
