@@ -4,13 +4,11 @@
 @inject IJSRuntime jsr;
 
 <RichTextEdit @ref="richTextEditRef"
-              Theme="RichTextEditTheme.Bubble"
-              ContentChanged="@OnContentChanged"
+              Theme="RichTextEditTheme.Snow"              
               PlaceHolder="Start writting"
-              id="@AreaOrderId"
-              ReadOnly="@readOnly"
+           
               SubmitOnEnter="false"
-              @onkeydown="KeyPress"
+        
               ToolbarPosition="Blazorise.Placement.Top">
     <Editor>
         @((MarkupString)BindingValue)
@@ -55,108 +53,31 @@
 
     }
 
-    private List<DateTime> Keys { get; set; } = new List<DateTime>();
-    public void KeyPress(KeyboardEventArgs e)
-    {
-
-        if (e.Code == "Enter" || e.Code == "NumpadEnter")
-        {
-            vm.Ui.BlockRTAFocus = false;
-
-
-            if (Keys.Any())
-            {
-                
-                DateTime last = Keys.Last();
-                
-                if (DateTime.UtcNow<= last.AddMilliseconds(200))
-                {
-                    vm.NewElement(OrderId);                  
-                    Keys.Clear();
-                }
-
-
-
-                Keys.Add(DateTime.UtcNow);
-            }
-            else
-            {
-                
-                Keys.Add(DateTime.UtcNow);
-
-            }
-        }
-        else
-        {
-            vm.Ui.BlockRTAFocus = true;
-            Keys.Clear();
-        }
-
-    }
-
-
+   
     protected RichTextEdit? richTextEditRef;
-    protected bool readOnly = false;
-    protected string? contentAsHtml;
-    protected string AreaOrderId;
 
-    public async Task OnContentChanged()
-    {
-        contentAsHtml = await richTextEditRef.GetHtmlAsync();
-        _value = contentAsHtml;
-        await BindingValueChanged.InvokeAsync(contentAsHtml);
-    }
+ 
 
 
-    private string _value;
+
+
+   
     [Parameter]
-    public string BindingValue
-    {
-        get => _value;
-        set
-        {
-            if (TextAreaValue == value) return;
-
-            TextAreaValue = value;
-            if (richTextEditRef != null)
-                richTextEditRef.SetHtmlAsync(TextAreaValue);
-        }
-    } 
-
-
-
-    private int orderId;
-    [Parameter]
-    public int OrderId
-    {
-        get => orderId;
-        set
-        {
-            if (orderId == value) return;
-
-            orderId = value;
-            AreaOrderId = "Area" + value.ToString();
-
-        }
-    }
+    public string BindingValue {get; set;} 
 
     [Parameter]
     public EventCallback<string> BindingValueChanged { get; set; }
 
+    
+
+    q1q
     protected override Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
 
-
         }
-
-        if (vm.Ui.BlockRTAFocus == false)
-        {
-            string elementId = vm.Ui.SelectedDocument.Elements.OrderBy(w => w.Order).Last().Order.ToString();
-            jsr.InvokeVoidAsync("focusLastTextEditor", elementId);
-            vm.Ui.BlockRTAFocus = false;
-        }
+        
         return base.OnAfterRenderAsync(firstRender);
     }
 

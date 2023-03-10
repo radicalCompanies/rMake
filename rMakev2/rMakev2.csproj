@@ -20,4 +20,8 @@
     <PackageReference Include="RestSharp" Version="108.0.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\WebMaker\" />
+  </ItemGroup>
+
 </Project>

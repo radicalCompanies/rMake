@@ -252,9 +252,9 @@ namespace rMakev2.ViewModel
         {
             Ui.SelectedDocument.AddElement(Ui.SelectedDocument);  
         }
-        public void NewElement(int currentOrder)
+        public Element NewElement(int currentOrder)
         {
-            Ui.SelectedDocument.AddElement(Ui.SelectedDocument, currentOrder);
+            return Ui.SelectedDocument.AddElement(Ui.SelectedDocument, currentOrder);
         }
         public void DeleteElement(Element element)
         {
