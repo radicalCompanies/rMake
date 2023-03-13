@@ -159,20 +159,25 @@
         height: 34px;
     }
 
+    .ql-editor{
+        border:none !important;
+    }
 </style>
 <div class="container-fluid">
     <header>
         <nav class="navbar navbar-expand-lg navbar-light  topBar">
             <a class="navbar-brand" href="#">
                 <div class="logo">rMake!</div>
-                <div class="subLogo"> Hacker Mode </div>
+                <div class="subLogo"> Escritura </div>
             </a>
             <div class="leftArea">
                 <ul class="navbar-nav mr-auto">
                     <li class="spacer">
                     </li>
                     <li class="nav-item active projectName">
-                        <span>@vm.Ui.SelectedProject.Name</span>
+                        <input Id="ProjectName" @bind="project.Name" @onblur="vm.UnBlockRTAFocus" @onkeydown="@vm.Enter" @bind:event="oninput" class="form-control-plaintext small" style=" font-size:16px; margin-left:10px; padding-top:15px !important;" placeholder="Project Name" autofocus @onclick="vm.BlockRTAFocus" />
+
+                        
                     </li>
                     <li>
                         <a class="barItems" @onclick="() => vm.DeleteProjectMenu(vm.Ui.SelectedProject)"><img src="svgs/Delete.svg" title="Delete Project" /></a>
@@ -202,9 +207,8 @@
         <div class="row mt-5">
             <div class="col-sm-12 col-md-3 col-lg-3 col-xl-2 mt-5 p-5 pl-0 ml-0">
                 <b @onclick="vm.DisplayMenu" class="small mt-4 m-2"><Icon Name="IconName.Bars" IconSize="IconSize.Large" /></b>
-                @if (vm.Ui.DisplayMenu == true)
-                {
-                    <div class="card mt-3">
+               
+                    <div class="card mt-3 @(vm.Ui.DisplayMenu ? "d-show" : "d-none")" >
                         <div class="card-header bg-white bb-white"></div>
                         <div class="card-body min-maxH-400 ">
                             @foreach (var project in vm.App.Data.Projects)
@@ -242,7 +246,7 @@
                             <button @onclick="vm.NewProject" class="btn btn-dark btn-Outline btn-sm" style="font-size:13px;">New Project</button>
                         </div>
                     </div>
-                }
+                
             </div>
             @*/menu*@
             @*working area*@
@@ -250,24 +254,16 @@
             </div>
             <div class="col-sm-12 col-md-7 col-lg-7 col-xl-8 mt-5 p-5 ">
 
-                @if (vm.Ui.DisplayDocumentMenu == true)
-                {
-                    <div class="spacer">
+                    <div class="spacer @(vm.Ui.DisplayDocumentMenu ? "d-show" : "d-none")">
 
-                        <div class="documentMenu mb-2">
+                        <div class="documentMenu mb-2 ">
                             <a @onclick="vm.DeleteDocument"><img src="svgs/Delete.svg" title="Delete Document" class="m-1 smallIcon" /></a>
                             <a @onclick="vm.CloneDocument"><img src="svgs/Clone.svg" title="Clone Document" class="m-1 smallIcon" /></a>
                             <a><img src="svgs/Merge.svg" title="Merge Documents comming soon" class="m-1 smallIcon" /></a>
                         </div>
-                    </div>
-                }
-                else
-                {
-                    <div class="spacer"></div>
-
-                }
-
-                <div style="width:20px; float:left; margin-top:15px;">
+                    </div>              
+                    <div class="spacer @(vm.Ui.DisplayDocumentMenu ? "d-none" : "d-show") "></div>
+                    <div style="width:20px; float:left; margin-top:15px;">
                     <img style="padding: 5px;" src="svgs/3 dots.svg" title="New Document" class=" " @onclick="vm.DocumentMenu" />
                 </div>
                 <div style="width:90%; float:left;">

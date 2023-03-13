@@ -1,5 +1,5 @@
-﻿@page "/alternativo"
-@page "/alternativo/{token}"
+﻿@page "/app"
+@page "/app/{token}"
 @using rMakev2.ViewModel;
 @inject RmakeViewModel vm;
 @inject IJSRuntime jsRuntime;
@@ -139,6 +139,28 @@
         padding: 10px;
     }
 
+    .ql-size-huge {
+        font-size: 2.5em;
+    }
+
+    .ql-size-large {
+        font-size: 1.5em;
+    }
+
+    .ql-size-small {
+        font-size: .75em;
+    }
+
+    .ql-syntax {
+        background-color: #23241f;
+        color: #f8f8f2;
+        overflow: visible;
+        white-space: pre-wrap;
+        margin-bottom: 5px;
+        margin-top: 5px;
+        padding: 5px 10px;
+        text-align: left;
+    }
 </style>
 <div class="container-fluid">
     <header>
@@ -152,7 +174,8 @@
                     <li class="spacer">
                     </li>
                     <li class="nav-item active projectName">
-                        <span>@vm.Ui.SelectedProject.Name</span>
+                        <input Id="ProjectName" @bind="@vm.Ui.SelectedProject.Name" class="form-control-plaintext small text-center" style=" font-size:16px; margin-left:10px; margin-top:-5px; !important; " placeholder="Project Name" autofocus @onclick="vm.BlockRTAFocus" />
+
                     </li>
                     <li class="nav-item">
                         <a class="barItems" @onclick="vm.ForkProject"><img src="svgs/Fork.svg" title="Fork Project" /> </a>
@@ -161,13 +184,17 @@
                         <a class="barItems" @onclick="vm.ForkProject"><img src="svgs/Merge.svg" title="Merge Projects" /> </a>
                     </li>
                     <li class="nav-item">
-                        <a class="barItems" @onclick="vm.ForkProject"><img src="svgs/Code.svg" title="Json View Coming Soon" /> </a>
+                        <a class="barItems" @onclick="vm.ShowJsonModal"><img src="svgs/Code.svg" title="Json View" /> </a>
                     </li>
                     <li class="nav-item">
                         <a class="barItems" @onclick=" vm.ShowSaveModal"><img src="svgs/asset 1.svg" title="Save Project" /> </a>
                     </li>
                     <li class="nav-item">
                         <a class="barItems" @onclick=" vm.ShowPublishModal"><img src="svgs/asset 3.svg" title="Publish" /> </a>
+
+                    </li>
+                    <li class="nav-item">
+                        <a class="barItems" @onclick=" vm.DeleteProject"><img src="svgs/Delete.svg" title="Delete Project" /> </a>
                     </li>
                 </ul>
             </div>
@@ -206,7 +233,7 @@
                                 }
 
                                 <div class=" mt-4">
-                                    <button @onclick="vm.NewDocument" class="small">  <img src="svgs/Plus.svg" title="New Document" class="mr-2 smallIcon" />New Document </button>
+                                    <button @onclick="@(() => vm.NewDocumentMenu(project))" class="small">  <img src="svgs/Plus.svg" title="New Document" class="mr-2 smallIcon" />New Document </button>
                                     <hr />
                                 </div>
                             }
@@ -217,8 +244,8 @@
                     </div>
                 }
             </div>
-            @*/menu*@
-            @*working area*@
+            @*/menu*    @
+            @*working ar    ea*@
             <div class="col-sm-12 col-md-2 col-lg-2 col-xl-1 mt-5 p-5 ">
             </div>
             <div class="col-sm-12 col-md-7 col-lg-7 col-xl-8 mt-5 p-5 ">
@@ -265,65 +292,33 @@
                                     <a><img src="svgs/Idea.svg" title="Comming soon" class="mr-2 mdicon" /></a>
                                 </div>
                                 <div style="float:left; width:90%">
-
-                                    <RichTextEdit Theme="RichTextEditTheme.Bubble"
-                                          PlaceHolder="Start writting"
-                                          SubmitOnEnter="false"
-                                          ToolbarPosition="Blazorise.Placement.Top">
-                                        <Editor>
-
-                                            @((MarkupString)item.Content)
-
-                                        </Editor>
-                                        <Toolbar>
-                                            <RichTextEditToolbarGroup>
-                                                <RichTextEditToolbarButton Action="RichTextEditAction.Bold" />
-                                                <RichTextEditToolbarButton Action="RichTextEditAction.Italic" />
-                                                <RichTextEditToolbarButton Action="RichTextEditAction.Strike" />
-                                                <RichTextEditToolbarButton Action="RichTextEditAction.Underline" />
-                                                <RichTextEditToolbarButton Action="RichTextEditAction.Image" />
-                                                <RichTextEditToolbarButton Action="RichTextEditAction.CodeBlock" />
-                                                <RichTextEditToolbarSelect Action="RichTextEditAction.Align">
-                                                    <RichTextEditToolbarSelectItem Value="center" />
-                                                    <RichTextEditToolbarSelectItem Value="right" />
-                                                    <RichTextEditToolbarSelectItem Value="justify" />
-                                                    <RichTextEditToolbarSelectItem Selected />
-                                                </RichTextEditToolbarSelect>
-
-                                                <RichTextEditToolbarSelect Action="RichTextEditAction.Size">
-                                                    <RichTextEditToolbarSelectItem Value="small" />
-                                                    <RichTextEditToolbarSelectItem Selected />
-                                                    <RichTextEditToolbarSelectItem Value="large" />
-                                                    <RichTextEditToolbarSelectItem Value="huge">Very Big</RichTextEditToolbarSelectItem>
-                                                </RichTextEditToolbarSelect>
-                                                <RichTextEditToolbarButton Action="RichTextEditAction.List" Value="ordered" />
-                                                <RichTextEditToolbarButton Action="RichTextEditAction.List" Value="bullet" />
-                                            </RichTextEditToolbarGroup>
-                                            <!-- Custom toolbar content -->
-                                            <RichTextEditToolbarGroup Float="Blazorise.Float.End">
-                                            </RichTextEditToolbarGroup>
-                                        </Toolbar>
-                                    </RichTextEdit>
+                                    <rMakev2.Components.AlternativeTextArea Element=@item Content="@item.Content" />
                                 </div>
                             }
 
                             else
                             {
-                                <div @onclick=@(()=>vm.EditItem(item)) style="background-color:#fff; min-height:100px;">
-                                    
-                                    @if(item.Content==""){
-                                        <p>Stat typing</p>
-                                    }else{
+                                <div @ondblclick="@(()=>vm.EditItem(item))" @onblur="@(()=>vm.EditItem(item))" style="margin-left:50px; background-color:#fff; " title="Double click to edit.33">
 
-                                    @((MarkupString)item.Content)
+                                    @if (item.Content == "")
+                                    {
+                                        <p class="small" style="min-height:100px; color:#666;">Double click to start Writting</p>
+
                                     }
+                                    else
+                                    {
+                                        <div>
+                                            @((MarkupString)item.Content)
+                                        </div>
+                                    }
+
                                 </div>
                             }
 
                             <div class="clearfix"></div>
                         </div>
                     }
-                    <button @onclick="vm.NewElement" class="small">  <img src="svgs/Plus.svg" title="New Document" class="mr-2 mt-5 pt-4" />New Element </button>
+                    <button @onclick="vm.NewElement" class="small mt-5 pt-4 ml-2">  <img src="svgs/Plus.svg" title="New Document" class="mr-2 " />New Element </button>
                 </div>
             </div>
 
@@ -335,6 +330,16 @@
 
     </section>
 </div>
+
+<div style="width:20%; background-color:#f3f3f3; position:fixed; right:0px; top:80px; height:100%; padding:5px;" class=" @(vm.Ui.DisplayJson? "d-block" : "d-none" )">
+           <textarea  style="color:#0f0; width:100%; margin:auto; font-size:10px; background-color:#000; border-radius:0px; height:100%; text-align:left;">
+                    @vm.Ui.JsonFn();
+           </textarea>
+    </div>
+
+
+
+
 
 <Modal @ref="vm.App.Ui.SaveModal" class="half-modal fade">
     <ModalContent Centered="true">
@@ -474,7 +479,6 @@
                     Element newElement;
                     newElement = vm.NewElement(item.Order);
                     vm.EditItem(newElement);
-
                     Keys.Clear();
 
                 }

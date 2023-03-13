@@ -16,7 +16,7 @@ namespace rMakev2.Models
             Id = Guid.NewGuid().ToString();
             Content = "";
             Order = Document.Elements.Count() + 1;
-            EditItem = false;
+            EditItem = true;
             DocumentId = document.Id;
             Document = document;
             Document.Elements.Add(this);
@@ -48,7 +48,6 @@ namespace rMakev2.Models
         public string Hash { get; set; }
         public bool IsValid { get; set; }
         public string ParentElementId { get; set; }
-
         public bool EditItem { get; set; }
 
         public void AddIdea(string Idea)
@@ -57,6 +56,6 @@ namespace rMakev2.Models
         }
         
         
-
+    
     }
 }

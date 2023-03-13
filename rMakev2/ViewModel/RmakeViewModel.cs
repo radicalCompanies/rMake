@@ -103,6 +103,11 @@ namespace rMakev2.ViewModel
             App.Ui.SaveModal.Show();
         }
 
+        public void ShowJsonModal()
+        {
+            App.Ui.SwitchDisplayJson();
+        }
+
         public void DocumentMenu()
         {
             App.Ui.DocumentMenu();
@@ -150,6 +155,10 @@ namespace rMakev2.ViewModel
         public void NewProject()
         {
             SelectProject(App.Data.AddProject());
+            SelectDocument(Ui.SelectedProject.Documents.FirstOrDefault());
+
+
+
             //this._toastService.ShowSuccess("New project created");
 
         }
@@ -250,7 +259,9 @@ namespace rMakev2.ViewModel
 
         public void NewElement()
         {
+            Ui.SelectedDocument.ResetEdit();
             Ui.SelectedDocument.AddElement(Ui.SelectedDocument);  
+
         }
         public Element NewElement(int currentOrder)
         {
