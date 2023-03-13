@@ -15,7 +15,10 @@
                     <p style="font-size:9px; text-align: left; margin:0px;"> Hacker Mode </p>
                 </div>
                 <div class="col-sm-12 col-md-10 text-right p-3" style="padding:1px  !important; padding-top:12px !important;">
-                    <p class="textMenu Underline p-2" style="float:left; padding:0px !important; margin:0px !important;">@vm.Ui.SelectedProject.Name |</p>
+                    <p class="textMenu Underline p-2" style="float:left; padding:0px !important; margin:0px !important;">
+                        <input Id="ProjectName" @bind="project.Name" @onblur="vm.UnBlockRTAFocus" @onkeydown="@vm.Enter" @bind:event="oninput" class="form-control-plaintext small" style=" font-size:16px; margin-left:10px; padding-top:15px !important;" placeholder="Project Name" autofocus @onclick="vm.BlockRTAFocus" />
+                        |
+                    </p>
                     <a class="textMenu Underline p-2">Merge</a>
                     <a class="textMenu Underline p-2" @onclick="vm.ForkProject">Fork project</a>
                     <a class="Underline p-1" @onclick=" vm.ShowSaveModal"><img src="svgs/asset 1.svg" style="height: 18px; width:18px; " /> </a>

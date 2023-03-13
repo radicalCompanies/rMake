@@ -7,6 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Pages\HackerMode.razor" />
+    <Content Remove="Pages\Mvp.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Blazored.Toast" Version="4.0.0" />
     <PackageReference Include="Blazorise.Icons.Bootstrap" Version="1.2.0" />
     <PackageReference Include="Blazorise.Icons.Material" Version="1.2.0" />

@@ -1,17 +1,18 @@
 ﻿@using Blazorise.RichTextEdit
+@using rMakev2.Models
 @using rMakev2.ViewModel
 @inject RmakeViewModel vm;
 @inject IJSRuntime jsr;
 
 <RichTextEdit @ref="richTextEditRef"
-              Theme="RichTextEditTheme.Snow"              
-              PlaceHolder="Start writting"
-           
-              SubmitOnEnter="false"
-        
+              Theme="RichTextEditTheme.Bubble"              
+              PlaceHolder="Start writting"           
+              SubmitOnEnter="false" 
+              @onkeydown="OnKeyPress"             
               ToolbarPosition="Blazorise.Placement.Top">
+              
     <Editor>
-        @((MarkupString)BindingValue)
+        @((MarkupString)Content)
 
     </Editor>
     <Toolbar>
@@ -20,9 +21,9 @@
             <RichTextEditToolbarButton Action="RichTextEditAction.Italic" />
             <RichTextEditToolbarButton Action="RichTextEditAction.Strike" />
             <RichTextEditToolbarButton Action="RichTextEditAction.Underline" />
-            <RichTextEditToolbarButton Action="RichTextEditAction.Image" />
             <RichTextEditToolbarButton Action="RichTextEditAction.CodeBlock" />
             <RichTextEditToolbarSelect Action="RichTextEditAction.Align">
+
                 <RichTextEditToolbarSelectItem Value="center" />
                 <RichTextEditToolbarSelectItem Value="right" />
                 <RichTextEditToolbarSelectItem Value="justify" />
@@ -45,40 +46,36 @@
 </RichTextEdit>
 
 @code {
-    private string TextAreaValue;
-    protected override async Task OnInitializedAsync()
+
+
+    protected RichTextEdit? richTextEditRef;
+    protected bool readOnly = false;
+    protected string? contentAsHtml;
+    protected string AreaOrderId;
+
+    [Parameter]
+    public string Content {get; set;}
+    [Parameter]
+    public Element Element{ get; set; }
+
+    async Task OnKeyPress()
     {
-        TextAreaValue = BindingValue;
-        
+
+        Element.Content = await richTextEditRef.GetHtmlAsync();
 
     }
 
-   
-    protected RichTextEdit? richTextEditRef;
-
- 
-
-
-
-
-   
-    [Parameter]
-    public string BindingValue {get; set;} 
-
-    [Parameter]
-    public EventCallback<string> BindingValueChanged { get; set; }
-
-    
-
-    q1q
     protected override Task OnAfterRenderAsync(bool firstRender)
     {
-        if (firstRender)
-        {
-
-        }
-        
+       
         return base.OnAfterRenderAsync(firstRender);
+    }
+
+
+    protected override Task OnInitializedAsync()
+    {
+        
+        return base.OnInitializedAsync();
     }
 
 

@@ -55,6 +55,14 @@ namespace rMakev2.Models
             current.Order = order;
             current.Content = order.ToString();
         }
+
+        public void ResetEdit()
+        {
+            foreach(var element in Elements)
+            {
+                element.EditItem = false;
+            }
+        }
       
     }
 }

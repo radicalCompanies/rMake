@@ -37,6 +37,19 @@ namespace rMakev2.Models
                 OnPropertyChanged();
             }
         }
+
+        private Element selectedElement;
+        public Element SelectedElement
+        {
+            get { return selectedElement; }
+            set
+            {
+                selectedElement = value;
+                OnPropertyChanged();
+            }
+        }
+
+
         [JsonIgnore]
         public string Json { get; set; }
         public string AppId { get; set; }
@@ -48,6 +61,7 @@ namespace rMakev2.Models
         public bool DisplayMenu { get; set; } = false;
         public bool DisplayComents { get; set; } = false;
         public bool DisplayDocumentMenu { get; set; }
+        public bool DisplayJson { get; set; } = false;
 
 
         public Modal? SaveModal { get; set; }
@@ -79,7 +93,20 @@ namespace rMakev2.Models
                 BlockRTAFocus = true;
             }
         }
+        public void SwitchDisplayJson()
+        {
 
+            if (DisplayJson == true)
+            {
+                DisplayJson = false;
+                
+            }
+            else
+            {
+                DisplayJson = true;
+                
+            }
+        }
 
         public void EditItem(Element element)
         {
