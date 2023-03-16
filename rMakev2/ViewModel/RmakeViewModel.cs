@@ -257,6 +257,20 @@ namespace rMakev2.ViewModel
             
         }
 
+        public void orderElements()
+        {
+            if(Ui.SelectedDocument.IsOrdered == false)
+            {
+                Ui.SelectedDocument.stringToElements();
+                Ui.SelectedDocument.IsOrdered = true;
+            }
+            else
+            {
+                Ui.SelectedDocument.elementsToString();
+                Ui.SelectedDocument.IsOrdered = false;
+            }
+        }
+
         public void NewElement()
         {
             Ui.SelectedDocument.ResetEdit();
