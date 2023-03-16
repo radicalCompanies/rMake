@@ -91,6 +91,10 @@
         min-height: 500px;
     }
 
+    .maxH-500 {
+        max-height: 500px;
+    }
+
     .menuDocumentTitle {
         text-overflow: ellipsism !important;
         white-space: nowrap;
@@ -210,7 +214,7 @@
                 {
                     <div class="card mt-3">
                         <div class="card-header bg-white bb-white"></div>
-                        <div class="card-body minH-500 ">
+                        <div class="card-body minH-500 maxH-500 overflow-auto">
                             @foreach (var project in vm.App.Data.Projects)
                             {
                                 <div>
