@@ -289,10 +289,13 @@
                                     <a @onclick="()=>vm.DeleteElement(item)"><img src="svgs/Delete.svg" title="New Document" class="m-1 mdicon" /></a>
                                     <a @onclick="()=>vm.MoveDown(item)"><img src="svgs/Arrow down.svg" title="New Document" class="m-1 mdicon" /></a>
                                     <a @onclick="()=>vm.MoveUp(item)"><img src="svgs/Arrow up.svg" title="New Document" class="m-1 mdicon" /></a>
+                                    <a @onclick="(()=>vm.AiGenerate(item))" class="m-1 mdicon" title="Ask robin to improve your text">  <Icon Name="IconName.Circle"></Icon></a>
                                     <a><img src="svgs/Idea.svg" title="Comming soon" class="mr-2 mdicon" /></a>
                                 </div>
                                 <div style="float:left; width:90%">
-                                    <rMakev2.Components.AlternativeTextArea Element=@item Content="@item.Content" />
+                                    <rMakev2.Components.AlternativeTextArea Element=@item Content="@(item.Content + (String.IsNullOrEmpty(item.AIContent)? "":"<br/>Robin recommendation-----------<br/>")+  item.AIContent)"
+                                    
+                                    />
                                 </div>
                             }
 
@@ -307,7 +310,7 @@
                                     }
                                     else
                                     {
-                                        <div>
+                                        <div style="margin-top:50px;">
                                             @((MarkupString)item.Content)
                                         </div>
                                     }
@@ -319,6 +322,7 @@
                         </div>
                     }
                     <button @onclick="vm.NewElement" class="small mt-5 pt-4 ml-2">  <img src="svgs/Plus.svg" title="New Document" class="mr-2 " />New Element </button>
+
                 </div>
             </div>
 
@@ -332,10 +336,10 @@
 </div>
 
 <div style="width:20%; background-color:#f3f3f3; position:fixed; right:0px; top:80px; height:100%; padding:5px;" class=" @(vm.Ui.DisplayJson? "d-block" : "d-none" )">
-           <textarea  style="color:#0f0; width:100%; margin:auto; font-size:10px; background-color:#000; border-radius:0px; height:100%; text-align:left;">
-                    @vm.Ui.JsonFn();
+    <textarea style="color:#0f0; width:100%; margin:auto; font-size:10px; background-color:#000; border-radius:0px; height:100%; text-align:left;">
+        @vm.Ui.JsonFn();
            </textarea>
-    </div>
+</div>
 
 
 

@@ -39,6 +39,7 @@ namespace rMakev2.Models
         }
         public string Id { get; set; }
         public string Content { get; set; }
+        public string AIContent { get; set; }
         public int Order { get; set; }
         public int AppearingOrder { get; set; }
         public string Ideary { get; set; }

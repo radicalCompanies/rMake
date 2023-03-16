@@ -16,6 +16,8 @@ builder.Services.AddMudServices();
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddScoped<RmakeViewModel>();
+builder.Services.AddScoped<RobinVM>();
+builder.Services.AddScoped<AIChat>();
 
 builder.Services.AddBlazoredToast();
 builder.Services

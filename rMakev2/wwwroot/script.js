@@ -15,7 +15,11 @@ function focusLastTextEditor(id) {
 }
 
 
-
+function scrollToEnd() {
+    var objDiv = document.getElementById("conversation");
+    objDiv.scrollTop = objDiv.scrollHeight - objDiv.clientHeight;
+    
+}
 
 
 

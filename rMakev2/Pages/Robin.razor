@@ -1,0 +1,76 @@
+﻿@page "/robin"
+@page "/robin/{token}"
+@using rMakev2.ViewModel;
+@using Microsoft.JSInterop
+@inject IJSRuntime JS
+@inject RobinVM robin;
+@inject AIChat _aiChat;
+
+
+<div class="container">
+
+    <div style="height:80px; position:absolute; top:0px; z-index:99999; text-align:right; padding-top:15px;">
+        
+        <img src="svgs/Menu Bar.svg" title="Publish"  style="float:right !mportant;" />
+    </div>
+    
+    <div class="chatArea vh-100" style="padding-top:50px; padding-bottom:100px !important; overflow:scroll; " id="conversation">
+       
+        <div style=" font-size:12px; line-height:16px; width:85%; float:left; text-align:left; margin-top:20px; padding:5px; border-end-end-radius:10px;" class="bg-light">
+            <h2>Hello! @token </h2>
+            <h4>I am Robin your personal promoter</h4>
+            <p>My purpose is to help you to find your dream Job</p>
+            <p>
+                I am still under construction, however by speaking with you I am learning how to interact with humans.
+            </p>
+            <p>I am currently connected to the Knowledge base of Chat GPT-3, but my language algorithm and my matching capabilities are developed by Xipe.</p>
+        </div>
+        @foreach (var item in robin.History)
+        {
+            if (item.Type == 0)
+            {
+                <p style=" font-size:12px; line-height:16px; width:90%; float:right; text-align:left; margin-top:20px; padding:10px; border-start-start-radius:10px;" class="bg-light">@item.Text</p>
+            }
+            else
+            {
+                <p style=" font-size:12px; line-height:16px; width:90%; float:left; text-align:left; margin-top:20px; padding:10px; border-end-end-radius:10px;" class="bg-light">@item.Text</p>
+            }
+        }
+    </div>
+
+
+
+
+<img src="/images/maddie_creates-icon.gif" class="@(robin.Typing? "d-block":"d-none")" style="width:50px; position:absolute; z-index:9999; bottom:110px;" />
+
+<div style="width:100%; position:fixed; bottom:0; left:0px; background-color:#f3f3f3; padding:10px;">
+
+    <div style="width:75%; float:left; padding:10px;">
+        <input type="text" @onkeydown="@robin.KeyPress" @bind="@robin.TextInput" style="width:100%;  height: 50px; padding:5px;" placeholder="Ask me something" />
+    </div>
+    <div style="width:25%; float:left; padding:10px;">
+        <button @onclick="robin.SendMessage" class="btn btn-primary" style=" width:100%;height: 50px;">Send</button>
+    </div>
+    <div class="clearfix"></div>
+</div>
+
+
+</div>
+
+@code {
+
+    [Parameter]
+    public string token { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+
+        if (!firstRender)
+        {
+            robin.CallJsFn();
+            robin.Typing = false;
+
+        }
+    }
+}
+

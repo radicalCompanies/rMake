@@ -20,15 +20,16 @@ namespace rMakev2.ViewModel
     {
         private ToastService _toastService;
         private ICommunicationService _communicationService;
-
+        private AIChat _aiChat;
+        
         private NavigationManager _navigationManager;
 
-        public RmakeViewModel(IToastService toast, ICommunicationService communicationService, NavigationManager navigationManager)
+        public RmakeViewModel(IToastService toast, ICommunicationService communicationService, NavigationManager navigationManager, AIChat aiChat)
         {
             this._toastService = toast as Blazored.Toast.Services.ToastService;
             this._communicationService = communicationService;
             this._navigationManager = navigationManager;
-
+            this._aiChat = aiChat;
 
             InitializeData();
             _navigationManager = navigationManager;
@@ -162,9 +163,16 @@ namespace rMakev2.ViewModel
             //this._toastService.ShowSuccess("New project created");
 
         }
+
+        public async Task AiGenerate(Element element)
+        {
+            var content = element.Content;
+            element.AIContent= await _aiChat.UseChatService("Improve and expand this text: " + content);
+            
+        }
         public void DeleteProject()
         {
-
+            
             if (App.Data.Projects.Count() >= 1)
             {
                 App.Data.RemoveProject(Ui.SelectedProject);
