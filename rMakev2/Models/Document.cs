@@ -1,5 +1,6 @@
 ﻿using System.Reflection.Metadata;
 using System.Text.Json.Serialization;
+using System.Text.RegularExpressions;
 using System.Xml.Linq;
 
 namespace rMakev2.Models
@@ -30,8 +31,10 @@ namespace rMakev2.Models
         public List<Element> Elements { get; set; }
         [JsonIgnore]
         public Project Project { get; set; }
+        public string Content { get; set; }
         public string ProjectId { get; set; }
         public string ParentDocumentId { get; set; }
+        public bool IsOrdered { get; set; } = false;
         
         public Element AddElement(Document document)
         {
@@ -63,6 +66,66 @@ namespace rMakev2.Models
                 element.EditItem = false;
             }
         }
-      
+
+        public List<string> separateElements()
+        {
+            var list = new List<string>();
+            var pattern = "(<p>|</p>)";
+            var isInTag = false;
+            var inTagValue = String.Empty;
+
+            foreach (var subStr in Regex.Split(Content, pattern))
+            {
+                if (subStr.Equals("<p>"))
+                {
+                    isInTag = true;
+                    continue;
+                }
+                else if (subStr.Equals("</p>"))
+                {
+                    isInTag = false;
+                    list.Add(String.Format("<p>{0}</p>", inTagValue));
+                    continue;
+                }
+
+                if (isInTag)
+                {
+                    inTagValue = subStr;
+                    continue;
+                }
+
+                if (!String.IsNullOrEmpty(subStr))
+                    list.Add(subStr);
+
+            }
+            return list;
+        }
+
+        public void stringToElements()
+        {
+            List<string> elementList = separateElements();
+
+            Elements = new List<Element>();
+
+            foreach (var elementContent in elementList)
+            {
+                Element element = new Element(this);
+
+                element.Content = elementContent;
+            }
+        }
+
+        public void elementsToString()
+        {
+            string ContentString = "";
+
+            foreach (var element in Elements.OrderBy(w => w.Order))
+            {
+                ContentString += element.Content;
+            }
+
+            Content = ContentString;
+
+        }
     }
 }

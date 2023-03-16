@@ -181,6 +181,9 @@
                         <input Id="ProjectName" @bind="@vm.Ui.SelectedProject.Name" class="form-control-plaintext small text-center" style=" font-size:16px; margin-left:10px; margin-top:-5px; !important; " placeholder="Project Name" autofocus @onclick="vm.BlockRTAFocus" />
 
                     </li>
+                    <li>
+                        <a class="nav-item" @onclick="vm.orderElements" ><Icon Name="IconName.Stream" Style="color: #000000"></Icon></a>
+                    </li>
                     <li class="nav-item">
                         <a class="barItems" @onclick="vm.ForkProject"><img src="svgs/Fork.svg" title="Fork Project" /> </a>
                     </li>
@@ -282,47 +285,36 @@
                 </div>
                 <div class="clearfix"></div>
                 <div class="mt-4">
-                    @foreach (var item in vm.Ui.SelectedDocument.Elements.OrderBy(w => w.Order))
-                    {
                         <div class="mt-4">
 
+                            @if(vm.Ui.SelectedDocument.IsOrdered == false){
+                                <rMakev2.Components.AlternativeTextArea document="@vm.Ui.SelectedDocument" content="@vm.Ui.SelectedDocument.Content" />
 
-                            @if (item.EditItem == true)
-                            {
-                                <div style="margin-left:-100px; width:120px;  display:block; float:left;">
-                                    <a @onclick="()=>vm.DeleteElement(item)"><img src="svgs/Delete.svg" title="New Document" class="m-1 mdicon" /></a>
-                                    <a @onclick="()=>vm.MoveDown(item)"><img src="svgs/Arrow down.svg" title="New Document" class="m-1 mdicon" /></a>
-                                    <a @onclick="()=>vm.MoveUp(item)"><img src="svgs/Arrow up.svg" title="New Document" class="m-1 mdicon" /></a>
-                                    <a><img src="svgs/Idea.svg" title="Comming soon" class="mr-2 mdicon" /></a>
-                                </div>
-                                <div style="float:left; width:90%">
-                                    <rMakev2.Components.AlternativeTextArea Element=@item Content="@item.Content" />
-                                </div>
+                            } else {
+                                foreach (var item in vm.Ui.SelectedDocument.Elements.OrderBy(w => w.Order)){
+
+                                    <div style="margin-left:-100px; width:120px;  display:block; float:left;">
+                                        <a @onclick="()=>vm.DeleteElement(item)"><img src="svgs/Delete.svg" title="New Document" class="m-1 mdicon" /></a>
+                                        <a @onclick="()=>vm.MoveDown(item)"><img src="svgs/Arrow down.svg" title="Move down" class="m-1 mdicon" /></a>
+                                        <a @onclick="()=>vm.MoveUp(item)"><img src="svgs/Arrow up.svg" title="Move up" class="m-1 mdicon" /></a>
+                                        <a><img src="svgs/Idea.svg" title="Comming soon" class="mr-2 mdicon" /></a>
+                                    </div>
+
+
+                                    <rMakev2.Components.AlternativeTextArea element="@item" content="@item.Content" />
+                                }
+
                             }
 
-                            else
-                            {
-                                <div @ondblclick="@(()=>vm.EditItem(item))" @onblur="@(()=>vm.EditItem(item))" style="margin-left:50px; background-color:#fff; " title="Double click to edit.33">
+                          
 
-                                    @if (item.Content == "")
-                                    {
-                                        <p class="small" style="min-height:100px; color:#666;">Double click to start Writting</p>
 
-                                    }
-                                    else
-                                    {
-                                        <div>
-                                            @((MarkupString)item.Content)
-                                        </div>
-                                    }
-
-                                </div>
-                            }
+                           
 
                             <div class="clearfix"></div>
                         </div>
-                    }
-                    <button @onclick="vm.NewElement" class="small mt-5 pt-4 ml-2">  <img src="svgs/Plus.svg" title="New Document" class="mr-2 " />New Element </button>
+                    
+                    
                 </div>
             </div>
 
