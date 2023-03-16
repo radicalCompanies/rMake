@@ -2,14 +2,18 @@
 @using System.ComponentModel.DataAnnotations;
 @using rMakev2.ViewModel;
 @using rMakev2.Services;
+@inject RmakeViewModel vm;
 @inject NavigationManager NavigationManager
 @inject IToastService toastService
 
 <div class="row" style="width: 100vw">
-    <div class="col-lg-6 vh-100 space">
+    <div class="col-lg-6 vh-100 space" style="width: 55vw">
         <div class="index-header">
-            <h2 class="h-2-logo">rMake!</h2>
-            <h3 class="h-3-logo">By radical companies.</h3>
+            <img class="logo" src="/svgs/LOGO RADICAL.svg" />
+            <div class="left-line">
+                <h2 class="h-2-logo">rMake!</h2>
+                <h3 class="h-3-logo">By radical companies.</h3>
+            </div>
         </div>
 
         <div class="login-container">
@@ -18,9 +22,9 @@
             <a href="App" class="btn btn-start btn-lg">Start from scratch</a>
             <br />
             <div class="d-flex justify-content-center align-content-center">
-                <hr />
+                <hr class="or-hr" />
                 <p class="or-index">or</p>
-                <hr />
+                <hr class="or-hr" />
             </div>
             <br />
             <p>Use an existing token</p>
@@ -32,7 +36,7 @@
 
     </div>
 
-    <div class="col-lg-6 vh-100 pr-5">
+    <div class="col-lg-6 vh-100 pr-5 right-half" style="width: 45vw">
         <div class="right-side">
             <img src="svgs/3 dots.svg" class="three-dots" />
             <p>
@@ -45,6 +49,14 @@
             <p>"In the darkest times, hope is something you give yourself. That is the meaning of inner strength." - Iroh</p>
             <hr />
         </div>
+        @*<div>
+            @foreach (var oraciones in vm.ListaOraciones)
+            {
+                <p>@vm.ListaOraciones.First().Question</p>
+                <Icon Name="IconName.Circle" Style="@vm.ListaOraciones.First().Color"></Icon>
+
+            }
+        </div>*@
     </div>
 </div>
 

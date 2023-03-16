@@ -11,8 +11,9 @@
               @onkeydown="OnKeyPress"             
               ToolbarPosition="Blazorise.Placement.Top">
               
+              
     <Editor>
-        @((MarkupString)Content)
+        @((MarkupString)content)
 
     </Editor>
     <Toolbar>
@@ -54,14 +55,22 @@
     protected string AreaOrderId;
 
     [Parameter]
-    public string Content {get; set;}
+    public Document document{ get; set; }
     [Parameter]
-    public Element Element{ get; set; }
+    public Element element{ get; set; }
+    [Parameter]
+    public string content { get; set; }
 
     async Task OnKeyPress()
     {
+        if(element == null)
+            document.Content = await richTextEditRef.GetHtmlAsync();
+        else
+            element.Content = await richTextEditRef.GetHtmlAsync();
 
-        Element.Content = await richTextEditRef.GetHtmlAsync();
+
+
+       
 
     }
 

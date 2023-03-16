@@ -44,6 +44,7 @@
 
     .projectName {
         min-width: 100px;
+        width: 400px;
         padding-top: 15px !important;
         padding-right: 25px;
         margin-right: 15px;
@@ -91,13 +92,17 @@
         min-height: 500px;
     }
 
+    .maxH-500 {
+        max-height: 500px;
+    }
+
     .menuDocumentTitle {
-        text-overflow: ellipsism !important;
         white-space: nowrap;
         overflow: hidden;
-        width: 100% font-size:13px;
         margin-left: 20px;
+        max-width: 150px;
         font-size: 13px;
+        margin-bottom: 5px;
     }
 
     .btn-Outline {
@@ -121,8 +126,10 @@
         border-radius: 5px;
         border: 1px solid #777;
         padding: 5px;
-        padding-left: 15px;
-        width: 100px;
+        padding-left: 0;
+        width: 125px;
+        display: flex;
+        justify-content: space-evenly;
     }
 
     .spacer {
@@ -194,7 +201,7 @@
 
                     </li>
                     <li class="nav-item">
-                        <a class="barItems" @onclick=" vm.DeleteProject"><img src="svgs/Delete.svg" title="Delete Project" /> </a>
+                        <a class="barItems" @onclick="() => vm.DeleteProjectMenu(vm.Ui.SelectedProject)"><img src="svgs/Delete.svg" title="Delete Project" /> </a>
                     </li>
                 </ul>
             </div>
@@ -203,31 +210,29 @@
 
     <section>
         @*menu*@
-        <div class="row mt-5">
+        <div class="row mt-5 pt-7">
             <div class="col-sm-12 col-md-3col-lg-3 col-xl-2 mt-5 p-5 pl-0 ml-0">
                 <b @onclick="vm.DisplayMenu" class="small mt-4 m-2 pl-4"><img src="svgs/Menu Bar.svg" title="Publish" class="menuBarsIcon" /></b>
                 @if (vm.Ui.DisplayMenu == true)
                 {
                     <div class="card mt-3">
                         <div class="card-header bg-white bb-white"></div>
-                        <div class="card-body minH-500 ">
+                        <div class="card-body minH-500 maxH-500 overflow-auto">
                             @foreach (var project in vm.App.Data.Projects)
                             {
                                 <div>
-                                    <input Id="ProjectName" @bind="project.Name" @onblur="vm.UnBlockRTAFocus" @onkeydown="@vm.Enter" @bind:event="oninput" class="form-control-plaintext small" style=" font-size:16px; margin-left:10px; padding-top:15px !important;" placeholder="Project Name" autofocus @onclick="vm.BlockRTAFocus" />
+                                    <input Id="ProjectName" @bind="project.Name" @onblur="vm.UnBlockRTAFocus" @onkeydown="@vm.Enter" @bind:event="oninput" class="form-control-plaintext small" style=" font-size:16px; margin-left:10px; padding-top:15px !important; text-overflow: ellipsis;" placeholder="Project Name" autofocus @onclick="vm.BlockRTAFocus" />
                                 </div>
                                 @foreach (var document in project.Documents)
                                 {
                                     <div class="col-12">
                                         @if (document.Name == "")
                                         {
-                                            <a @onclick="@(() => vm.EventSelectDocumentMenu(document))" class="menuDocumentTitle">Untitled</a>
+                                            <p @onclick="@(() => vm.EventSelectDocumentMenu(document))" style="text-overflow:ellipsis;" class="menuDocumentTitle">Untitled</p>
                                         }
                                         else
                                         {
-                                            <div class="menuDocumentTitle">
-                                                <a @onclick="@(() => vm.EventSelectDocumentMenu(document))">@document.Name</a>
-                                            </div>
+                                            <p @onclick="@(() => vm.EventSelectDocumentMenu(document))" style="text-overflow:ellipsis;" class="menuDocumentTitle">@document.Name</p>
                                         }
                                     </div>
                                 }
@@ -245,7 +250,7 @@
                 }
             </div>
             @*/menu*    @
-            @*working ar    ea*@
+            @*working area*@
             <div class="col-sm-12 col-md-2 col-lg-2 col-xl-1 mt-5 p-5 ">
             </div>
             <div class="col-sm-12 col-md-7 col-lg-7 col-xl-8 mt-5 p-5 ">
@@ -258,6 +263,7 @@
                             <a @onclick="vm.DeleteDocument"><img src="svgs/Delete.svg" title="Delete Document" class="m-1 smallIcon" /></a>
                             <a @onclick="vm.CloneDocument"><img src="svgs/Clone.svg" title="Clone Document" class="m-1 smallIcon" /></a>
                             <a><img src="svgs/Merge.svg" title="Merge Documents comming soon" class="m-1 smallIcon" /></a>
+                            <a @onclick="vm.orderElements"><img src="svgs/Elements .svg" title="Sort Elements" Class="smallIcon" /></a>
                         </div>
                     </div>
                 }
@@ -275,53 +281,47 @@
                 <div style="width:90%; float:left;">
 
                     <input @bind="@vm.Ui.SelectedDocument.Name" @bind:event="oninput" id="PageName" autofocus="true" @onblur="vm.UnBlockRTAFocus" @onclick="vm.BlockRTAFocus" class="form-control-plaintext small" style="color: #342e37; font-size:30px; padding-left: 15px;" placeholder="Write your title here" />
+                    @if (vm.Ui.SelectedDocument.IsOrdered == true)
+                    {
+                        <a class="nav-item" @onclick="vm.orderElements"><Icon Name="IconName.Check"></Icon> Confirm</a>
+
+                    }
                 </div>
                 <div class="clearfix"></div>
                 <div class="mt-4">
-                    @foreach (var item in vm.Ui.SelectedDocument.Elements.OrderBy(w => w.Order))
-                    {
-                        <div class="mt-4">
+                    <div class="mt-4">
 
+                        @if (vm.Ui.SelectedDocument.IsOrdered == false)
+                        {
+                            <rMakev2.Components.AlternativeTextArea document="@vm.Ui.SelectedDocument" content="@vm.Ui.SelectedDocument.Content" />
 
-                            @if (item.EditItem == true)
+                        }
+                        else
+                        {
+                            foreach (var item in vm.Ui.SelectedDocument.Elements.OrderBy(w => w.Order))
                             {
+
                                 <div style="margin-left:-100px; width:120px;  display:block; float:left;">
                                     <a @onclick="()=>vm.DeleteElement(item)"><img src="svgs/Delete.svg" title="New Document" class="m-1 mdicon" /></a>
-                                    <a @onclick="()=>vm.MoveDown(item)"><img src="svgs/Arrow down.svg" title="New Document" class="m-1 mdicon" /></a>
-                                    <a @onclick="()=>vm.MoveUp(item)"><img src="svgs/Arrow up.svg" title="New Document" class="m-1 mdicon" /></a>
-                                    <a @onclick="(()=>vm.AiGenerate(item))" class="m-1 mdicon" title="Ask robin to improve your text">  <Icon Name="IconName.Circle"></Icon></a>
-                                    <a><img src="svgs/Idea.svg" title="Comming soon" class="mr-2 mdicon" /></a>
+                                    <a @onclick="()=>vm.MoveUp(item)"><img src="svgs/Arrow up.svg" title="Move up" class="m-1 mdicon" /></a>
+                                    <a @onclick="()=>vm.MoveDown(item)"><img src="svgs/Arrow down.svg" title="Move down" class="m-1 mdicon" /></a>
+                                    @*<a><img src="svgs/Idea.svg" title="Comming soon" class="mr-2 mdicon" /></a>*@
                                 </div>
-                                <div style="float:left; width:90%">
-                                    <rMakev2.Components.AlternativeTextArea Element=@item Content="@(item.Content + (String.IsNullOrEmpty(item.AIContent)? "":"<br/>Robin recommendation-----------<br/>")+  item.AIContent)"
-                                    
-                                    />
-                                </div>
+
+
+                                <rMakev2.Components.AlternativeTextArea element="@item" content="@item.Content" />
                             }
 
-                            else
-                            {
-                                <div @ondblclick="@(()=>vm.EditItem(item))" @onblur="@(()=>vm.EditItem(item))" style="margin-left:50px; background-color:#fff; " title="Double click to edit.33">
+                        }
 
-                                    @if (item.Content == "")
-                                    {
-                                        <p class="small" style="min-height:100px; color:#666;">Double click to start Writting</p>
 
-                                    }
-                                    else
-                                    {
-                                        <div style="margin-top:50px;">
-                                            @((MarkupString)item.Content)
-                                        </div>
-                                    }
 
-                                </div>
-                            }
 
-                            <div class="clearfix"></div>
-                        </div>
-                    }
-                    <button @onclick="vm.NewElement" class="small mt-5 pt-4 ml-2">  <img src="svgs/Plus.svg" title="New Document" class="mr-2 " />New Element </button>
+
+
+                        <div class="clearfix"></div>
+                    </div>
+
 
                 </div>
             </div>
@@ -335,8 +335,8 @@
     </section>
 </div>
 
-<div style="width:20%; background-color:#f3f3f3; position:fixed; right:0px; top:80px; height:100%; padding:5px;" class=" @(vm.Ui.DisplayJson? "d-block" : "d-none" )">
-    <textarea style="color:#0f0; width:100%; margin:auto; font-size:10px; background-color:#000; border-radius:0px; height:100%; text-align:left;">
+<div style="width:20%; background-color:#f3f3f3; position:fixed; right:0px; top:80px; height:600px; padding:5px;" class=" @(vm.Ui.DisplayJson? "d-block" : "d-none" )">
+    <textarea readonly style="color:#0f0; width:100%; margin:auto; font-size:10px; background-color:#000; border-radius:0px; height:100%; text-align:left;">
         @vm.Ui.JsonFn();
            </textarea>
 </div>

@@ -12,7 +12,7 @@ using Document = rMakev2.Models.Document;
 using RestSharp;
 using Microsoft.JSInterop;
 using rMakev2.Services;
-
+using Blazorise;
 
 namespace rMakev2.ViewModel
 {
@@ -61,8 +61,7 @@ namespace rMakev2.ViewModel
             }
         }
 
-
-
+        public List<Item> ListaOraciones = new List<Item>();
         public void InitializeData()
         {
             App = new Models.App("Rebel", "codename-rebel-creator");
@@ -77,6 +76,13 @@ namespace rMakev2.ViewModel
             p1 = new Thread(new ThreadStart(Save));
             p1.Start();
 
+            
+            ListaOraciones.Add(new Item("color: #F9E43D", "Connection made easy"));
+            ListaOraciones.Add(new Item("color: #A2F8BC", "Web of documents"));
+            ListaOraciones.Add(new Item("color: #9BFBF1", "Decentralized from the start"));
+            ListaOraciones.Add(new Item("color: #F5ADFB", "Real collaboration"));
+            ListaOraciones.Add(new Item("color: #F9E43D", "Built-in recognition"));
+            ListaOraciones.Add(new Item("color: #FCB0B3", "Writing made easy"));
 
             //Creo las entidades por defecto.
         }
@@ -263,6 +269,20 @@ namespace rMakev2.ViewModel
                 NewDocumentMenu(project);
             }
             
+        }
+
+        public void orderElements()
+        {
+            if(Ui.SelectedDocument.IsOrdered == false && Ui.SelectedDocument.Content != null)
+            {
+                Ui.SelectedDocument.stringToElements();
+                Ui.SelectedDocument.IsOrdered = true;
+            }
+            else if (Ui.SelectedDocument.IsOrdered == true)
+            {
+                Ui.SelectedDocument.elementsToString();
+                Ui.SelectedDocument.IsOrdered = false;
+            }
         }
 
         public void NewElement()
@@ -481,6 +501,16 @@ namespace rMakev2.ViewModel
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(null));
         }
 
+        public class Item
+        {
+            public string Color = "";
+            public string Question = "";
+            public Item(string color, string question)
+            {
+                Color = color;
+                Question = question;
+            }
+        }
 
     }
 }
