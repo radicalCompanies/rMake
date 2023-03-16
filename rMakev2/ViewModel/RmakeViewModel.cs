@@ -265,12 +265,12 @@ namespace rMakev2.ViewModel
 
         public void orderElements()
         {
-            if(Ui.SelectedDocument.IsOrdered == false)
+            if(Ui.SelectedDocument.IsOrdered == false && Ui.SelectedDocument.Content != null)
             {
                 Ui.SelectedDocument.stringToElements();
                 Ui.SelectedDocument.IsOrdered = true;
             }
-            else
+            else if (Ui.SelectedDocument.IsOrdered == true)
             {
                 Ui.SelectedDocument.elementsToString();
                 Ui.SelectedDocument.IsOrdered = false;
