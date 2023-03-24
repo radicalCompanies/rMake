@@ -2,6 +2,6 @@
 {
     public static class Utilities
     {
-        public static string GptKey { get; set; } = "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";
+        public static string GptKey { get; set; } = "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";
     }
 }
