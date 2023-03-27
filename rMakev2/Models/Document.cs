@@ -109,9 +109,13 @@ namespace rMakev2.Models
 
             foreach (var elementContent in elementList)
             {
-                Element element = new Element(this);
+                if(elementContent != "<p><br></p>")
+                {
+                    Element element = new Element(this);
 
-                element.Content = elementContent;
+                    element.Content = elementContent;
+
+                }
             }
         }
 
