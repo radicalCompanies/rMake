@@ -1,4 +1,5 @@
-﻿using System.Reflection.Metadata;
+﻿using Microsoft.AspNetCore.Components;
+using System.Reflection.Metadata;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
@@ -19,6 +20,7 @@ namespace rMakev2.Models
             CreationDate = DateTime.Now;
             Order = Project.Documents.Count() + 1;
             Elements = new List<Element>();
+            Content = "";
             Project = project;
             ProjectId = project.Id;
             AddElement(this);
@@ -107,15 +109,51 @@ namespace rMakev2.Models
 
             Elements = new List<Element>();
 
+            string newDocTitle = "";
+            string newDocContent = "";
+            bool newDoc = false;
+
             foreach (var elementContent in elementList)
             {
                 if(elementContent != "<p><br></p>")
                 {
-                    Element element = new Element(this);
+                    if(newDoc == true && elementContent.Contains("<span class=\"ql-size-huge\">"))
+                    {
+                        Document document = Project.AddDocument(Project);
+                        document.Name = newDocTitle;
+                        document.Content = newDocContent;
 
-                    element.Content = elementContent;
+                        newDocContent = "";
+                        newDocTitle = elementContent;
+
+
+
+                    }
+                    else if(elementContent.Contains("<span class=\"ql-size-huge\">"))
+                    {
+                        newDocTitle = Regex.Replace(elementContent, "<.*?>", "");
+                        newDoc = true;
+
+                    }
+                    else if(newDoc == true)
+                    {
+                        newDocContent = elementContent;
+                    }
+                    else
+                    {
+                        Element element = new Element(this);
+                        element.Content = elementContent;
+
+                    }
 
                 }
+            }
+
+            if(newDocTitle != "")
+            {
+                Document document = Project.AddDocument(Project);
+                document.Name = newDocTitle;
+                document.Content = newDocContent;
             }
         }
 
