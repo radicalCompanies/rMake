@@ -154,10 +154,13 @@ namespace rMakev2.ViewModel
         public void SelectProject(Project project)
         {
             Ui.SelectProject(project);
+            SelectDocument(Ui.SelectedProject.Documents.FirstOrDefault());
+
         }
         public void SelectDocument(Document document)
         {
             Ui.SelectDocument(document);
+
         }
         public void NewProject()
         {

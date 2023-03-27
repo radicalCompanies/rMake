@@ -102,7 +102,13 @@
         margin-left: 20px;
         max-width: 150px;
         font-size: 13px;
-        margin-bottom: 5px;
+        margin-bottom: 7px;
+        transition: all 0.01s ease;
+    }
+
+    .menuDocumentTitle:hover {
+        font-weight: 500;
+        cursor: pointer;
     }
 
     .btn-Outline {
@@ -168,6 +174,12 @@
         padding: 5px 10px;
         text-align: left;
     }
+
+    .card {
+        min-width: 250px;
+        max-width: 250px;
+
+    }
 </style>
 <div class="container-fluid">
     <header>
@@ -211,17 +223,17 @@
     <section>
         @*menu*@
         <div class="row mt-5 pt-7">
-            <div class="col-sm-12 col-md-3col-lg-3 col-xl-2 mt-5 p-5 pl-0 ml-0">
+            <div class="col-sm-12 col-md-3col-lg-3 col-xl-2 mt-5 p-5 pl-0 ml-0" >
                 <b @onclick="vm.DisplayMenu" class="small mt-4 m-2 pl-4"><img src="svgs/Menu Bar.svg" title="Publish" class="menuBarsIcon" /></b>
                 @if (vm.Ui.DisplayMenu == true)
                 {
                     <div class="card mt-3">
-                        <div class="card-header bg-white bb-white"></div>
                         <div class="card-body minH-500 maxH-500 overflow-auto">
                             @foreach (var project in vm.App.Data.Projects)
                             {
                                 <div>
-                                    <input Id="ProjectName" @bind="project.Name" @onblur="vm.UnBlockRTAFocus" @onkeydown="@vm.Enter" @bind:event="oninput" class="form-control-plaintext small" style=" font-size:16px; margin-left:10px; padding-top:15px !important; text-overflow: ellipsis;" placeholder="Project Name" autofocus @onclick="vm.BlockRTAFocus" />
+                                    @*<input Id="ProjectName" @bind="project.Name" @onblur="vm.UnBlockRTAFocus" @onkeydown="@vm.Enter" @bind:event="oninput" class="form-control-plaintext small" style=" font-size:16px; margin-left:10px; padding-top:15px !important; text-overflow: ellipsis;" placeholder="Project Name" autofocus @onclick="vm.BlockRTAFocus" />*@
+                                    <p @onclick="@(() => vm.SelectProject(project))" style="cursor:pointer">@project.Name</p>
                                 </div>
                                 @foreach (var document in project.Documents)
                                 {
@@ -249,7 +261,7 @@
                     </div>
                 }
             </div>
-            @*/menu*    @
+            @*/menu*@
             @*working area*@
             <div class="col-sm-12 col-md-2 col-lg-2 col-xl-1 mt-5 p-5 ">
             </div>
