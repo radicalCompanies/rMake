@@ -124,7 +124,7 @@ namespace rMakev2.Models
                         document.Content = newDocContent;
 
                         newDocContent = "";
-                        newDocTitle = elementContent;
+                        newDocTitle = Regex.Replace(elementContent, "<.*?>", "");
 
 
 
@@ -137,7 +137,7 @@ namespace rMakev2.Models
                     }
                     else if(newDoc == true)
                     {
-                        newDocContent = elementContent;
+                        newDocContent += elementContent;
                     }
                     else
                     {
