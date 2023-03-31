@@ -20,6 +20,7 @@ namespace rMakev2.Models
             DocumentId = document.Id;
             Document = document;
             Document.Elements.Add(this);
+            ShowIdeary = false;
             
         }
         public Element(Document document, int previousElement)
@@ -42,7 +43,9 @@ namespace rMakev2.Models
         public string AIContent { get; set; }
         public int Order { get; set; }
         public int AppearingOrder { get; set; }
-        public string Ideary { get; set; }
+        public string Idea { get; set; }
+        public string Doodle { get; set; }
+        public bool ShowIdeary { get; set; }
         public string DocumentId { get; set; }
         [JsonIgnore]
         public Document Document { get; set; } 
@@ -53,7 +56,7 @@ namespace rMakev2.Models
 
         public void AddIdea(string Idea)
         {
-            Ideary = Idea;
+            Idea = Idea;
         }
         
         

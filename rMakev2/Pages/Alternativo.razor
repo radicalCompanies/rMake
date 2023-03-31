@@ -288,14 +288,24 @@
                                     <a @onclick="()=>vm.DeleteElement(item)"><img src="svgs/Delete.svg" title="New Document" class="m-1 mdicon" /></a>
                                     <a @onclick="()=>vm.MoveDown(item)"><img src="svgs/Arrow down.svg" title="New Document" class="m-1 mdicon" /></a>
                                     <a @onclick="()=>vm.MoveUp(item)"><img src="svgs/Arrow up.svg" title="New Document" class="m-1 mdicon" /></a>
+                                    <a @onclick="(()=>vm.ShowIdeary(item))"> <img src="svgs/Idea.svg" title="Comming soon" class="mr-2 mdicon" /></a>
                                     <a @onclick="(()=>vm.AiGenerate(item))" class="m-1 mdicon" title="Ask robin to improve your text">  <Icon Name="IconName.Circle"></Icon></a>
-                                    <a><img src="svgs/Idea.svg" title="Comming soon" class="mr-2 mdicon" /></a>
                                 </div>
                                 <div style="float:left; width:90%">
                                     <rMakev2.Components.AlternativeTextArea Element=@item Content="@(item.Content + (String.IsNullOrEmpty(item.AIContent)? "":"<br/>Robin recommendation-----------<br/>")+  item.AIContent)"
-                                    
-                                    />
+                                                                        />
+                                    @if (item.ShowIdeary)
+                                    {
+                                        <div style="background-color:#f3f3f3; padding:10px; ">
+                                            <p class="small">Usa este espacio para escribir tus ideas sin que sean visibles en tu texto.</p>
+                                            <textarea style="height:150px; width:100%; text-align:left;" value="@item.Idea" @onchange="@((args) => item.Idea = args.Value.ToString())">
+                                                @item.Doodle
+                                            </textarea>
+                                        </div>
+                                        <rMakev2.Components.DoodleDrawComponent Element="@item"/>
+                                    }
                                 </div>
+                              
                             }
 
                             else

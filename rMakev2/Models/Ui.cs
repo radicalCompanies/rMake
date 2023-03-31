@@ -62,6 +62,7 @@ namespace rMakev2.Models
         public bool DisplayComents { get; set; } = false;
         public bool DisplayDocumentMenu { get; set; }
         public bool DisplayJson { get; set; } = false;
+        
 
 
         public Modal? SaveModal { get; set; }

@@ -1,12 +1,18 @@
 ﻿@using Doodle.Components
+@using rMakev2.Models;
+@using rMakev2.ViewModel;
+@inject RmakeViewModel vm;
 
 <div style="height: 50vh;">
     <DoodleDraw @ref="_doodleDraw">
 
     </DoodleDraw>
+    <a @onclick="(()=>Save())" class="m-1 mdicon" title="Ask robin to improve your text">  <Icon Name="IconName.Circle"></Icon></a>
+    <a @onclick="(()=>RestoreTest())" class="m-1 mdicon" title="Ask robin to improve your text">  <Icon Name="IconName.Circle"></Icon></a>
 </div>
 
 @code {
+
     private DoodleDraw _doodleDraw;
 
     private string _jsonData;
@@ -23,10 +29,27 @@
 
     public async Task RestoreTest()
     {
-        if (!string.IsNullOrEmpty(_jsonData))
+        if (!string.IsNullOrEmpty(Element.Doodle))
         {
-            await _doodleDraw.RestoreCurrentDrawState(_jsonData);
+            await _doodleDraw.RestoreCurrentDrawState(Element.Doodle);
         }
     }
 
+    private async Task Save()
+    {
+        vm.Ui.SelectedDocument.Elements.SingleOrDefault(w => w.Id == Element.Id).Doodle = _jsonData = await _doodleDraw.SaveCurrentDrawState();
+    }
+
+    [Parameter ]
+    public Element Element{ get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            
+        await RestoreTest();
+        }
+        base.OnAfterRenderAsync(firstRender);
+    }
 }

@@ -50,7 +50,7 @@ namespace rMakev2.Services
                         element.Id = itemElement.Id;
                         element.Content = itemElement.Content;
                         element.Order = itemElement.Order;
-                        element.Ideary = itemElement.Ideary;
+                        element.Ideary = itemElement.Idea;
                         element.DocumentId = itemElement.DocumentId;
                         element.ParentElementId= itemElement.ParentElementId;
                         var pro = save.Projects.Where(x => x.Id == itemDoc.ProjectId).First();

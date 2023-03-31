@@ -445,7 +445,7 @@ namespace rMakev2.ViewModel
                         e.Id = ele.Id;
                         e.Content = ele.Content;
                         e.Order = ele.Order;
-                        e.Ideary = ele.Ideary;
+                        e.Idea = ele.Ideary;
                         e.DocumentId = ele.DocumentId;
                         e.Document = docum;
                         e.ParentElementId = ele.ParentElementId;
@@ -469,7 +469,14 @@ namespace rMakev2.ViewModel
 
         }
 
+        public void ShowIdeary(Element element)
+        {
+            App.Ui.SelectedDocument.Elements.SingleOrDefault(w => w.Id == element.Id).ShowIdeary = element.ShowIdeary == true ? false : true;
+
+        }
+
         public void ShowAreaComment()
+        
         {
             App.Ui.DisplayComents= App.Ui.DisplayComents == true? false : true;
         }
@@ -480,6 +487,8 @@ namespace rMakev2.ViewModel
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(null));
         }
+
+        
 
 
     }
