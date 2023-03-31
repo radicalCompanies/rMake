@@ -27,7 +27,8 @@ builder.Services
     .UseDoodle((config) =>
     {
         config.DefaultStrokeColor = "#FF0000";
-        config.DefaultStrokeSize = 2;       
+        config.DefaultStrokeSize = 2;   
+        config.
       });
 
 builder.Services.AddScoped<ICommunicationService, CommunicationService>();
