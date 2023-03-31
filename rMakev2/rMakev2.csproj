@@ -24,6 +24,7 @@
     <PackageReference Include="Newtonsoft.Json" Version="10.0.2" />
     <PackageReference Include="Radzen.Blazor" Version="4.7.1" />
     <PackageReference Include="RestSharp" Version="108.0.3" />
+    <PackageReference Include="STDoodle.Doodle" Version="1.0.0" />
   </ItemGroup>
 
   <ItemGroup>

@@ -7,7 +7,7 @@ using rMakev2.ViewModel;
 using rMakev2.Services;
 using Blazored.Toast;
 using MudBlazor.Services;
-
+using Doodle;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,7 +23,12 @@ builder.Services.AddBlazoredToast();
 builder.Services
     .AddBlazorise()
     .AddBootstrapProviders()
-    .AddFontAwesomeIcons();
+    .AddFontAwesomeIcons()
+    .UseDoodle((config) =>
+    {
+        config.DefaultStrokeColor = "#FF0000";
+        config.DefaultStrokeSize = 2;       
+      });
 
 builder.Services.AddScoped<ICommunicationService, CommunicationService>();
 builder.Services

@@ -1,0 +1,32 @@
+﻿@using Doodle.Components
+
+<div style="height: 50vh;">
+    <DoodleDraw @ref="_doodleDraw">
+
+    </DoodleDraw>
+</div>
+
+@code {
+    private DoodleDraw _doodleDraw;
+
+    private string _jsonData;
+
+    private async Task RenderTest()
+    {
+        await _doodleDraw.ExportDoodleToImage();
+    }
+
+    private async Task SaveTest()
+    {
+        _jsonData = await _doodleDraw.SaveCurrentDrawState();
+    }
+
+    public async Task RestoreTest()
+    {
+        if (!string.IsNullOrEmpty(_jsonData))
+        {
+            await _doodleDraw.RestoreCurrentDrawState(_jsonData);
+        }
+    }
+
+}
