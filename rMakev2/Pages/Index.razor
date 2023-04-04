@@ -6,10 +6,13 @@
 @inject IToastService toastService
 
 <div class="row" style="width: 100vw">
-    <div class="col-lg-6 vh-100 space">
+    <div class="col-lg-6 vh-100 space" style="width: 55vw">
         <div class="index-header">
-            <h2 class="h-2-logo">rMake!</h2>
-            <h3 class="h-3-logo">By radical companies.</h3>
+            <img class="logo" src="/svgs/LOGO RADICAL.svg" />
+            <div class="left-line">
+                <h2 class="h-2-logo">rMake!</h2>
+                <h3 class="h-3-logo">By radical companies.</h3>
+            </div>
         </div>
 
         <div class="login-container">
@@ -18,9 +21,9 @@
             <a href="App" class="btn btn-start btn-lg">Start from scratch</a>
             <br />
             <div class="d-flex justify-content-center align-content-center">
-                <hr />
+                <hr class="or-hr" />
                 <p class="or-index">or</p>
-                <hr />
+                <hr class="or-hr" />
             </div>
             <br />
             <p>Use an existing token</p>
@@ -32,20 +35,58 @@
 
     </div>
 
-    <div class="col-lg-6 vh-100 pr-5">
-        <div class="right-side">
-            <img src="svgs/3 dots.svg" class="three-dots" />
-            <p>
-                Arise! Arise, riders of Theoden!
-                Spears shall be shaken, shields shall be splintered!
-                A sword-day, a red day... ere the Sun rises!
-                Ride now! Ride now! Ride! Ride to ruin... and the world's ending!
-                Death! Death! DEATH! FORTH EORLINGAS!
-            </p>
-            <p>"In the darkest times, hope is something you give yourself. That is the meaning of inner strength." - Iroh</p>
-            <hr />
+    <div id="carouselExampleInterval" class="carousel slide carousel-fade col-lg-6 vh-100 pr-5 right-half"
+         data-bs-ride="carousel" data-bs-interval="4000" style="width: 45vw;">
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <p>Web of <span style="color: #F04A4A; ">documents</span></p>
+                <div class="d-flex justify-content-center">
+                </div>
+            </div>
+            <div class="carousel-item">
+                <p>Connection made <span style="color: #F086FA">easy</span></p>
+            </div>
+            <div class="carousel-item">
+                <p>Decentralized from the <span style="color: #5AD0C4">start</span></p>
+            </div>
+            <div class="carousel-item">
+                <p>Built-in <span style="color: #24EC60">recognition</span></p>
+            </div>
+            <div class="carousel-item">
+                <p>Real <span style="color: #FFE100">collaboration</span></p>
+            </div>
         </div>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExampleInterval" id="b-1" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="3" aria-label="Slide 4"></button>
+            <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="4" aria-label="Slide 5"></button>
+        </div>
+
     </div>
+    @* <div class="col-lg-6 vh-100 pr-5">
+    <div class="right-side">
+    <img src="svgs/3 dots.svg" class="three-dots" />
+    <p>
+    Arise! Arise, riders of Theoden!
+    Spears shall be shaken, shields shall be splintered!
+    A sword-day, a red day... ere the Sun rises!
+    Ride now! Ride now! Ride! Ride to ruin... and the world's ending!
+    Death! Death! DEATH! FORTH EORLINGAS!
+    </p>
+    <p>"In the darkest times, hope is something you give yourself. That is the meaning of inner strength." - Iroh</p>
+    <hr />
+    </div>
+    </div> *@
 </div>
 
 
