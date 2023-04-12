@@ -94,7 +94,7 @@ namespace rMakev2.ViewModel
             {
 
                 Thread.Sleep(1000000000);
-                HashMyContent();
+                //HashMyContent();
                 _communicationService.SaveAsync(App).Wait();
                 this._toastService.ShowSuccess("Project Auto Saved");
             }
@@ -120,9 +120,9 @@ namespace rMakev2.ViewModel
             App.Ui.DocumentMenu();
         }
 
-        public void EditItem(Element element){
+        /*public void EditItem(Element element){
             App.Ui.EditItem(element);
-        }
+        }*/
 
 
         public void HidePublishModal()
@@ -173,12 +173,12 @@ namespace rMakev2.ViewModel
 
         }
 
-        public async Task AiGenerate(Element element)
+        /*public async Task AiGenerate(Element element)
         {
             var content = element.Content;
             element.AIContent= await _aiChat.UseChatService("Improve and expand this text: " + content);
             
-        }
+        }*/
         public void DeleteProject()
         {
             
@@ -274,7 +274,7 @@ namespace rMakev2.ViewModel
             
         }
 
-        public void orderElements()
+        /*public void orderElements()
         {
             if(Ui.SelectedDocument.IsOrdered == false && Ui.SelectedDocument.Content != null)
             {
@@ -340,10 +340,10 @@ namespace rMakev2.ViewModel
 
 
             }
-        }
+        }*/
         public async Task SaveContentAsync()
         {
-            HashMyContent();
+           // HashMyContent();
             await _communicationService.SaveAsync(App);
             this._toastService.ShowSuccess("Project Saved");
         }
@@ -370,7 +370,7 @@ namespace rMakev2.ViewModel
         {
 
         }
-        public void HashMyContent()
+        /*public void HashMyContent()
         {
 
             foreach (var project in App.Data.Projects)
@@ -383,7 +383,7 @@ namespace rMakev2.ViewModel
                     }
                 }
             }
-        }
+        }*/
         public void BlockRTAFocus()
         {
 
@@ -456,11 +456,12 @@ namespace rMakev2.ViewModel
                     d.Id = doc.Id;
                     d.CreationDate = doc.CreationDate;
                     d.Order = doc.Order;
+                    d.Content = doc.Content;
                     d.Project = Pro;
                     d.ProjectId = Pro.Id;
                     d.ParentDocumentId = doc.ParentDocumentId;
                     Pro.Documents.Add(d);
-                    foreach (var ele in doc.Elements)
+                    /*foreach (var ele in doc.Elements)
                     {
                         var Proj = app.Data.Projects.Where(x => x.Id == proj.Id).FirstOrDefault();
                         var docum = Proj.Documents.Where(x => x.Id == doc.Id).FirstOrDefault();
@@ -475,7 +476,7 @@ namespace rMakev2.ViewModel
                         e.Hash = ele.Hash;
                         docum.Elements.Add(e);
 
-                    }
+                    }*/
 
                 }
 

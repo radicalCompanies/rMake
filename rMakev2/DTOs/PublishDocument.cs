@@ -20,13 +20,14 @@ namespace rMakev2.DTOs
             ProjectId = publishProject.Id;
             Name = document.Name;
             Order = document.Order;
+            Content = document.Content;
 
             ContentType = "html";
 
-            foreach (Element element in document.Elements.OrderBy(x => x.Order)) {
+            /*foreach (Element element in document.Elements.OrderBy(x => x.Order)) {
                 if(!String.IsNullOrWhiteSpace(element.Content))
                     Content += "<section>" + element.Content + "</section>";
-            }
+            }*/
         }
     }
 }

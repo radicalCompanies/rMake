@@ -47,9 +47,10 @@ namespace rMakev2.Models
                 newdoc.Project = createdProject;
                 newdoc.ParentDocumentId = item.Id;
                 newdoc.CreationDate = DateTime.Now;
+                newdoc.Content = item.Content;
                 createdProject.Documents.Add(newdoc);
                 
-                foreach (var element in item.Elements)
+                /*foreach (var element in item.Elements)
                 {
                     Element newelement = new Element();
                     newelement.Id = Guid.NewGuid().ToString();
@@ -59,7 +60,7 @@ namespace rMakev2.Models
                     newelement.Order = element.Order;
                     newelement.ParentElementId = item.Id;
                     newdoc.Elements.Add(newelement);
-                }
+                }*/
 
             }
             //Quita el Primer Document sin Texto

@@ -108,7 +108,7 @@ namespace rMakev2.Models
             }
         }
 
-        public void EditItem(Element element)
+        /*public void EditItem(Element element)
         {
 
             foreach (var item in SelectedDocument.Elements)
@@ -128,7 +128,7 @@ namespace rMakev2.Models
 
             }
             
-        }
+        }*/
 
         public void ShowMenu()
         {

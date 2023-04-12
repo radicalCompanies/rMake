@@ -40,15 +40,16 @@ namespace rMakev2.DTOs
         [JsonProperty(PropertyName = "id")]
         public string Id { get; set; }
         public string Name { get; set; }
+        public string Content { get; set; }
         public DateTime CreationDate { get; set; }
         public int Order { get; set; }
-        public List<ElementDTO> Elements { get; set; }
+       /* public List<ElementDTO> Elements { get; set; }*/
         public string ProjectId { get; set; }
         public string ParentDocumentId { get; set; }
 
     }
 
-    public class ElementDTO
+   /* public class ElementDTO
     {
         [JsonProperty(PropertyName = "id")]
         public string Id { get; set; }
@@ -60,5 +61,5 @@ namespace rMakev2.DTOs
         public string Hash { get; set; }
 
 
-    }
+    }*/
 }

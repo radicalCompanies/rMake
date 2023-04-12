@@ -11,7 +11,7 @@ namespace rTests.rMakev2.Models
     [TestClass]
     public class PublishedDocumentTests
     {
-        [TestMethod]
+       /* [TestMethod]
         public void Create_PublishedDocument_Ok()
         {
             //Arrange
@@ -20,7 +20,7 @@ namespace rTests.rMakev2.Models
             Project project = new Project(data);
 
             Document document = new Document(project);
-            document.Elements.First().Content = "This";
+            /*document.Elements.First().Content = "This";
             document.AddElement(document).Content = "Is a";
             document.AddElement(document).Content = "Test";
 
@@ -50,7 +50,7 @@ namespace rTests.rMakev2.Models
 
             Document document = new Document(project);
 
-            Element Element1 = document.Elements.First();
+            /*Element Element1 = document.Elements.First();
             Element Element2 = document.AddElement(document);
             Element Element3 = document.AddElement(document);
 
@@ -87,7 +87,7 @@ namespace rTests.rMakev2.Models
 
             //Assert
             Assert.AreEqual(string.Empty, publishDocument.Content);
-        }
+        }*/
 
 
     }

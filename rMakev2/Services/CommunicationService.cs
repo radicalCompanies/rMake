@@ -40,11 +40,11 @@ namespace rMakev2.Services
                     document.Order = itemDoc.Order;
                     document.ProjectId = itemDoc.ProjectId;
                     document.Name = itemDoc.Name;
-                    document.Elements = new List<ElementDTO>();
+                    //document.Elements = new List<ElementDTO>();
                     document.ParentDocumentId = itemDoc.ParentDocumentId;   
                     save.Projects.Where(x => x.Id == itemDoc.ProjectId).First().Documents.Add(document);
 
-                    foreach (var itemElement in itemDoc.Elements)
+                    /*foreach (var itemElement in itemDoc.Elements)
                     {
                         ElementDTO element = new ElementDTO();
                         element.Id = itemElement.Id;
@@ -55,7 +55,7 @@ namespace rMakev2.Services
                         element.ParentElementId= itemElement.ParentElementId;
                         var pro = save.Projects.Where(x => x.Id == itemDoc.ProjectId).First();
                         pro.Documents.Where(x => x.Id == itemDoc.Id).First().Elements.Add(element);
-                    }
+                    }*/
 
                 }
 

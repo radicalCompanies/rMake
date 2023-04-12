@@ -55,9 +55,10 @@ namespace rMakev2.Models
             Document newDocument = new Document(document.Project);
             newDocument.Name = document.Name + "(Cloned)";
             newDocument.ParentDocumentId = document.Id;
+            newDocument.Content = document.Content;
             Documents.Add(newDocument);            
 
-            foreach (var item in document.Elements)
+            /*foreach (var item in document.Elements)
             {
                 Element newelement = new Element();
                 newelement.Content= item.Content;
@@ -70,7 +71,7 @@ namespace rMakev2.Models
                 newDocument.Elements.Add(newelement);
             }
             //Quita el Primer Element sin texto
-            newDocument.Elements.RemoveAt(0);
+            newDocument.Elements.RemoveAt(0);*/
             return newDocument;
         }
     }

@@ -36,6 +36,7 @@
     <script src="js/popper.js"></script>
     <script src="js/bootstrap.js"></script>
     <script src="js/main.js"></script>
+
     <script>
         let mode = window.localStorage.getItem('mode'),
             root = document.getElementsByTagName('html')[0];
@@ -78,5 +79,85 @@
     <script src="_framework/blazor.server.js"></script>
     <script src="script.js"></script>
     <script src="_content/MudBlazor/MudBlazor.min.js"></script>
+    <script src="/editor.js"></script>
+    <script src="/tools/headers.js"></script>
+    <script src="/tools/cheklist.js"></script>
+    <script src="/tools/embed.js"></script>
+    <script src="/tools/nestedlist.js"></script>
+    <script src="/tools/quotes.js"></script>
+    <script src="/tools/simpleimage.js"></script>
+    <script src="/tools/marker.js"></script>
+    <script src="/tools/codetool.js"></script>
+    <script>
+
+        let editor;
+        window.runEditor = (dotNetRef, existingData) => {
+            console.log(existingData);
+
+            editor = new EditorJS({
+                holder: 'editorjs',
+                tools: {
+                    header: {
+                        class: Header,
+                        shortcut: 'CMD+SHIFT+H'
+                    },
+                    quote: {
+                        class: Quote,
+                        inlineToolbar: true,
+                        shortcut: 'CMD+SHIFT+O',
+                        config: {
+                            quotePlaceholder: 'Enter a quote',
+                            captionPlaceholder: 'Quote\'s author',
+                        }
+                    },
+                    image: SimpleImage,
+                    list: {
+                        class: NestedList,
+                        inlineToolbar: true,
+                        config: {
+                            defaultStyle: 'ordered'
+                        },
+                    },
+                    checklist: {
+                        class: Checklist,
+                        inlineToolbar: true,
+                    },
+                    linkTool: {
+                        class: LinkTool,
+                        config: {
+                            //endpoint: 'http://localhost:8008/fetchUrl', // Your backend endpoint for url data fetching,
+                        }
+                    },
+                    Marker: {
+                        class: Marker,
+                        shortcut: 'CMD+SHIFT+M',
+                    },
+                    code: CodeTool,
+                },
+                onReady: () => { },
+                onChange: (api, event) => {
+                    console.log(api)
+                },
+            });
+        };
+
+        window.saveContent = (dotNetRef) => {
+            editor.save()
+                .then((savedData) => {
+                    const content = JSON.stringify(savedData);
+                    dotNetRef.invokeMethodAsync('SaveContent', content);
+                })
+                .catch((error) => {
+                    console.error('Saving error', error);
+                });
+        }
+
+        window.loadContent = (content) => {
+            var draftBody = JSON.parse(content);
+            editor.render(draftBody);
+        }
+
+
+    </script>
 </body>
 </html>

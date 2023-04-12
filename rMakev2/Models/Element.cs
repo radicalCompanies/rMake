@@ -15,11 +15,11 @@ namespace rMakev2.Models
             Document = document ?? throw new Exceptions("Document is null");
             Id = Guid.NewGuid().ToString();
             Content = "";
-            Order = Document.Elements.Count() + 1;
+            //Order = Document.Elements.Count() + 1;
             EditItem = true;
             DocumentId = document.Id;
             Document = document;
-            Document.Elements.Add(this);
+            //Document.Elements.Add(this);
             
         }
         public Element(Document document, int previousElement)
@@ -29,13 +29,13 @@ namespace rMakev2.Models
             Content = "";
             EditItem = false;
             Order = previousElement + 1;
-            foreach (var item in Document.Elements.Where(w => w.Order > previousElement+1))
+            /*foreach (var item in Document.Elements.Where(w => w.Order > previousElement+1))
             {
                 item.Order = item.Order + 1;
-            }
+            }*/
             DocumentId = document.Id;
             Document = document;
-            Document.Elements.Add(this);
+            //Document.Elements.Add(this);
         }
         public string Id { get; set; }
         public string Content { get; set; }
