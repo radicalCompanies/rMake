@@ -134,10 +134,14 @@
                     },
                     code: CodeTool,
                 },
-                onReady: () => { },
+                onReady: () => {
+                    setInterval(() => {
+                        dotNetRef.invokeMethodAsync('CallJSSave');
+                    }, 100000000000)
+                },
                 onChange: (api, event) => {
                     console.log(api)
-                },
+                }
             });
         };
 

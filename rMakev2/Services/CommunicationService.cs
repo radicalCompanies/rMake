@@ -40,6 +40,7 @@ namespace rMakev2.Services
                     document.Order = itemDoc.Order;
                     document.ProjectId = itemDoc.ProjectId;
                     document.Name = itemDoc.Name;
+                    document.Content = itemDoc.Content;
                     //document.Elements = new List<ElementDTO>();
                     document.ParentDocumentId = itemDoc.ParentDocumentId;   
                     save.Projects.Where(x => x.Id == itemDoc.ProjectId).First().Documents.Add(document);

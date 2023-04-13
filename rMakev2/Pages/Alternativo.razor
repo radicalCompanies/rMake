@@ -239,11 +239,11 @@
                                     <div class="col-12">
                                         @if (document.Name == "")
                                         {
-                                            <p @onclick="@(() => vm.EventSelectDocumentMenu(document))" style="text-overflow:ellipsis;" class="menuDocumentTitle">Untitled</p>
+                                            <p @onclick="@(() => SetDocumentContent(document))" style="text-overflow:ellipsis;" class="menuDocumentTitle">Untitled</p>
                                         }
                                         else
                                         {
-                                            <p @onclick="@(() => vm.EventSelectDocumentMenu(document))" style="text-overflow:ellipsis;" class="menuDocumentTitle">@document.Name</p>
+                                            <p @onclick="@(() => SetDocumentContent(document))" style="text-overflow:ellipsis;" class="menuDocumentTitle">@document.Name</p>
                                         }
                                     </div>
                                 }
@@ -453,6 +453,7 @@
     MudListItem selectedItem;
     object selectedValue = 1;
     private DotNetObjectReference<Alternativo>? objRef;
+    bool isLoading = false;
 
     [Parameter]
     public string token { get; set; }
@@ -483,41 +484,41 @@
 
     private List<DateTime> Keys { get; set; } = new List<DateTime>();
     /*public void KeyPress(KeyboardEventArgs e, Element item)
-    {
+        {
 
         if (e.Code == "Enter" || e.Code == "NumpadEnter")
         {
-            vm.Ui.BlockRTAFocus = false;
+        vm.Ui.BlockRTAFocus = false;
 
 
-            if (Keys.Any())
-            {
-
-                DateTime last = Keys.Last();
-
-                if (DateTime.UtcNow <= last.AddMilliseconds(200))
-                {
-                    Element newElement;
-                    newElement = vm.NewElement(item.Order);
-                    vm.EditItem(newElement);
-                    Keys.Clear();
-
-                }
-
-                Keys.Add(DateTime.UtcNow);
-            }
-            else
-            {
-
-                Keys.Add(DateTime.UtcNow);
-
-            }
-        }
-        else
+        if (Keys.Any())
         {
-            vm.Ui.BlockRTAFocus = true;
-            Keys.Clear();
-        }
+
+        DateTime last = Keys.Last();
+
+        if (DateTime.UtcNow <= last.AddMilliseconds(200))
+    {
+        Element newElement;
+        newElement = vm.NewElement(item.Order);
+    vm.EditItem(newElement);
+    Keys.Clear();
+
+    }
+
+    Keys.Add(DateTime.UtcNow);
+    }
+    else
+    {
+
+    Keys.Add(DateTime.UtcNow);
+
+    }
+    }
+    else
+    {
+    vm.Ui.BlockRTAFocus = true;
+    Keys.Clear();
+    }
 
     }*/
 
@@ -556,6 +557,38 @@
         }
 
     }
+
+    [JSInvokable]
+    public void SaveContent(string content)
+    {
+        vm.Ui.SelectedDocument.Content = content;
+    }
+
+    public async Task SetDocumentContent(Document document)
+    {
+        if(isLoading == false)
+        {
+            isLoading = true;
+            await CallJSSave();
+            vm.Ui.SelectDocument(document);
+            if (!String.IsNullOrEmpty(vm.Ui.SelectedDocument.Content))
+            {
+                await jsRuntime.InvokeVoidAsync("loadContent", vm.Ui.SelectedDocument.Content);
+            }
+            isLoading = false;
+        }
+    }
+
+    [JSInvokable]
+    public async Task CallJSSave()
+    {
+        var jsContent = await jsRuntime.InvokeAsync<string>("saveContent", objRef);
+    }
+    
+
+
+
+
 
  
 }
