@@ -37,21 +37,21 @@ namespace Domain.DTOs
         public string Name { get; set; }
         public DateTime CreationDate { get; set; }
         public int Order { get; set; }
-        public List<ElementDTO> Elements { get; set; }
+        public string Content { get; set; }
         public string ProjectId { get; set; }
         public string ParentDocumentId { get; set; }
 
     }
 
-    public class ElementDTO
-    {
+    //public class ElementDTO
+    //{
         
-        public string id { get; set; }
-        public string Content { get; set; }
-        public int Order { get; set; }
-        public string Ideary { get; set; }
-        public string DocumentId { get; set; }
-        public string ParentElementId { get; set; }
+    //    public string id { get; set; }
+    //    public string Content { get; set; }
+    //    public int Order { get; set; }
+    //    public string Ideary { get; set; }
+    //    public string DocumentId { get; set; }
+    //    public string ParentElementId { get; set; }
 
-    }
+    //}
 }
