@@ -38,7 +38,7 @@ namespace rMakev2.Models
             }
         }
 
-        private Element selectedElement;
+        /*private Element selectedElement;
         public Element SelectedElement
         {
             get { return selectedElement; }
@@ -47,7 +47,7 @@ namespace rMakev2.Models
                 selectedElement = value;
                 OnPropertyChanged();
             }
-        }
+        }*/
 
 
         [JsonIgnore]
