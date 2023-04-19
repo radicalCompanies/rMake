@@ -37,6 +37,11 @@ namespace rMakev2.Models
         public string ProjectId { get; set; }
         public string ParentDocumentId { get; set; }
         public bool IsOrdered { get; set; } = false;
+
+        public void changeContent(string c)
+        {
+            Content = c;
+        }
         
         /*public Element AddElement(Document document)
         {

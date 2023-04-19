@@ -3,6 +3,8 @@
 @using rMakev2.ViewModel;
 @inject RmakeViewModel vm;
 @inject IJSRuntime jsRuntime;
+@inject Blazored.SessionStorage.ISessionStorageService sessionStorage
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
 @using MudBlazor;
 @using rMakev2.Models
 <PageTitle>rHacker</PageTitle>
@@ -239,17 +241,17 @@
                                     <div class="col-12">
                                         @if (document.Name == "")
                                         {
-                                            <p @onclick="@(() => SetDocumentContent(document))" style="text-overflow:ellipsis;" class="menuDocumentTitle">Untitled</p>
+                                            <p @onclick="@(() => ChangeContent(document))" style="text-overflow:ellipsis;" class="menuDocumentTitle">Untitled</p>
                                         }
                                         else
                                         {
-                                            <p @onclick="@(() => SetDocumentContent(document))" style="text-overflow:ellipsis;" class="menuDocumentTitle">@document.Name</p>
+                                            <p @onclick="@(() => ChangeContent(document))" style="text-overflow:ellipsis;" class="menuDocumentTitle">@document.Name</p>
                                         }
                                     </div>
                                 }
 
                                 <div class=" mt-4">
-                                    <button @onclick="@(() => vm.NewDocumentMenu(project))" class="small">  <img src="svgs/Plus.svg" title="New Document" class="mr-2 smallIcon" />New Document </button>
+                                    <button @onclick="@(() => newDoc(project))" class="small">  <img src="svgs/Plus.svg" title="New Document" class="mr-2 smallIcon" />New Document </button>
                                     <hr />
                                 </div>
                             }
@@ -453,7 +455,6 @@
     MudListItem selectedItem;
     object selectedValue = 1;
     private DotNetObjectReference<Alternativo>? objRef;
-    bool isLoading = false;
 
     [Parameter]
     public string token { get; set; }
@@ -477,29 +478,29 @@
     protected RichTextEdit richTextEditRef;
 
     /*public async Task Save(Element element)
-    {
+        {
         element.Content = await richTextEditRef.GetTextAsync();
 
     }*/
 
     private List<DateTime> Keys { get; set; } = new List<DateTime>();
     /*public void KeyPress(KeyboardEventArgs e, Element item)
-        {
-
-        if (e.Code == "Enter" || e.Code == "NumpadEnter")
-        {
-        vm.Ui.BlockRTAFocus = false;
-
-
-        if (Keys.Any())
-        {
-
-        DateTime last = Keys.Last();
-
-        if (DateTime.UtcNow <= last.AddMilliseconds(200))
     {
-        Element newElement;
-        newElement = vm.NewElement(item.Order);
+
+    if (e.Code == "Enter" || e.Code == "NumpadEnter")
+    {
+    vm.Ui.BlockRTAFocus = false;
+
+
+    if (Keys.Any())
+    {
+
+    DateTime last = Keys.Last();
+
+    if (DateTime.UtcNow <= last.AddMilliseconds(200))
+    {
+    Element newElement;
+    newElement = vm.NewElement(item.Order);
     vm.EditItem(newElement);
     Keys.Clear();
 
@@ -545,6 +546,8 @@
                 vm.Ui.SelectedDocument = new Document();
             objRef = DotNetObjectReference.Create(this);
             await jsRuntime.InvokeVoidAsync("runEditor", objRef);
+            await localStorage.ClearAsync();
+
         }
         if (vm.Ui.EditProjectName == true && vm.Ui.EditedProjectName == false)
         {
@@ -559,36 +562,56 @@
     }
 
     [JSInvokable]
-    public void SaveContent(string content)
+    public async Task SaveContent(string content, Document doc)
     {
-        vm.Ui.SelectedDocument.Content = content;
+        doc.Content = content;
+
+
+        await localStorage.SetItemAsync(doc.Id, doc);
+
+
     }
 
-    public async Task SetDocumentContent(Document document)
+    public async Task ChangeContent(Document newDoc)
     {
-        if(isLoading == false)
-        {
-            isLoading = true;
-            await CallJSSave();
-            vm.Ui.SelectDocument(document);
-            if (!String.IsNullOrEmpty(vm.Ui.SelectedDocument.Content))
-            {
-                await jsRuntime.InvokeVoidAsync("loadContent", vm.Ui.SelectedDocument.Content);
-            }
-            isLoading = false;
-        }
+        await jsRuntime.InvokeAsync<string>("changeContent", objRef, vm.Ui.SelectedDocument, newDoc);
     }
 
     [JSInvokable]
-    public async Task CallJSSave()
+    public async Task SetDocumentContent(Document document)
     {
-        var jsContent = await jsRuntime.InvokeAsync<string>("saveContent", objRef);
+        vm.Ui.SelectDocument(document);
+
+        var newDoc = await localStorage.GetItemAsync<Document>(document.Id);
+
+        document.changeContent(newDoc.Content);
+
+        if (!String.IsNullOrEmpty(newDoc.Content))    
+        {
+            await jsRuntime.InvokeVoidAsync("loadContent", newDoc.Content);
+        }
+        
     }
-    
 
+    [JSInvokable]
+    public async Task CallJSSave(Document doc)
+    {
 
+        var jsContent = await jsRuntime.InvokeAsync<string>("saveContent", objRef, doc);
 
+        //Project project = doc.Project;
 
+    }
 
- 
+    public async Task newDoc(Project project)
+    {
+        await jsRuntime.InvokeAsync<string>("saveContent", objRef, vm.Ui.SelectedDocument);
+
+        vm.NewDocumentMenu(project);
+
+        await jsRuntime.InvokeAsync<string>("saveContent", objRef, vm.Ui.SelectedDocument);
+
+    }
+
+   
 }

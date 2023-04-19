@@ -7,6 +7,8 @@ using rMakev2.ViewModel;
 using rMakev2.Services;
 using Blazored.Toast;
 using MudBlazor.Services;
+using Blazored.SessionStorage;
+using Blazored.LocalStorage;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -28,6 +30,10 @@ builder.Services
 builder.Services.AddScoped<ICommunicationService, CommunicationService>();
 builder.Services
     .AddBlazoriseRichTextEdit(options => { options.UseBubbleTheme = true; });
+
+
+builder.Services.AddBlazoredSessionStorage();
+builder.Services.AddBlazoredLocalStorage();
 
 var app = builder.Build();
 

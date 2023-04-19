@@ -135,9 +135,7 @@
                     code: CodeTool,
                 },
                 onReady: () => {
-                    setInterval(() => {
-                        dotNetRef.invokeMethodAsync('CallJSSave');
-                    }, 100000000000)
+                    
                 },
                 onChange: (api, event) => {
                     console.log(api)
@@ -145,16 +143,36 @@
             });
         };
 
-        window.saveContent = (dotNetRef) => {
+        window.saveContent = (dotNetRef, document) => {
             editor.save()
                 .then((savedData) => {
                     const content = JSON.stringify(savedData);
-                    dotNetRef.invokeMethodAsync('SaveContent', content);
+                    dotNetRef.invokeMethodAsync('SaveContent', content, document);
+                    console.log(content)
+
                 })
                 .catch((error) => {
                     console.error('Saving error', error);
                 });
         }
+
+        window.changeContent = (dotNetRef, oldDoc, newDoc) => {
+            editor.save()
+                .then((savedData) => {
+                    const content = JSON.stringify(savedData);
+                    dotNetRef.invokeMethodAsync('SaveContent', content, oldDoc);
+                    console.log(content)
+                })
+                .then(() => {
+                    dotNetRef.invokeMethodAsync('SetDocumentContent', newDoc);
+
+                })
+                .catch((error) => {
+                    console.error('Saving error', error);
+                });
+        }
+
+
 
         window.loadContent = (content) => {
             var draftBody = JSON.parse(content);
