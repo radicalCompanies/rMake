@@ -382,7 +382,7 @@
                     </div>
 
 
-                    <button @onclick=" vm.SaveContentAsync" class="btn btn-success"><Icon Name="IconName.Lightbulb" /> Save</button>
+                    <button @onclick="SaveStorage" class="btn btn-success"><Icon Name="IconName.Lightbulb" /> Save</button>
 
                 </div>
             </div>
@@ -523,6 +523,8 @@
 
     }*/
 
+
+
     protected override async Task OnInitializedAsync()
     {
         try
@@ -547,7 +549,8 @@
             objRef = DotNetObjectReference.Create(this);
             await jsRuntime.InvokeVoidAsync("runEditor", objRef);
             await localStorage.ClearAsync();
-
+            if (vm.Ui.SelectedDocument.Content != "")
+                await jsRuntime.InvokeVoidAsync("loadContent", vm.Ui.SelectedDocument.Content);
         }
         if (vm.Ui.EditProjectName == true && vm.Ui.EditedProjectName == false)
         {
@@ -559,7 +562,31 @@
             vm.Ui.EditedProjectName = false;
         }
 
+        
     }
+
+
+    public async Task SaveStorage()
+    {
+        await jsRuntime.InvokeAsync<string>("saveContent", objRef, vm.Ui.SelectedDocument);
+        
+        foreach (var project in vm.App.Data.Projects)
+        {
+            foreach (var document in project.Documents)
+            {
+                if (await localStorage.ContainKeyAsync(document.Id))
+                {
+                    Document newDoc = await localStorage.GetItemAsync<Document>(document.Id);
+                    document.Content = newDoc.Content;
+                }
+            }
+        }
+
+        await vm.SaveContentAsync();
+
+    }
+
+
 
     [JSInvokable]
     public async Task SaveContent(string content, Document doc)
@@ -568,6 +595,7 @@
 
 
         await localStorage.SetItemAsync(doc.Id, doc);
+
 
 
     }
@@ -580,16 +608,25 @@
     [JSInvokable]
     public async Task SetDocumentContent(Document document)
     {
+
+        Document newDoc = await localStorage.GetItemAsync<Document>(document.Id);
+
+
         vm.Ui.SelectDocument(document);
 
-        var newDoc = await localStorage.GetItemAsync<Document>(document.Id);
-
-        document.changeContent(newDoc.Content);
-
-        if (!String.IsNullOrEmpty(newDoc.Content))    
+        if(newDoc != null)
         {
             await jsRuntime.InvokeVoidAsync("loadContent", newDoc.Content);
+
         }
+        else if (document.Content != null)
+        {
+            await jsRuntime.InvokeVoidAsync("loadContent", document.Content);
+        }
+
+        StateHasChanged();
+
+
         
     }
 

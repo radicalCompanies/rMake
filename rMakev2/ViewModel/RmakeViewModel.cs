@@ -461,6 +461,7 @@ namespace rMakev2.ViewModel
                     d.ProjectId = Pro.Id;
                     d.ParentDocumentId = doc.ParentDocumentId;
                     Pro.Documents.Add(d);
+
                     /*foreach (var ele in doc.Elements)
                     {
                         var Proj = app.Data.Projects.Where(x => x.Id == proj.Id).FirstOrDefault();
