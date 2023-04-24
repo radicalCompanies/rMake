@@ -146,6 +146,7 @@
         window.saveContent = (dotNetRef, document) => {
             editor.save()
                 .then((savedData) => {
+                    
                     const content = JSON.stringify(savedData);
                     dotNetRef.invokeMethodAsync('SaveContent', content, document);
                     console.log(content)
@@ -159,6 +160,9 @@
         window.changeContent = (dotNetRef, oldDoc, newDoc) => {
             editor.save()
                 .then((savedData) => {
+                    if(savedData.blocks.length === 0){
+                        savedData.blocks = [{ type: "paragraph", data: {} }];
+                    }
                     const content = JSON.stringify(savedData);
                     dotNetRef.invokeMethodAsync('SaveContent', content, oldDoc);
                     console.log(content)
@@ -176,7 +180,7 @@
 
         window.loadContent = (content) => {
             var draftBody = JSON.parse(content);
-            editor.render(draftBody);
+            editor.render(draftBody)
         }
 
 

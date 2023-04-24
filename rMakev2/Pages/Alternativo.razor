@@ -294,12 +294,10 @@
                 <div style="width:90%; float:left;">
 
                     <input @bind="@vm.Ui.SelectedDocument.Name" @bind:event="oninput" id="PageName" autofocus="true" @onblur="vm.UnBlockRTAFocus" @onclick="vm.BlockRTAFocus" class="form-control-plaintext small" style="color: #342e37; font-size:30px; padding-left: 15px;" placeholder="Write your title here" />
-                    @if (vm.Ui.SelectedDocument.IsOrdered == true)
+                    @*@if (vm.Ui.SelectedDocument.IsOrdered == true)
                     {
-                        @*<a class="nav-item" @onclick="vm.orderElements"><Icon Name="IconName.Check"></Icon> Confirm</a>
-                    *@
-
-                    }
+                        <a class="nav-item" @onclick="vm.orderElements"><Icon Name="IconName.Check"></Icon> Confirm</a>
+                    }*@
                 </div>
                 <div class="clearfix"></div>
                 <div class="mt-4">
@@ -455,6 +453,7 @@
     MudListItem selectedItem;
     object selectedValue = 1;
     private DotNetObjectReference<Alternativo>? objRef;
+    bool loaded = true;
 
     [Parameter]
     public string token { get; set; }
@@ -549,8 +548,6 @@
             objRef = DotNetObjectReference.Create(this);
             await jsRuntime.InvokeVoidAsync("runEditor", objRef);
             await localStorage.ClearAsync();
-            if (vm.Ui.SelectedDocument.Content != "")
-                await jsRuntime.InvokeVoidAsync("loadContent", vm.Ui.SelectedDocument.Content);
         }
         if (vm.Ui.EditProjectName == true && vm.Ui.EditedProjectName == false)
         {
@@ -561,15 +558,19 @@
         {
             vm.Ui.EditedProjectName = false;
         }
+        if (vm.Ui.SelectedDocument.Content != "" && loaded){
+            await jsRuntime.InvokeVoidAsync("loadContent", vm.Ui.SelectedDocument.Content);
+            loaded = false;
+        }
 
-        
+
     }
 
 
     public async Task SaveStorage()
     {
         await jsRuntime.InvokeAsync<string>("saveContent", objRef, vm.Ui.SelectedDocument);
-        
+
         foreach (var project in vm.App.Data.Projects)
         {
             foreach (var document in project.Documents)
@@ -625,9 +626,6 @@
         }
 
         StateHasChanged();
-
-
-        
     }
 
     [JSInvokable]
@@ -647,7 +645,6 @@
         vm.NewDocumentMenu(project);
 
         await jsRuntime.InvokeAsync<string>("saveContent", objRef, vm.Ui.SelectedDocument);
-
     }
 
    
