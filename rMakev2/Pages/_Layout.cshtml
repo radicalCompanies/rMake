@@ -167,7 +167,7 @@
                     console.log(content)
                 })
                 .then(() => {
-                    dotNetRef.invokeMethodAsync('SetDocumentContent', newDoc);
+                    dotNetRef.invokeMethodAsync('SetDocumentContent', project);
 
                 })
                 .catch((error) => {

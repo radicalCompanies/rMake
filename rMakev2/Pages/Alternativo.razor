@@ -339,7 +339,7 @@
                             rMake@Rebel-server
                         </label>
                     </div>
-                    <button @onclick="SaveStorage" class="btn btn-success"><Icon Name="IconName.Lightbulb" /> Save</button>
+                    <button @onclick="NewSave" class="btn btn-success"><Icon Name="IconName.Lightbulb" /> Save</button>
                 </div>
             </div>
         </ModalBody>
@@ -434,54 +434,6 @@
 
     protected RichTextEdit richTextEditRef;
 
-    /*public async Task Save(Element element)
-        {
-        element.Content = await richTextEditRef.GetTextAsync();
-
-    }*/
-
-    private List<DateTime> Keys { get; set; } = new List<DateTime>();
-    /*public void KeyPress(KeyboardEventArgs e, Element item)
-    {
-
-    if (e.Code == "Enter" || e.Code == "NumpadEnter")
-    {
-    vm.Ui.BlockRTAFocus = false;
-
-
-    if (Keys.Any())
-    {
-
-    DateTime last = Keys.Last();
-
-    if (DateTime.UtcNow <= last.AddMilliseconds(200))
-    {
-    Element newElement;
-    newElement = vm.NewElement(item.Order);
-    vm.EditItem(newElement);
-    Keys.Clear();
-
-    }
-
-    Keys.Add(DateTime.UtcNow);
-    }
-    else
-    {
-
-    Keys.Add(DateTime.UtcNow);
-
-    }
-    }
-    else
-    {
-    vm.Ui.BlockRTAFocus = true;
-    Keys.Clear();
-    }
-
-    }*/
-
-    private Timer _timer;
-
     protected override async Task OnInitializedAsync()
     {
         try
@@ -540,13 +492,48 @@
         await vm.SaveContentAsync();
     }
 
+    public async Task NewSave()
+    {
+        await jsRuntime.InvokeAsync<string>("saveContent", objRef, vm.Ui.SelectedDocument);
+
+        List<Project> projects = new List<Project>();
+        List<Document> docs = new List<Document>();
+
+        foreach (var project in vm.App.Data.Projects)
+        {
+            docs.AddRange(project.Documents);
+        }
+
+        foreach (var document in docs)
+        {
+            if (!await localStorage.ContainKeyAsync(document.Id)){ continue; }
+
+            if(document.Id == vm.Ui.SelectedDocument.Id)
+            {
+                vm.Ui.SelectedDocument.Name = document.Name;
+            }
+
+            Document newDoc = await localStorage.GetItemAsync<Document>(document.Id);
+            document.Name = newDoc.Name;
+            document.Content = newDoc.Content;
+
+            
+
+
+        }
+
+        await vm.SaveContentAsync();
+
+
+    }
+
     public async Task PeriodicSave()
     {
         var timer = new PeriodicTimer(TimeSpan.FromSeconds(5));
 
         while (await timer.WaitForNextTickAsync())
         {
-            await SaveStorage();
+            await NewSave();
         }
     }
 
@@ -559,7 +546,7 @@
 
     public async Task ChangeContent(Document newDoc)
     {
-        await jsRuntime.InvokeAsync<string>("changeContent", objRef, vm.Ui.SelectedDocument, newDoc);
+        await jsRuntime.InvokeAsync<string>("changeContent", objRef, vm.Ui.SelectedDocument, newDoc);  
     }
 
     [JSInvokable]
@@ -581,6 +568,8 @@
     public async Task CallJSSave(Document doc)
     {
 
+        
+        
         var jsContent = await jsRuntime.InvokeAsync<string>("saveContent", objRef, doc);
 
         //Project project = doc.Project;

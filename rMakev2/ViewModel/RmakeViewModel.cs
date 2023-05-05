@@ -422,6 +422,7 @@ namespace rMakev2.ViewModel
         public async Task LoadProyectAsync(string token)
         {
 
+            
             SaveProjectDto savedContent = await _communicationService.LoadAsync(token);
 
             if (savedContent == null)
@@ -430,7 +431,11 @@ namespace rMakev2.ViewModel
                 return;
             }
 
+            app = new Models.App(savedContent.Id, savedContent.DataToken);
+
             App.Data.Id = savedContent.Id;
+
+
             foreach (var proj in savedContent.Projects)
             {
                 Project p = new Project();
