@@ -211,7 +211,6 @@
                     </li>
                     <li class="nav-item">
                         <a class="barItems" @onclick=" vm.ShowPublishModal"><img src="svgs/asset 3.svg" title="Publish" /> </a>
-
                     </li>
                     <li class="nav-item">
                         <a class="barItems" @onclick="() => vm.DeleteProjectMenu(vm.Ui.SelectedProject)"><img src="svgs/Delete.svg" title="Delete Project" /> </a>
@@ -233,7 +232,6 @@
                             @foreach (var project in vm.App.Data.Projects)
                             {
                                 <div>
-                                    @*<input Id="ProjectName" @bind="project.Name" @onblur="vm.UnBlockRTAFocus" @onkeydown="@vm.Enter" @bind:event="oninput" class="form-control-plaintext small" style=" font-size:16px; margin-left:10px; padding-top:15px !important; text-overflow: ellipsis;" placeholder="Project Name" autofocus @onclick="vm.BlockRTAFocus" />*@
                                     <p @onclick="@(() => vm.SelectProject(project))" style="cursor:pointer">@project.Name</p>
                                 </div>
                                 @foreach (var document in project.Documents)
@@ -293,11 +291,14 @@
                 </div>
                 <div style="width:90%; float:left;">
 
-                    <input @bind="@vm.Ui.SelectedDocument.Name" @bind:event="oninput" id="PageName" autofocus="true" @onblur="vm.UnBlockRTAFocus" @onclick="vm.BlockRTAFocus" class="form-control-plaintext small" style="color: #342e37; font-size:30px; padding-left: 15px;" placeholder="Write your title here" />
-                    @*@if (vm.Ui.SelectedDocument.IsOrdered == true)
-                    {
-                        <a class="nav-item" @onclick="vm.orderElements"><Icon Name="IconName.Check"></Icon> Confirm</a>
-                    }*@
+                    <input  @bind="@vm.Ui.SelectedDocument.Name" 
+                            @bind:event="oninput" 
+                            id="PageName" 
+                            autofocus="true" 
+                            @onblur="vm.UnBlockRTAFocus" 
+                            @onclick="vm.BlockRTAFocus" 
+                            class="form-control-plaintext small" 
+                            style="color: #342e37; font-size:30px; padding-left: 15px;" placeholder="Write your title here" />
                 </div>
                 <div class="clearfix"></div>
                 <div class="mt-4">
@@ -307,47 +308,11 @@
                                 <div id="editorjs"></div>
                             </div>
                         </div>
-                        @*@if (vm.Ui.SelectedDocument.IsOrdered == false)
-                        {
-                        <rMakev2.Components.AlternativeTextArea document="@vm.Ui.SelectedDocument" content="@vm.Ui.SelectedDocument.Content" />
-
-                        }
-                        else
-                        {
-                        foreach (var item in vm.Ui.SelectedDocument.Elements.OrderBy(w => w.Order))
-                        {
-
-                        <div style="margin-left:-100px; width:120px;  display:block; float:left;">
-                        <a @onclick="()=>vm.DeleteElement(item)"><img src="svgs/Delete.svg" title="New Document" class="m-1 mdicon" /></a>
-                        <a @onclick="()=>vm.MoveUp(item)"><img src="svgs/Arrow up.svg" title="Move up" class="m-1 mdicon" /></a>
-                        <a @onclick="()=>vm.MoveDown(item)"><img src="svgs/Arrow down.svg" title="Move down" class="m-1 mdicon" /></a>
-                        @*<a><img src="svgs/Idea.svg" title="Comming soon" class="mr-2 mdicon" /></a>
-                        </div>
-
-
-                        <rMakev2.Components.AlternativeTextArea element="@item" content="@item.Content" />
-                        }
-
-                        }*@
-
-
-
-
-
-
                         <div class="clearfix"></div>
                     </div>
-
-
                 </div>
             </div>
-
         </div>
-
-
-        @*/working area*@
-
-
     </section>
 </div>
 
@@ -356,10 +321,6 @@
         @vm.Ui.JsonFn();
            </textarea>
 </div>
-
-
-
-
 
 <Modal @ref="vm.App.Ui.SaveModal" class="half-modal fade">
     <ModalContent Centered="true">
@@ -378,10 +339,7 @@
                             rMake@Rebel-server
                         </label>
                     </div>
-
-
                     <button @onclick="SaveStorage" class="btn btn-success"><Icon Name="IconName.Lightbulb" /> Save</button>
-
                 </div>
             </div>
         </ModalBody>
@@ -522,7 +480,7 @@
 
     }*/
 
-
+    private Timer _timer;
 
     protected override async Task OnInitializedAsync()
     {
@@ -530,6 +488,7 @@
         {
             if (token != "")
                 await vm.LoadProyectAsync(token);
+
         }
         catch
         {
@@ -557,13 +516,7 @@
         else if (vm.Ui.EditProjectName == false && vm.Ui.EditedProjectName == true)
         {
             vm.Ui.EditedProjectName = false;
-        }
-        //if (vm.Ui.SelectedDocument.Content != "" && loaded){
-        //    await jsRuntime.InvokeVoidAsync("loadContent", vm.Ui.SelectedDocument.Content);
-        //    loaded = false;
-        //}
-
-
+        }   
     }
 
 
@@ -578,27 +531,30 @@
                 if (await localStorage.ContainKeyAsync(document.Id))
                 {
                     Document newDoc = await localStorage.GetItemAsync<Document>(document.Id);
+                    document.Name = newDoc.Name;
                     document.Content = newDoc.Content;
                 }
             }
         }
 
         await vm.SaveContentAsync();
-
     }
 
+    public async Task PeriodicSave()
+    {
+        var timer = new PeriodicTimer(TimeSpan.FromSeconds(5));
 
+        while (await timer.WaitForNextTickAsync())
+        {
+            await SaveStorage();
+        }
+    }
 
     [JSInvokable]
     public async Task SaveContent(string content, Document doc)
     {
         doc.Content = content;
-
-
         await localStorage.SetItemAsync(doc.Id, doc);
-
-
-
     }
 
     public async Task ChangeContent(Document newDoc)
@@ -611,19 +567,12 @@
     {
 
         Document newDoc = await localStorage.GetItemAsync<Document>(document.Id);
-
-
         vm.Ui.SelectDocument(document);
 
         if(newDoc != null)
-        {
             await jsRuntime.InvokeVoidAsync("loadContent", newDoc.Content);
-
-        }
         else if (document.Content != null)
-        {
             await jsRuntime.InvokeVoidAsync("loadContent", document.Content);
-        }
 
         StateHasChanged();
     }

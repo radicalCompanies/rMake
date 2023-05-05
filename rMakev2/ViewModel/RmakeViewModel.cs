@@ -21,7 +21,7 @@ namespace rMakev2.ViewModel
         private ToastService _toastService;
         private ICommunicationService _communicationService;
         private AIChat _aiChat;
-        
+
         private NavigationManager _navigationManager;
 
         public RmakeViewModel(IToastService toast, ICommunicationService communicationService, NavigationManager navigationManager, AIChat aiChat)
@@ -76,7 +76,6 @@ namespace rMakev2.ViewModel
             p1 = new Thread(new ThreadStart(Save));
             p1.Start();
 
-            
             ListaOraciones.Add(new Item("color: #F9E43D", "Connection made easy"));
             ListaOraciones.Add(new Item("color: #A2F8BC", "Web of documents"));
             ListaOraciones.Add(new Item("color: #9BFBF1", "Decentralized from the start"));
@@ -93,7 +92,7 @@ namespace rMakev2.ViewModel
             while (true)
             {
 
-                Thread.Sleep(1000000000);
+                Thread.Sleep(300000);
                 //HashMyContent();
                 _communicationService.SaveAsync(App).Wait();
                 this._toastService.ShowSuccess("Project Auto Saved");
@@ -119,11 +118,6 @@ namespace rMakev2.ViewModel
         {
             App.Ui.DocumentMenu();
         }
-
-        /*public void EditItem(Element element){
-            App.Ui.EditItem(element);
-        }*/
-
 
         public void HidePublishModal()
         {
@@ -181,7 +175,7 @@ namespace rMakev2.ViewModel
         }*/
         public void DeleteProject()
         {
-            
+
             if (App.Data.Projects.Count() >= 1)
             {
                 App.Data.RemoveProject(Ui.SelectedProject);
@@ -197,7 +191,8 @@ namespace rMakev2.ViewModel
         }
         public void DeleteProjectMenu(Project project)
         {
-            if (App.Data.Projects.Count() > 1) {
+            if (App.Data.Projects.Count() > 1)
+            {
                 App.Data.RemoveProject(project);
                 SelectProject(App.Data.Projects.First());
                 SelectDocument(Ui.SelectedProject.Documents.First());
@@ -236,7 +231,7 @@ namespace rMakev2.ViewModel
 
         public void DeleteDocument()
         {
- 
+
             if (Ui.SelectedProject.Documents.Count() > 1)
             {
                 Ui.SelectedProject.RemoveDocument(Ui.SelectedDocument);
@@ -247,31 +242,31 @@ namespace rMakev2.ViewModel
                 Ui.SelectedProject.RemoveDocument(Ui.SelectedDocument);
                 NewDocument();
             }
-            
+
         }
 
         public void DeleteDocumentMenu(Document document)
         {
             Project project = document.Project;
 
-            
+
             if (project.Documents.Count() > 1)
             {
-                
+
                 project.RemoveDocument(document);
 
-                if(document == Ui.SelectedDocument)
+                if (document == Ui.SelectedDocument)
                 {
                     SelectDocument(project.Documents.FirstOrDefault());
                 }
-                
+
             }
             else if (project.Documents.Count() == 1)
             {
                 project.RemoveDocument(document);
                 NewDocumentMenu(project);
             }
-            
+
         }
 
         /*public void orderElements()
@@ -343,7 +338,7 @@ namespace rMakev2.ViewModel
         }*/
         public async Task SaveContentAsync()
         {
-           // HashMyContent();
+            // HashMyContent();
             await _communicationService.SaveAsync(App);
             this._toastService.ShowSuccess("Project Saved");
         }
@@ -434,7 +429,7 @@ namespace rMakev2.ViewModel
                 _navigationManager.NavigateTo("/Error");
                 return;
             }
-                
+
             App.Data.Id = savedContent.Id;
             foreach (var proj in savedContent.Projects)
             {
@@ -485,7 +480,7 @@ namespace rMakev2.ViewModel
             }
             app.Ui.SaveModal = app.Ui.SaveModal;
 
-            
+
             App.Data.RemoveProject(app.Ui.SelectedProject);
             app.Ui.SelectedProject = app.Data.Projects.Where(x => x.Id == savedContent.Ui.IdSelectedProject).FirstOrDefault();
             app.Ui.SelectedDocument = app.Ui.SelectedProject.Documents.Where(x => x.Id == savedContent.Ui.IdSelectedDocument).FirstOrDefault();
@@ -496,9 +491,8 @@ namespace rMakev2.ViewModel
 
         public void ShowAreaComment()
         {
-            App.Ui.DisplayComents= App.Ui.DisplayComents == true? false : true;
+            App.Ui.DisplayComents = App.Ui.DisplayComents == true ? false : true;
         }
-
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged()
@@ -515,6 +509,11 @@ namespace rMakev2.ViewModel
                 Color = color;
                 Question = question;
             }
+        }
+
+        public void SuccessNotification(string message)
+        {
+            this._toastService.ShowSuccess(message);
         }
 
     }

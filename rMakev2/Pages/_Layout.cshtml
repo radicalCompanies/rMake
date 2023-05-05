@@ -10,8 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <base href="~/" />
     <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
-    <link href="css/site.css" rel="stylesheet" />
-    <!--<link href="rMakev2.styles.css" rel="stylesheet" />-->
+    <link href="rMakev2.styles.css" rel="stylesheet" />
 
     <link href="_content/Blazorise/blazorise.css" rel="stylesheet" />
     <link href="_content/Blazorise.Bootstrap/blazorise.bootstrap.css" rel="stylesheet" />
@@ -24,7 +23,8 @@
     <link href="https://fonts.cdnfonts.com/css/open-sauce-one" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
     <link href="_content/MudBlazor/MudBlazor.min.css" rel="stylesheet" />
-    <link rel="shortcut icon" type="image/svg" href="/svgs/LOGO RADICAL FONDO BLANCO.svg">  
+    <link rel="shortcut icon" type="image/svg" href="/svgs/LOGO RADICAL FONDO BLANCO.svg">
+    <link href="css/site.css" rel="stylesheet" />
 
     <script>
 
@@ -89,7 +89,6 @@
     <script src="/tools/marker.js"></script>
     <script src="/tools/codetool.js"></script>
     <script>
-
         let editor;
         window.runEditor = (dotNetRef, existingData) => {
             console.log(existingData);
@@ -135,7 +134,7 @@
                     code: CodeTool,
                 },
                 onReady: () => {
-                    
+
                 },
                 onChange: (api, event) => {
                     console.log(api)
@@ -146,7 +145,7 @@
         window.saveContent = (dotNetRef, document) => {
             editor.save()
                 .then((savedData) => {
-                    
+
                     const content = JSON.stringify(savedData);
                     dotNetRef.invokeMethodAsync('SaveContent', content, document);
                     console.log(content)
@@ -160,7 +159,7 @@
         window.changeContent = (dotNetRef, oldDoc, newDoc) => {
             editor.save()
                 .then((savedData) => {
-                    if(savedData.blocks.length === 0){
+                    if (savedData.blocks.length === 0) {
                         savedData.blocks = [{ type: "paragraph", data: {} }];
                     }
                     const content = JSON.stringify(savedData);
@@ -176,14 +175,10 @@
                 });
         }
 
-
-
         window.loadContent = (content) => {
             var draftBody = JSON.parse(content);
             editor.render(draftBody)
         }
-
-
     </script>
 </body>
 </html>

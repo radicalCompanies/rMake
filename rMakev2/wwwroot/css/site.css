@@ -647,3 +647,10 @@ MudIconButton {
 #b-1:active {
     color: red;
 }
+.ce-block__content, .ce-toolbar__content {
+    max-width: 100%;
+}
+
+input:focus-visible{
+    outline:none;
+}
