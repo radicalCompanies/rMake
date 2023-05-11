@@ -50,6 +50,11 @@ namespace rMakev2.Models
             return document;
         }
 
+        public void UpdateDocument(Document document)
+        {
+            Documents.Where(x => x.Id == document.Id).Select(x => { x.Name = document.Name; x.Content = document.Content; return x; });
+        }
+
         internal Document CloneDocument(Document document)
         {
             Document newDocument = new Document(document.Project);

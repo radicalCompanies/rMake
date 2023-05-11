@@ -517,7 +517,7 @@
             document.Name = newDoc.Name;
             document.Content = newDoc.Content;
 
-            
+
 
 
         }
@@ -546,7 +546,10 @@
 
     public async Task ChangeContent(Document newDoc)
     {
-        await jsRuntime.InvokeAsync<string>("changeContent", objRef, vm.Ui.SelectedDocument, newDoc);  
+
+        //vm.UpdateDocumentMenu(vm.Ui.SelectedDocument);
+
+        await jsRuntime.InvokeAsync<string>("changeContent", objRef, vm.Ui.SelectedDocument, newDoc);
     }
 
     [JSInvokable]
@@ -554,7 +557,12 @@
     {
 
         Document newDoc = await localStorage.GetItemAsync<Document>(document.Id);
+
+        //vm.App.Data.Projects.Where(x => x.Id == vm.Ui.SelectedDocument.ProjectId).FirstOrDefault().UpdateDocument(vm.Ui.SelectedDocument);
+
         vm.Ui.SelectDocument(document);
+
+
 
         if(newDoc != null)
             await jsRuntime.InvokeVoidAsync("loadContent", newDoc.Content);
@@ -578,9 +586,11 @@
 
     public async Task newDoc(Project project)
     {
+        
         await jsRuntime.InvokeAsync<string>("saveContent", objRef, vm.Ui.SelectedDocument);
 
         vm.NewDocumentMenu(project);
+
 
         await jsRuntime.InvokeAsync<string>("saveContent", objRef, vm.Ui.SelectedDocument);
     }

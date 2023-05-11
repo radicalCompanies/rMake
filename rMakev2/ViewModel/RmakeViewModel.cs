@@ -229,6 +229,11 @@ namespace rMakev2.ViewModel
             SelectDocument(project.AddDocument(project));
         }
 
+        public void UpdateDocumentMenu(Document document)
+        {
+            App.Data.Projects.Where(x => x.Id == document.Project.Id).Select(x => x.Documents.Where(d => d.Id == document.Id)).FirstOrDefault().Select(x => { x.Name = document.Name; return x; });
+        }
+
         public void DeleteDocument()
         {
 

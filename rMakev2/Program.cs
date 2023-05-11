@@ -9,7 +9,7 @@ using Blazored.Toast;
 using MudBlazor.Services;
 using Blazored.SessionStorage;
 using Blazored.LocalStorage;
-
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +30,12 @@ builder.Services
 builder.Services.AddScoped<ICommunicationService, CommunicationService>();
 builder.Services
     .AddBlazoriseRichTextEdit(options => { options.UseBubbleTheme = true; });
+
+builder.Services.AddControllersWithViews()
+.AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+});
 
 
 builder.Services.AddBlazoredSessionStorage();
