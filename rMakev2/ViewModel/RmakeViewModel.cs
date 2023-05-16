@@ -436,7 +436,7 @@ namespace rMakev2.ViewModel
                 return;
             }
 
-            app = new Models.App(savedContent.Id, savedContent.DataToken);
+            //app = new Models.App(savedContent.Id, savedContent.DataToken);
 
             App.Data.Id = savedContent.Id;
 

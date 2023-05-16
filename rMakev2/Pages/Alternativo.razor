@@ -411,26 +411,12 @@
     MudListItem selectedItem;
     object selectedValue = 1;
     private DotNetObjectReference<Alternativo>? objRef;
-    bool loaded = true;
+    bool loaded = false;
 
     [Parameter]
     public string token { get; set; }
 
-    //private string _value;
-    //private string TextAreaValue;
-    //protected RichTextEdit? richTextEditRef;
-    //public string BindingValue
-    //{
-    //    get => _value;
-    //    set
-    //    {
-    //        if (TextAreaValue == value) return;
 
-    //        TextAreaValue = value;
-    //        if (richTextEditRef != null)
-    //            richTextEditRef.SetHtmlAsync(TextAreaValue);
-    //    }
-    //}
 
     protected RichTextEdit richTextEditRef;
 
@@ -439,7 +425,13 @@
         try
         {
             if (token != "")
+            {
                 await vm.LoadProyectAsync(token);
+                loaded = true;
+                //await jsRuntime.InvokeVoidAsync("loadContent", vm.Ui.SelectedDocument.Content);
+
+            }
+
 
         }
         catch
@@ -454,11 +446,12 @@
     {
         if (firstRender)
         {
-            if (vm.Ui.SelectedDocument == null)
-                vm.Ui.SelectedDocument = new Document();
             objRef = DotNetObjectReference.Create(this);
             await jsRuntime.InvokeVoidAsync("runEditor", objRef);
             await localStorage.ClearAsync();
+            if (vm.Ui.SelectedDocument == null)
+                vm.Ui.SelectedDocument = new Document();
+     
         }
         if (vm.Ui.EditProjectName == true && vm.Ui.EditedProjectName == false)
         {
@@ -468,7 +461,13 @@
         else if (vm.Ui.EditProjectName == false && vm.Ui.EditedProjectName == true)
         {
             vm.Ui.EditedProjectName = false;
-        }   
+        }
+
+        if (loaded)
+        {
+            //await jsRuntime.InvokeVoidAsync("loadContent", vm.Ui.SelectedDocument.Content);
+            loaded = false;
+        }
     }
 
 
@@ -558,16 +557,22 @@
 
         Document newDoc = await localStorage.GetItemAsync<Document>(document.Id);
 
-        //vm.App.Data.Projects.Where(x => x.Id == vm.Ui.SelectedDocument.ProjectId).FirstOrDefault().UpdateDocument(vm.Ui.SelectedDocument);
-
-        vm.Ui.SelectDocument(document);
-
-
+        var projects = vm.App.Data.Projects.Where(x => x.Id == vm.Ui.SelectedDocument.ProjectId).FirstOrDefault();
+        var oldDoc = projects.Documents.Where(x => x.Id == document.Id).FirstOrDefault();
 
         if(newDoc != null)
+        {
+            oldDoc.Content = newDoc.Content;
             await jsRuntime.InvokeVoidAsync("loadContent", newDoc.Content);
+            
+        }
         else if (document.Content != null)
             await jsRuntime.InvokeVoidAsync("loadContent", document.Content);
+
+        vm.Ui.SelectDocument(oldDoc);
+
+
+
 
         StateHasChanged();
     }
