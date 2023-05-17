@@ -232,7 +232,7 @@
                             @foreach (var project in vm.App.Data.Projects)
                             {
                                 <div>
-                                    <p @onclick="@(() => vm.SelectProject(project))" style="cursor:pointer">@project.Name</p>
+                                    <p @onclick="@(() => ChangeProject(project))" style="cursor:pointer">@project.Name</p>
                                 </div>
                                 @foreach (var document in project.Documents)
                                 {
@@ -255,7 +255,7 @@
                             }
                         </div>
                         <div class="card-footer bg-white bt-white text-center pb-3">
-                            <button @onclick="vm.NewProject" class="btn btn-dark btn-Outline btn-sm" style="font-size:13px;">New Project</button>
+                            <button @onclick="NewProj" class="btn btn-dark btn-Outline btn-sm" style="font-size:13px;">New Project</button>
                         </div>
                     </div>
                 }
@@ -426,9 +426,8 @@
         {
             if (token != "")
             {
-                await vm.LoadProyectAsync(token);
-                loaded = true;
-                //await jsRuntime.InvokeVoidAsync("loadContent", vm.Ui.SelectedDocument.Content);
+                await LoadContent();
+                await LoadFirstDoc();
 
             }
 
@@ -442,6 +441,8 @@
 
     }
 
+
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
@@ -451,7 +452,7 @@
             await localStorage.ClearAsync();
             if (vm.Ui.SelectedDocument == null)
                 vm.Ui.SelectedDocument = new Document();
-     
+
         }
         if (vm.Ui.EditProjectName == true && vm.Ui.EditedProjectName == false)
         {
@@ -463,11 +464,26 @@
             vm.Ui.EditedProjectName = false;
         }
 
-        if (loaded)
-        {
-            //await jsRuntime.InvokeVoidAsync("loadContent", vm.Ui.SelectedDocument.Content);
-            loaded = false;
-        }
+        //if (loaded)
+        //{
+        //    //await jsRuntime.InvokeVoidAsync("loadContent", vm.Ui.SelectedDocument.Content);
+        //    loaded = false;
+        //}
+    }
+
+    public async Task LoadContent()
+    {
+        await vm.LoadProyectAsync(token);
+        loaded = true;
+        vm.App.Data.RemoveProject(vm.Ui.SelectedProject);
+    }
+
+    public async Task LoadFirstDoc()
+    {
+        //while (!loaded) await Task.Delay(100);
+
+        //await jsRuntime.InvokeVoidAsync("loadContent", vm.Ui.SelectedDocument.Content);
+        ////StateHasChanged();
     }
 
 
@@ -551,20 +567,52 @@
         await jsRuntime.InvokeAsync<string>("changeContent", objRef, vm.Ui.SelectedDocument, newDoc);
     }
 
+    public async Task ChangeProject(Project project)
+    {
+        await jsRuntime.InvokeVoidAsync("changeProj", objRef, vm.Ui.SelectedDocument, project.Documents.FirstOrDefault());
+
+    }
+
+    [JSInvokable]
+    public async Task SetProjectContent(Document document)
+    {
+        Document newDoc = await localStorage.GetItemAsync<Document>(document.Id);
+
+        var projects = vm.App.Data.Projects.Where(x => x.Id == document.ProjectId).FirstOrDefault();
+        var oldDoc = projects.Documents.Where(x => x.Id == document.Id).FirstOrDefault();
+
+        if (newDoc != null)
+        {
+            oldDoc.Content = newDoc.Content;
+            await jsRuntime.InvokeVoidAsync("loadContent", newDoc.Content);
+
+        }
+        else if (document.Content != null)
+            await jsRuntime.InvokeVoidAsync("loadContent", document.Content);
+        
+        vm.SelectProject(projects);
+        StateHasChanged();
+
+    }
+
+    
+
+
+
     [JSInvokable]
     public async Task SetDocumentContent(Document document)
     {
 
         Document newDoc = await localStorage.GetItemAsync<Document>(document.Id);
 
-        var projects = vm.App.Data.Projects.Where(x => x.Id == vm.Ui.SelectedDocument.ProjectId).FirstOrDefault();
+        var projects = vm.App.Data.Projects.Where(x => x.Id == document.ProjectId).FirstOrDefault();
         var oldDoc = projects.Documents.Where(x => x.Id == document.Id).FirstOrDefault();
 
         if(newDoc != null)
         {
             oldDoc.Content = newDoc.Content;
             await jsRuntime.InvokeVoidAsync("loadContent", newDoc.Content);
-            
+
         }
         else if (document.Content != null)
             await jsRuntime.InvokeVoidAsync("loadContent", document.Content);
@@ -581,8 +629,8 @@
     public async Task CallJSSave(Document doc)
     {
 
-        
-        
+
+
         var jsContent = await jsRuntime.InvokeAsync<string>("saveContent", objRef, doc);
 
         //Project project = doc.Project;
@@ -591,13 +639,24 @@
 
     public async Task newDoc(Project project)
     {
-        
+
         await jsRuntime.InvokeAsync<string>("saveContent", objRef, vm.Ui.SelectedDocument);
 
         vm.NewDocumentMenu(project);
 
 
         await jsRuntime.InvokeAsync<string>("saveContent", objRef, vm.Ui.SelectedDocument);
+    }
+
+    public async Task NewProj()
+    {
+        await jsRuntime.InvokeAsync<string>("saveContent", objRef, vm.Ui.SelectedDocument);
+
+        vm.NewProject();
+
+        await jsRuntime.InvokeAsync<string>("saveContent", objRef, vm.Ui.SelectedDocument);
+
+
     }
 
    

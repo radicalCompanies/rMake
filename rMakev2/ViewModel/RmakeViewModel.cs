@@ -491,9 +491,9 @@ namespace rMakev2.ViewModel
             app.Ui.SaveModal = app.Ui.SaveModal;
 
 
-            App.Data.RemoveProject(app.Ui.SelectedProject);
-            app.Ui.SelectedProject = app.Data.Projects.Where(x => x.Id == savedContent.Ui.IdSelectedProject).FirstOrDefault();
-            app.Ui.SelectedDocument = app.Ui.SelectedProject.Documents.Where(x => x.Id == savedContent.Ui.IdSelectedDocument).FirstOrDefault();
+            //App.Data.RemoveProject(app.Ui.SelectedProject);
+            //app.Ui.SelectedProject = app.Data.Projects.Where(x => x.Id == savedContent.Ui.IdSelectedProject).FirstOrDefault();
+            //app.Ui.SelectedDocument = app.Ui.SelectedProject.Documents.Where(x => x.Id == savedContent.Ui.IdSelectedDocument).FirstOrDefault();
 
 
 
