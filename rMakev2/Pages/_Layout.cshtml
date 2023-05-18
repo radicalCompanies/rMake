@@ -91,8 +91,6 @@
     <script>
         let editor;
         window.runEditor = (dotNetRef, existingData) => {
-            console.log(existingData);
-
             editor = new EditorJS({
                 holder: 'editorjs',
                 tools: {
@@ -197,6 +195,14 @@
         window.loadContent = (content) => {
             var draftBody = JSON.parse(content);
             editor.render(draftBody)
+        }
+
+        window.loadContent = (content) => {
+            var draftBody = JSON.parse(content);
+            editor.render(draftBody)
+        }
+        window.ClearEditor = () => {            
+            editor.blocks.clear();
         }
     </script>
 </body>

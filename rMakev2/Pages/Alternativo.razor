@@ -398,8 +398,6 @@
                 <div class="w-100 h-50">
                     <h2>Choose Documents to Merge</h2>
                     <p>How it works...</p>
-
-
                 </div>
             </div>
         </ModalBody>
@@ -416,8 +414,6 @@
     [Parameter]
     public string token { get; set; }
 
-
-
     protected RichTextEdit richTextEditRef;
 
     protected override async Task OnInitializedAsync()
@@ -427,18 +423,12 @@
             if (token != "")
             {
                 await LoadContent();
-                await LoadFirstDoc();
-
             }
-
-
         }
         catch
         {
 
         }
-
-
     }
 
 
@@ -463,12 +453,6 @@
         {
             vm.Ui.EditedProjectName = false;
         }
-
-        //if (loaded)
-        //{
-        //    //await jsRuntime.InvokeVoidAsync("loadContent", vm.Ui.SelectedDocument.Content);
-        //    loaded = false;
-        //}
     }
 
     public async Task LoadContent()
@@ -477,15 +461,6 @@
         loaded = true;
         vm.App.Data.RemoveProject(vm.Ui.SelectedProject);
     }
-
-    public async Task LoadFirstDoc()
-    {
-        //while (!loaded) await Task.Delay(100);
-
-        //await jsRuntime.InvokeVoidAsync("loadContent", vm.Ui.SelectedDocument.Content);
-        ////StateHasChanged();
-    }
-
 
     public async Task SaveStorage()
     {
@@ -530,16 +505,10 @@
 
             Document newDoc = await localStorage.GetItemAsync<Document>(document.Id);
             document.Name = newDoc.Name;
-            document.Content = newDoc.Content;
-
-
-
-
+            document.Content = newDoc.Content;  
         }
 
         await vm.SaveContentAsync();
-
-
     }
 
     public async Task PeriodicSave()
@@ -561,16 +530,12 @@
 
     public async Task ChangeContent(Document newDoc)
     {
-
-        //vm.UpdateDocumentMenu(vm.Ui.SelectedDocument);
-
         await jsRuntime.InvokeAsync<string>("changeContent", objRef, vm.Ui.SelectedDocument, newDoc);
     }
 
     public async Task ChangeProject(Project project)
     {
         await jsRuntime.InvokeVoidAsync("changeProj", objRef, vm.Ui.SelectedDocument, project.Documents.FirstOrDefault());
-
     }
 
     [JSInvokable]
@@ -592,12 +557,7 @@
         
         vm.SelectProject(projects);
         StateHasChanged();
-
     }
-
-    
-
-
 
     [JSInvokable]
     public async Task SetDocumentContent(Document document)
@@ -619,33 +579,22 @@
 
         vm.Ui.SelectDocument(oldDoc);
 
-
-
-
         StateHasChanged();
     }
 
     [JSInvokable]
     public async Task CallJSSave(Document doc)
     {
-
-
-
         var jsContent = await jsRuntime.InvokeAsync<string>("saveContent", objRef, doc);
-
-        //Project project = doc.Project;
-
     }
 
     public async Task newDoc(Project project)
     {
-
         await jsRuntime.InvokeAsync<string>("saveContent", objRef, vm.Ui.SelectedDocument);
 
         vm.NewDocumentMenu(project);
 
-
-        await jsRuntime.InvokeAsync<string>("saveContent", objRef, vm.Ui.SelectedDocument);
+        await jsRuntime.InvokeAsync<string>("ClearEditor");
     }
 
     public async Task NewProj()
@@ -654,10 +603,6 @@
 
         vm.NewProject();
 
-        await jsRuntime.InvokeAsync<string>("saveContent", objRef, vm.Ui.SelectedDocument);
-
-
-    }
-
-   
+        await jsRuntime.InvokeAsync<string>("ClearEditor");
+    }   
 }
