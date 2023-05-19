@@ -88,7 +88,6 @@
     <script src="/tools/simpleimage.js"></script>
     <script src="/tools/marker.js"></script>
     <script src="/tools/codetool.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/editorjs-inline-image"></script>
     <script>
         let editor;
         window.runEditor = (dotNetRef, existingData) => {
@@ -108,7 +107,10 @@
                             captionPlaceholder: 'Quote\'s author',
                         }
                     },
-                    image: SimpleImage,
+                    image: {
+                        class: SimpleImage,
+                        inlineToolbar: true,
+                    },
                     list: {
                         class: NestedList,
                         inlineToolbar: true,
@@ -129,15 +131,6 @@
                     Marker: {
                         class: Marker,
                         shortcut: 'CMD+SHIFT+M',
-                    },
-                    image: {
-                        class: InlineImage,
-                        inlineToolbar: true,
-                        config: {
-                            embed: {
-                                display: true,
-                            },
-                        }
                     },
                     code: CodeTool,
                 },
