@@ -85,9 +85,10 @@
     <script src="/tools/embed.js"></script>
     <script src="/tools/nestedlist.js"></script>
     <script src="/tools/quotes.js"></script>
-    <script src="/tools/simpleimage.js"></script>
     <script src="/tools/marker.js"></script>
     <script src="/tools/codetool.js"></script>
+    <script src="/tools/simpleimage.js"></script>
+    <link href="/Tools/SimpleImage.css" rel="stylesheet" />
     <script>
         let editor;
         window.runEditor = (dotNetRef, existingData) => {
@@ -169,6 +170,25 @@
                 })
                 .then(() => {
                     dotNetRef.invokeMethodAsync('SetDocumentContent', newDoc);
+
+                })
+                .catch((error) => {
+                    console.error('Saving error', error);
+                });
+        }
+
+        window.changeProj = (dotNetRef, oldDoc, newDoc) => {
+            editor.save()
+                .then((savedData) => {
+                    if (savedData.blocks.length === 0) {
+                        savedData.blocks = [{ type: "paragraph", data: {} }];
+                    }
+                    const content = JSON.stringify(savedData);
+                    dotNetRef.invokeMethodAsync('SaveContent', content, oldDoc);
+                    console.log(content)
+                })
+                .then(() => {
+                    dotNetRef.invokeMethodAsync('SetProjectContent', newDoc);
 
                 })
                 .catch((error) => {
