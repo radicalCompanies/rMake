@@ -460,6 +460,8 @@
         await vm.LoadProyectAsync(token);
         loaded = true;
         vm.App.Data.RemoveProject(vm.Ui.SelectedProject);
+
+        await ChangeContent(vm.Ui.SelectedDocument);
     }
 
     public async Task SaveStorage()
