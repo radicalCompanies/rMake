@@ -137,10 +137,6 @@
                             embed: {
                                 display: true,
                             },
-                            //unsplash: {
-                            //    appName: 'your_app_name',
-                            //    clientId: 'your_client_id'
-                            //}
                         }
                     },
                     code: CodeTool,
@@ -185,30 +181,6 @@
                 .catch((error) => {
                     console.error('Saving error', error);
                 });
-        }
-
-        window.changeProj = (dotNetRef, oldDoc, newDoc) => {
-            editor.save()
-                .then((savedData) => {
-                    if (savedData.blocks.length === 0) {
-                        savedData.blocks = [{ type: "paragraph", data: {} }];
-                    }
-                    const content = JSON.stringify(savedData);
-                    dotNetRef.invokeMethodAsync('SaveContent', content, oldDoc);
-                    console.log(content)
-                })
-                .then(() => {
-                    dotNetRef.invokeMethodAsync('SetProjectContent', newDoc);
-
-                })
-                .catch((error) => {
-                    console.error('Saving error', error);
-                });
-        }
-
-        window.loadContent = (content) => {
-            var draftBody = JSON.parse(content);
-            editor.render(draftBody)
         }
 
         window.loadContent = (content) => {
