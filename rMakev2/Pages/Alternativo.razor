@@ -439,9 +439,22 @@
         {
             objRef = DotNetObjectReference.Create(this);
             await jsRuntime.InvokeVoidAsync("runEditor", objRef);
-            await localStorage.ClearAsync();
+
+            //await localStorage.ClearAsync();
             if (vm.Ui.SelectedDocument == null)
+            {
                 vm.Ui.SelectedDocument = new Document();
+                //await localStorage.SetItemAsync(vm.Ui.SelectedProject.Id, vm.Ui.SelectedProject);
+
+            }
+
+            IEnumerable<string> keys = await localStorage.KeysAsync();
+
+            if(keys.Count() != 0)
+            {
+                List<string> k = keys.ToList();
+                await loadStorage(k);
+            }
 
         }
         if (vm.Ui.EditProjectName == true && vm.Ui.EditedProjectName == false)
@@ -453,6 +466,29 @@
         {
             vm.Ui.EditedProjectName = false;
         }
+    }
+
+    public async Task loadStorage(List<string> keys)
+    {
+        List<Project> projects = new List<Project>();
+        Project newProj;
+
+
+
+        foreach(var key in keys)
+        {
+            if (key == "i18nextLng")
+                continue;
+
+            newProj = await localStorage.GetItemAsync<Project>(key);
+            projects.Add(newProj);
+
+        }
+
+        vm.App.Data.Projects.AddRange(projects);
+        vm.DeleteProjectMenu(vm.Ui.SelectedProject);
+        await jsRuntime.InvokeVoidAsync("loadContent", vm.Ui.SelectedDocument.Content);
+
     }
 
     public async Task LoadContent()
@@ -526,8 +562,10 @@
     [JSInvokable]
     public async Task SaveContent(string content, Document doc)
     {
-        doc.Content = content;
-        await localStorage.SetItemAsync(doc.Id, doc);
+        Project project = vm.App.Data.Projects.Where(x => x.Id == doc.ProjectId).FirstOrDefault();
+        Document document = project.Documents.Where(x => x.Id == doc.Id).FirstOrDefault();
+        document.Content = content;
+        await localStorage.SetItemAsync(doc.ProjectId, project);
     }
 
     public async Task ChangeContent(Document newDoc)
@@ -543,7 +581,8 @@
     [JSInvokable]
     public async Task SetProjectContent(Document document)
     {
-        Document newDoc = await localStorage.GetItemAsync<Document>(document.Id);
+        Project proj = await localStorage.GetItemAsync<Project>(document.ProjectId);
+        var newDoc = proj.Documents.Where(x => x.Id == document.Id).FirstOrDefault();
 
         var projects = vm.App.Data.Projects.Where(x => x.Id == document.ProjectId).FirstOrDefault();
         var oldDoc = projects.Documents.Where(x => x.Id == document.Id).FirstOrDefault();
@@ -556,7 +595,7 @@
         }
         else if (document.Content != null)
             await jsRuntime.InvokeVoidAsync("loadContent", document.Content);
-        
+
         vm.SelectProject(projects);
         StateHasChanged();
     }
@@ -565,9 +604,10 @@
     public async Task SetDocumentContent(Document document)
     {
 
-        Document newDoc = await localStorage.GetItemAsync<Document>(document.Id);
+        Project proj = await localStorage.GetItemAsync<Project>(document.ProjectId);
+        var newDoc = proj.Documents.Where(x => x.Id == document.Id).FirstOrDefault();
 
-        var projects = vm.App.Data.Projects.Where(x => x.Id == document.ProjectId).FirstOrDefault();
+        var projects = vm.App.Data.Projects.Where(x => x.Id == proj.Id).FirstOrDefault();
         var oldDoc = projects.Documents.Where(x => x.Id == document.Id).FirstOrDefault();
 
         if(newDoc != null)
