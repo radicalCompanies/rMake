@@ -67,6 +67,8 @@ namespace rMakev2.Models
         public Modal? SaveModal { get; set; }
         public Modal? PublishModal { get; set; }
         public Modal? MergeModal { get; set; }
+
+        public Modal? LoadModal { get; set; }
         public App App { get; set; }
 
 

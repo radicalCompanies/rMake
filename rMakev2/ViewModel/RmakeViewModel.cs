@@ -127,6 +127,15 @@ namespace rMakev2.ViewModel
         {
             App.Ui.PublishModal.Show();
         }
+
+        public void HideLoadModal()
+        {
+            App.Ui.LoadModal.Hide();
+        }
+        public void ShowLoadModal()
+        {
+            App.Ui.LoadModal.Show();
+        }
         public void EventSelectProject(ChangeEventArgs e)
         {
             string projectId = e.Value.ToString();
