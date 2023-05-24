@@ -529,7 +529,7 @@
 
         if(vm.Ui.SelectedDocument.Content != "")
         {
-            await jsRuntime.InvokeVoidAsync("loadContent", vm.Ui.SelectedDocument.Content);
+            await jsRuntime.InvokeVoidAsync("loadContent", objRef, vm.Ui.SelectedDocument.Content);
         }
 
     }
