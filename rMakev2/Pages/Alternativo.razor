@@ -503,7 +503,6 @@
         {
             await localStorage.ClearAsync();
             NavigationManager.NavigateTo("/App/" + tokenstring, forceLoad: true);
-            StateHasChanged();
         }
     }
 
