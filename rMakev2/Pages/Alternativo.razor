@@ -197,6 +197,12 @@
                         <input Id="ProjectName" @bind="@vm.Ui.SelectedProject.Name" class="form-control-plaintext small text-center" style=" font-size:16px; margin-left:10px; margin-top:-5px; !important; " placeholder="Project Name" autofocus @onclick="vm.BlockRTAFocus" />
 
                     </li>
+                    <li>
+                        <a class="barItems" @onclick="NewProj"><img src="svgs/Plus.svg" title="Create Project" /> </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="barItems" @onclick="() => vm.DeleteProjectMenu(vm.Ui.SelectedProject)"><img src="svgs/Delete.svg" title="Delete Project" /> </a>
+                    </li>
                     <li class="nav-item">
                         <a class="barItems" @onclick="vm.ForkProject"><img src="svgs/Fork.svg" title="Fork Project" /> </a>
                     </li>
@@ -211,9 +217,6 @@
                     </li>
                     <li class="nav-item">
                         <a class="barItems" @onclick=" vm.ShowPublishModal"><img src="svgs/asset 3.svg" title="Publish" /> </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="barItems" @onclick="() => vm.DeleteProjectMenu(vm.Ui.SelectedProject)"><img src="svgs/Delete.svg" title="Delete Project" /> </a>
                     </li>
                 </ul>
             </div>
@@ -284,21 +287,24 @@
 
                 }
 
+
+
                 <div style="width:20px; float:left; margin-top:15px;">
                     <a>
                         <img src="svgs/3 dots.svg" title="Document Menu" class="dots " @onclick="vm.DocumentMenu" />
                     </a>
                 </div>
+
                 <div style="width:90%; float:left;">
 
-                    <input  @bind="@vm.Ui.SelectedDocument.Name" 
+                    <textarea  @bind="@vm.Ui.SelectedDocument.Name" 
                             @bind:event="oninput" 
                             id="PageName" 
                             autofocus="true" 
                             @onblur="vm.UnBlockRTAFocus" 
                             @onclick="vm.BlockRTAFocus" 
                             class="form-control-plaintext small" 
-                            style="color: #342e37; font-size:30px; padding-left: 15px;" placeholder="Write your title here" />
+                            style="color: #342e37; font-size:30px; margin:10px; height: fit-content; padding-left: 15px; inline-size: 75%; overflow-wrap: break-word; text-align: left;" placeholder="Write your title here" />
                 </div>
                 <div class="clearfix"></div>
                 <div class="mt-4">
@@ -333,6 +339,7 @@
                     <h2>Choose your server</h2>
                     <p>Save your token to retrive your content</p>
                     <h5> @vm.App.Data.Id</h5>
+                    <Button @onclick="@(() => clipboard(vm.App.Data.Id))">Copy Hash</Button>
                     <div class="form-check p-3">
                         <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
                         <label class="form-check-label" for="flexCheckDefault">
@@ -487,7 +494,11 @@
 
         vm.App.Data.Projects.AddRange(projects);
         vm.DeleteProjectMenu(vm.Ui.SelectedProject);
-        await jsRuntime.InvokeVoidAsync("loadContent", vm.Ui.SelectedDocument.Content);
+
+        if(vm.Ui.SelectedDocument.Content != "")
+        {
+            await jsRuntime.InvokeVoidAsync("loadContent", vm.Ui.SelectedDocument.Content);
+        }
 
     }
 
@@ -495,7 +506,7 @@
     {
         await vm.LoadProyectAsync(token);
         loaded = true;
-        vm.App.Data.RemoveProject(vm.Ui.SelectedProject);
+        vm.DeleteProjectMenu(vm.Ui.SelectedProject);
 
         await ChangeContent(vm.Ui.SelectedDocument);
     }
@@ -582,7 +593,11 @@
     public async Task SetProjectContent(Document document)
     {
         Project proj = await localStorage.GetItemAsync<Project>(document.ProjectId);
-        var newDoc = proj.Documents.Where(x => x.Id == document.Id).FirstOrDefault();
+        Document newDoc;
+        if (proj == null)
+            newDoc = null;
+        else
+            newDoc = proj.Documents.Where(x => x.Id == document.Id).FirstOrDefault();
 
         var projects = vm.App.Data.Projects.Where(x => x.Id == document.ProjectId).FirstOrDefault();
         var oldDoc = projects.Documents.Where(x => x.Id == document.Id).FirstOrDefault();
@@ -590,11 +605,11 @@
         if (newDoc != null)
         {
             oldDoc.Content = newDoc.Content;
-            await jsRuntime.InvokeVoidAsync("loadContent", newDoc.Content);
+            await jsRuntime.InvokeVoidAsync("loadContent", objRef, newDoc.Content);
 
         }
         else if (document.Content != null)
-            await jsRuntime.InvokeVoidAsync("loadContent", document.Content);
+            await jsRuntime.InvokeVoidAsync("loadContent", objRef, document.Content);
 
         vm.SelectProject(projects);
         StateHasChanged();
@@ -605,21 +620,25 @@
     {
 
         Project proj = await localStorage.GetItemAsync<Project>(document.ProjectId);
-        var newDoc = proj.Documents.Where(x => x.Id == document.Id).FirstOrDefault();
+        Document newDoc;
+        if (proj == null)
+            newDoc = null;
+        else
+            newDoc = proj.Documents.Where(x => x.Id == document.Id).FirstOrDefault();
 
-        var projects = vm.App.Data.Projects.Where(x => x.Id == proj.Id).FirstOrDefault();
+        var projects = vm.App.Data.Projects.Where(x => x.Id == document.ProjectId).FirstOrDefault();
         var oldDoc = projects.Documents.Where(x => x.Id == document.Id).FirstOrDefault();
 
         if(newDoc != null)
         {
             oldDoc.Content = newDoc.Content;
-            await jsRuntime.InvokeVoidAsync("loadContent", newDoc.Content);
+            await jsRuntime.InvokeVoidAsync("loadContent", objRef, newDoc.Content);
 
         }
         else if (document.Content != null)
-            await jsRuntime.InvokeVoidAsync("loadContent", document.Content);
+            await jsRuntime.InvokeVoidAsync("loadContent", objRef, document.Content);
 
-        vm.Ui.SelectDocument(oldDoc);
+        vm.EventSelectDocumentMenu(oldDoc);
 
         StateHasChanged();
     }
@@ -647,4 +666,15 @@
 
         await jsRuntime.InvokeAsync<string>("ClearEditor");
     }   
+
+    public async Task clipboard(string copied)
+    {
+        await jsRuntime.InvokeVoidAsync("copyTextToClipboard", copied);
+    }
+
+    [JSInvokable]
+    public async Task StateChange()
+    {
+        StateHasChanged();
+    }
 }

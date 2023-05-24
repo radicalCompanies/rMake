@@ -119,7 +119,7 @@
                         class: NestedList,
                         inlineToolbar: true,
                         config: {
-                            defaultStyle: 'ordered'
+                            defaultStyle: 'unordered'
                         },
                     },
                     checklist: {
@@ -199,13 +199,43 @@
                 });
         }
 
-        window.loadContent = (content) => {
+        window.loadContent = (dotNetRef, content) => {
+            
             var draftBody = JSON.parse(content);
+
             editor.render(draftBody)
+                .then(() => {
+                    console.log("aaaaaaaaaaaaaa");
+                    dotNetRef.invokeMethodAsync('StateChange');
+                    console.log("State has changed");
+                })
         }
+
         window.ClearEditor = () => {            
             editor.blocks.clear();
         }
+    </script>
+
+    <script>
+        
+        const textarea = document.querySelector("PageName");
+        textarea.addEventListener("keyup", e => {
+            textarea.style.height = "63px";
+            let scHeight = e.target.scrollHeight;
+            textarea.style.height = `${scHeight}px`;
+        });
+
+
+    </script>
+
+    <script>
+        window.copyTextToClipboard = function (text) {
+            navigator.clipboard.writeText(text).then(function () {
+                console.log('Text copied to clipboard');
+            }, function (error) {
+                console.error('Unable to copy text to clipboard: ', error);
+            });
+        };
     </script>
 </body>
 </html>
