@@ -91,6 +91,7 @@
     <script src="/tools/marker.js"></script>
     <script src="/tools/codetool.js"></script>
     <script src="/tools/simpleimage.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@@editorjs/embed@latest"></script>
     <link href="/Tools/SimpleImage.css" rel="stylesheet" />
     <script>
         let editor;
@@ -100,7 +101,9 @@
                 tools: {
                     header: {
                         class: Header,
-                        shortcut: 'CMD+SHIFT+H'
+                        shortcut: 'CMD+SHIFT+H',
+                        inlineToolbar: true,
+
                     },
                     quote: {
                         class: Quote,
@@ -137,14 +140,30 @@
                         shortcut: 'CMD+SHIFT+M',
                     },
                     code: CodeTool,
+                    embed: {
+                        class: Embed,
+                        inlineToolbar: true,
+                        config: {
+                            services: {
+                                youtube: true,
+                            }
+                        }
+                    },
                 },
                 onReady: () => {
-
+                    dotNetRef.invokeMethodAsync('loadStorage')
+                        .then(() => {
+                            dotNetRef.invokeMethodAsync('SaveStorage')
+                        });
                 },
                 onChange: (api, event) => {
                     console.log(api)
-                }
+
+                    dotNetRef.invokeMethodAsync('SaveStorage')
+                },
+                
             });
+            
         };
 
         window.saveContent = (dotNetRef, document) => {
@@ -205,9 +224,7 @@
 
             editor.render(draftBody)
                 .then(() => {
-                    console.log("aaaaaaaaaaaaaa");
                     dotNetRef.invokeMethodAsync('StateChange');
-                    console.log("State has changed");
                 })
         }
 

@@ -239,7 +239,15 @@
                             @foreach (var project in vm.App.Data.Projects)
                             {
                                 <div>
-                                    <p @onclick="@(() => ChangeProject(project))" style="cursor:pointer">@project.Name</p>
+                                    @if (project.Name == "")
+                                    {
+                                        <p @onclick="@(() => ChangeProject(project))" style="cursor:pointer">Project Name</p>
+                                    }
+                                    else
+                                    {
+                                        <p @onclick="@(() => ChangeProject(project))" style="cursor:pointer">@project.Name</p>
+                                    }
+
                                 </div>
                                 @foreach (var document in project.Documents)
                                 {
@@ -367,7 +375,7 @@
                 <div class="w-100 h-50">
                     <h2>Load project</h2>
                     <input Id="token" @bind="tokenstring" class="form-control-index small" placeholder="example: 24256aG-A90n56D3-a722" autofocus />
-                    <button @onclick="navigate" class="btn btn-success"><Icon Name="IconName.Lightbulb" /> Save</button>
+                    <button @onclick="navigate" class="btn btn-success"><Icon Name="IconName.Lightbulb" /> Load</button>
                 </div>
             </div>
         </ModalBody>
@@ -469,22 +477,14 @@
             objRef = DotNetObjectReference.Create(this);
             await jsRuntime.InvokeVoidAsync("runEditor", objRef);
 
+
             //await localStorage.ClearAsync();
             if (vm.Ui.SelectedDocument == null)
             {
-                vm.Ui.SelectedDocument = new Document();
+                //vm.Ui.SelectedDocument = new Document();
                 //await localStorage.SetItemAsync(vm.Ui.SelectedProject.Id, vm.Ui.SelectedProject);
-
+                await newDoc(vm.Ui.SelectedProject);
             }
-
-            IEnumerable<string> keys = await localStorage.KeysAsync();
-
-            if(keys.Count() != 0)
-            {
-                List<string> k = keys.ToList();
-                await loadStorage(k);
-            }
-
         }
         if (vm.Ui.EditProjectName == true && vm.Ui.EditedProjectName == false)
         {
@@ -506,20 +506,41 @@
         }
     }
 
-
-    public async Task loadStorage(List<string> keys)
+    [JSInvokable]
+    public async Task loadStorage()
     {
-        List<Project> projects = new List<Project>();
-        Project newProj;
+        IEnumerable<string> keys = await localStorage.KeysAsync();
 
-
-
-        foreach(var key in keys)
+        if (keys.Count() == 0)
         {
+            return;
+        }
+
+        List<string> k = keys.ToList();
+
+        List<Project> projects = new List<Project>();
+        Project storageProj;
+
+
+
+        foreach(var key in k)
+        {
+            Project newProj = new Project(vm.App.Data);
             if (key == "i18nextLng")
                 continue;
 
-            newProj = await localStorage.GetItemAsync<Project>(key);
+            storageProj = await localStorage.GetItemAsync<Project>(key);
+            newProj.Id = storageProj.Id;
+            newProj.Name = storageProj.Name;
+            newProj.CreationDate = storageProj.CreationDate;
+            newProj.DataId = storageProj.DataId;
+            newProj.Documents = storageProj.Documents;
+
+
+            foreach (var doc in newProj.Documents)
+            {
+                doc.Project = newProj;
+            }
             projects.Add(newProj);
 
         }
@@ -538,11 +559,12 @@
     {
         await vm.LoadProyectAsync(token);
         loaded = true;
-        vm.DeleteProjectMenu(vm.Ui.SelectedProject);
+        //vm.DeleteProjectMenu(vm.Ui.SelectedProject);
 
         await ChangeContent(vm.Ui.SelectedDocument);
     }
 
+    [JSInvokable]
     public async Task SaveStorage()
     {
         await jsRuntime.InvokeAsync<string>("saveContent", objRef, vm.Ui.SelectedDocument);
@@ -560,7 +582,7 @@
             }
         }
 
-        await vm.SaveContentAsync();
+        //await vm.SaveContentAsync();
     }
 
     public async Task NewSave()
@@ -680,6 +702,8 @@
     {
         var jsContent = await jsRuntime.InvokeAsync<string>("saveContent", objRef, doc);
     }
+
+
 
     public async Task newDoc(Project project)
     {

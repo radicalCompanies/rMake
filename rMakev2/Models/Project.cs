@@ -12,7 +12,7 @@ namespace rMakev2.Models
         {
             Data = data ?? throw new Exceptions("Data is null");
             Id = Guid.NewGuid().ToString();
-            Name = "Project Name";
+            Name = "";
             //Name = "Project ("+data.Projects.Count() +")";
             CreationDate = DateTime.Now;
             Documents = new List<Document>();
