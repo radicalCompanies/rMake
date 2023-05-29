@@ -283,73 +283,7 @@ namespace rMakev2.ViewModel
 
         }
 
-        /*public void orderElements()
-        {
-            if(Ui.SelectedDocument.IsOrdered == false && Ui.SelectedDocument.Content != null)
-            {
-                Ui.SelectedDocument.stringToElements();
-                Ui.SelectedDocument.IsOrdered = true;
-            }
-            else if (Ui.SelectedDocument.IsOrdered == true)
-            {
-                Ui.SelectedDocument.elementsToString();
-                Ui.SelectedDocument.IsOrdered = false;
-            }
-        }
-
-        public void NewElement()
-        {
-            Ui.SelectedDocument.ResetEdit();
-            Ui.SelectedDocument.AddElement(Ui.SelectedDocument);  
-
-        }
-        public Element NewElement(int currentOrder)
-        {
-            return Ui.SelectedDocument.AddElement(Ui.SelectedDocument, currentOrder);
-        }
-        public void DeleteElement(Element element)
-        {
-
-            if (Ui.SelectedDocument.Elements.Count() >= 1)
-            {
-
-                Ui.SelectedDocument.RemoveElement(element);
-            }
-            else
-            {
-                Ui.SelectedDocument.RemoveElement(element);
-                NewElement();
-            }
-        }
-        public void MoveUp(Element element)
-        {
-            var current = Ui.SelectedDocument.Elements.Where(w => w.Order == element.Order).SingleOrDefault();
-            var Previous = Ui.SelectedDocument.Elements.Where(w => w.Order == element.Order - 1).SingleOrDefault();
-
-            if (Previous != null)
-            {
-
-                Ui.SelectedDocument.Elements.SingleOrDefault(w => w.Id == current.Id).Order--;
-                Ui.SelectedDocument.Elements.SingleOrDefault(w => w.Id == Previous.Id).Order++;
-
-
-            }
-
-        }
-        public void MoveDown(Element element)
-        {
-            var current = Ui.SelectedDocument.Elements.Where(w => w.Order == element.Order).SingleOrDefault();
-            var next = Ui.SelectedDocument.Elements.Where(w => w.Order == element.Order + 1).SingleOrDefault();
-
-            if (next != null)
-            {
-
-                Ui.SelectedDocument.Elements.SingleOrDefault(w => w.Id == current.Id).Order++;
-                Ui.SelectedDocument.Elements.SingleOrDefault(w => w.Id == next.Id).Order--;
-
-
-            }
-        }*/
+        
         public async Task SaveContentAsync()
         {
             // HashMyContent();
