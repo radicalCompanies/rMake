@@ -20,7 +20,7 @@
         padding-right: 15px;
         z-index: 3;
         border-bottom: 1px solid #f3f3f3;
-        min-height: 50px;
+        min-height: 100px;
     }
 
     .logo {
@@ -186,15 +186,27 @@
         max-width: 250px;
         border: 2px solid rgba(0,0,0,.125);
         border-radius: 8px;
+        position: absolute;
+    }
+
+    .rightArea {
+        margin-left: 50px;
+        position: absolute;
+        left: 0px;
     }
 </style>
 <div class="container-fluid">
     <header>
         <nav class="navbar navbar-expand-lg navbar-light  topBar">
-            <a class="navbar-brand" href="#">
-                <div class="logo">rMake!</div>
-                <div class="subLogo"> Hacker Mode </div>
+            <a class="navbar-brand rightArea" href="#">
+                <div>
+
+                    <div class="logo"><img src="svgs/rMake icon.svg" title="rMake" /></div>
+                    <div class="subLogo"> Hacker Mode </div>
+                </div>
             </a>
+
+
             <div class="leftArea">
                 <ul class="navbar-nav mr-auto">
                     <li class="spacer">
@@ -213,7 +225,7 @@
                         <a class="barItems" @onclick=" vm.ShowSaveModal"><img src="svgs/asset 1.svg" title="Save Project" /> </a>
                     </li>
                     <li class="nav-item" >
-                        <a class="barItems" @onclick=" vm.ShowLoadModal"><img src="svgs/Asset 2.svg" title="Load" /> </a>
+                        <a class="barItems" @onclick=" vm.ShowLoadModal"><img src="svgs/File icon.svg" title="Load" /> </a>
                     </li>
                     <li class="nav-item" style="padding-right: 25px; margin-right: 15px; border-right: 1px solid #f1f1f1;">
                         <a class="barItems" @onclick=" vm.ShowPublishModal"><img src="svgs/asset 3.svg" title="Publish" /> </a>
@@ -225,7 +237,7 @@
                         <a class="barItems" @onclick="vm.ForkProject"><img src="svgs/Merge.svg" title="Merge Projects" /> </a>
                     </li>
                     <li class="nav-item">
-                        <a class="barItems" @onclick="vm.ShowJsonModal"><img src="svgs/Code.svg" title="Json View" /> </a>
+                        <a class="barItems" @onclick="vm.ShowJsonModal"><img src="svgs/json view.svg" title="Json View" /> </a>
                     </li>
                 </ul>
             </div>
@@ -234,11 +246,11 @@
 
     <section>
         @*menu*@
-        <div class="row mt-5 pt-7">
-            <div class="col-sm-12 col-md-3 col-lg-3 col-xl-2 mt-5 p-5 pl-0 ml-0">
-                <i @onclick="vm.DisplayMenu" class="small mt-4 pl-4"><img src="svgs/Menu Bar.svg" title="Publish" class="menuBarsIcon" /></i>
-                @if (vm.Ui.DisplayMenu == true)
-                {
+        <div class="row mt-15 pt-15">
+            <i @onclick="vm.DisplayMenu" class="small mb-1 pl-4"><img src="svgs/Menu Bar.svg" title="Publish" class="menuBarsIcon" /></i>
+            @if (vm.Ui.DisplayMenu == true)
+            {
+            <div class="col-sm-12 col-md-3 col-lg-3 col-xl-2 mt-5 p-1 pl-1 ml-0">
                     <div class="card mt-3">
                         <div class="card-body minH-500 maxH-500 overflow-auto">
                             @foreach (var project in vm.App.Data.Projects)
@@ -278,13 +290,13 @@
                             <button @onclick="NewProj" class="btn btn-dark btn-Outline btn-sm" style="font-size:13px;">New Project</button>
                         </div>*@
                     </div>
-                }
             </div>
+             }
             @*/menu*@
             @*working area*@
 @*            <div class="col-sm-12 col-md-2 col-lg-2 col-xl-1 mt-5 p-5 ">
             </div>*@
-            <div class="col-sm-12 col-md-7 col-lg-7 col-xl-8 mt-5 p-5 ">
+            <div class="col-sm-12 col-md-7 col-lg-7 col-xl-8 mt-5 pl-6 ">
 
                 @if (vm.Ui.DisplayDocumentMenu == true)
                 {
@@ -324,7 +336,7 @@
                             style="color: #342e37; font-size:30px; margin:10px; height: fit-content; padding-left: 15px; inline-size: 75%; overflow-wrap: break-word; text-align: left;" placeholder="Write your title here" />
                 </div>
                 <div class="clearfix"></div>
-                <div class="mt-4 ml-10">
+                <div class="mt-4 ml-14">
                     <div class="mt-4">
                         <div class="ce-example">
                             <div class="ce-example__content">
@@ -336,14 +348,14 @@
                 </div>
             </div>
         </div>
+        <div style="width:20%; background-color:#f3f3f3; position:fixed; right:0px; top:110px; height:620px; padding:5px;" class=" @(vm.Ui.DisplayJson? "d-block" : "d-none" )">
+            <textarea readonly style="color:#0f0; width:100%; margin:auto; font-size:10px; background-color:#000; border-radius:0px; height:100%; text-align:left;">
+                @vm.Ui.JsonFn();
+            </textarea>
+        </div>
     </section>
 </div>
 
-<div style="width:20%; background-color:#f3f3f3; position:fixed; right:0px; top:80px; height:600px; padding:5px;" class=" @(vm.Ui.DisplayJson? "d-block" : "d-none" )">
-    <textarea readonly style="color:#0f0; width:100%; margin:auto; font-size:10px; background-color:#000; border-radius:0px; height:100%; text-align:left;">
-        @vm.Ui.JsonFn();
-    </textarea>
-</div>
 
 <Modal @ref="vm.App.Ui.SaveModal" class="half-modal fade">
     <ModalContent Centered="true">

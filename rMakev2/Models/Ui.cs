@@ -58,7 +58,7 @@ namespace rMakev2.Models
         public bool EditedProjectName { get; set; } = false;
         public bool BlockRTAFocus { get; set; } = true;
 
-        public bool DisplayMenu { get; set; } = false;
+        public bool DisplayMenu { get; set; } = true;
         public bool DisplayComents { get; set; } = false;
         public bool DisplayDocumentMenu { get; set; }
         public bool DisplayJson { get; set; } = false;
