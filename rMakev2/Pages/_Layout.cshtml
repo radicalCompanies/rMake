@@ -222,6 +222,10 @@
             
             var draftBody = JSON.parse(content);
 
+            if (draftBody.blocks.length === 0) {
+                draftBody.blocks = [{ type: "paragraph", data: {} }];
+            }
+
             editor.render(draftBody)
                 .then(() => {
                     dotNetRef.invokeMethodAsync('StateChange');
@@ -235,10 +239,11 @@
 
     <script>
         
-        const textarea = document.querySelector("PageName");
-        textarea.addEventListener("keyup", e => {
-            textarea.style.height = "63px";
+        const textarea = document.querySelector("#PageName");
+        textarea.addEventListener("keyup", (e) => {
+            console.log("keyup");
             let scHeight = e.target.scrollHeight;
+            textarea.style.height = "63px";
             textarea.style.height = `${scHeight}px`;
         });
 
