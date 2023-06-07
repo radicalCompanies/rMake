@@ -187,6 +187,7 @@
         border: 2px solid rgba(0,0,0,.125);
         border-radius: 8px;
         position: absolute;
+        z-index: 3;
     }
 
     .rightArea {
@@ -211,7 +212,7 @@
                     <li class="spacer">
                     </li>
                     <li class="nav-item active projectName">
-                        <input Id="ProjectName" @bind="@vm.Ui.SelectedProject.Name" class="form-control-plaintext small text-center" style=" font-size:16px; margin-left:10px; margin-top:-5px; !important; " placeholder="Project Name" autofocus @onclick="vm.BlockRTAFocus" />
+                        <input Id="ProjectName" @bind="@vm.Ui.SelectedProject.Name" class="form-control-plaintext small text-left" style=" font-size:16px; margin-left:10px; margin-top:-5px; !important; " placeholder="Project Name" autofocus @onclick="vm.BlockRTAFocus" />
 
                     </li>
                     <li>
@@ -254,10 +255,10 @@
                         <div class="card-body minH-500 maxH-500 overflow-auto">
                             @foreach (var project in vm.App.Data.Projects)
                             {
-                                <div>
+                                <div class="w-100" style="background-color: rgba(0,0,0,.125)">
                                     @if (project.Name == "")
                                     {
-                                        <p @onclick="@(() => ChangeProject(project))" style="cursor:pointer; background-color: rgba(0,0,0,.125)">Project Name</p>
+                                        <p @onclick="@(() => ChangeProject(project))" style="cursor:pointer; ">Project Name</p>
                                     }
                                     else
                                     {
